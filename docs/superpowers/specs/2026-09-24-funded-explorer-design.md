@@ -33,7 +33,7 @@ One Google Sheet in the project's Drive folder, beside the project tracker. Tabs
 | `Schools` | school | `school_id`, `name`, `district`, `status` (live / draft), `notes` |
 | `Needs` | facility need | `need_id`, `school_id`, `title`, `category`, `summary`, `track_id`, `current_stage_id`, `stage_basis`, `stage_source_id`, `cost`, `cost_basis`, `cost_source_id`, `window`, `window_basis`, `window_source_id` |
 | `Milestones` | dated step for a need | `milestone_id`, `need_id`, `date`, `label`, `status` (done / next / later), `decider`, `venue`, `basis`, `source_id` |
-| `Engage` | venue a person can act in | `engage_id`, `need_id`, `venue`, `when`, `how`, `url`, `source_id` |
+| `Engage` | venue a person can act in | `engage_id`, `need_id`, `venue`, `when`, `how`, `url`, `basis`, `source_id` |
 | `Inquiries` | question asked of an authority | `inquiry_id`, `need_id`, `date`, `to`, `question`, `response_date`, `response_summary`, `status` (answered / partial / unanswered), `source_id` |
 | `Sources` | citable document | `source_id`, `title`, `publisher`, `url`, `retrieved_on`, `notes` |
 | `Legend` | (documentation) | column meanings, allowed values, how to add a school |
@@ -108,7 +108,7 @@ Plain-language civic, not startup. The pipeline and timeline are the graphics. D
 
 - Astro (latest stable), TypeScript, Tailwind.
 - Content collections with Zod schemas.
-- No client-side framework. Only client JS is the source tooltip.
+- No client-side framework. The source tooltip uses the native HTML `popover` attribute, so the site ships zero client JavaScript.
 - Public repo `brabsmit/funded`. GitHub Pages via the official Astro action on push to `main`. Site URL `https://brabsmit.github.io/funded` (base path `/funded`).
 - Repo location: `~/code/active/funded`.
 
