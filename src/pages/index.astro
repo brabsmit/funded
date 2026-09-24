@@ -1,7 +1,20 @@
 ---
-import Base from "../layouts/Base.astro";
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import DraftBanner from '../components/DraftBanner.astro';
+import SchoolCard from '../components/SchoolCard.astro';
+const tracks = (await getCollection('tracks')).map(t => t.data);
+const schools = (await getCollection('schools')).map(s => s.data).sort((a, b) => a.name.localeCompare(b.name));
 ---
 <Base title="Check a school's status">
-  <h1 class="text-3xl">FundED</h1>
-  <p class="mt-2 text-ink-muted">Scaffold. Replaced in Task 6.</p>
+  <h1 class="text-4xl">Check a school's status</h1>
+  <p class="mt-3 max-w-prose text-lg text-ink-muted">
+    Pick a school. See what stage a facility need is at, who decides the next step, and where you can engage.
+  </p>
+  <div class="mt-8">
+    <DraftBanner tracks={tracks} />
+  </div>
+  <section class="grid gap-4 sm:grid-cols-2">
+    {schools.map(s => <SchoolCard school={s} />)}
+  </section>
 </Base>

@@ -1,8 +1,8 @@
 ---
 import "../styles/global.css";
+import { href } from '../lib/url';
 interface Props { title: string; description?: string }
 const { title, description = "Where a school facility need stands, who decides next, and where to engage." } = Astro.props;
-const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
 ---
 <!doctype html>
 <html lang="en">
@@ -15,10 +15,10 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
   <body class="min-h-screen">
     <header class="border-b border-line">
       <nav class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-        <a href={base} class="font-serif text-xl font-semibold">FundED</a>
+        <a href={href('/')} class="font-serif text-xl font-semibold">FundED</a>
         <div class="flex gap-5 text-sm text-ink-muted">
-          <a href={`${base}tracks/`}>How it works</a>
-          <a href={`${base}roadmap/`}>Roadmap</a>
+          <a href={href('/tracks/')}>How it works</a>
+          <a href={href('/roadmap/')}>Roadmap</a>
         </div>
       </nav>
     </header>

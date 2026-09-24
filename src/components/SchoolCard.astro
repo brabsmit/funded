@@ -1,0 +1,12 @@
+---
+import type { SchoolT } from '../schema/records';
+import { href } from '../lib/url';
+interface Props { school: SchoolT }
+const { school } = Astro.props;
+const needs = school.needs.length;
+---
+<a href={href(`/schools/${school.id}/`)} class="block rounded-lg border border-line bg-white p-5 transition hover:border-accent">
+  <h2 class="text-2xl">{school.name}</h2>
+  <p class="text-ink-muted">{school.district}</p>
+  <p class="mt-3 text-sm">{needs} {needs === 1 ? 'need tracked' : 'needs tracked'}{school.status === 'draft' && ' · draft record'}</p>
+</a>

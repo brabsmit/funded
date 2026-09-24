@@ -1,0 +1,17 @@
+---
+import type { TrackT } from '../schema/records';
+import { draftState } from '../lib/draft';
+import { href } from '../lib/url';
+interface Props { tracks: TrackT[] }
+const { isDraft, unconfirmed } = draftState(Astro.props.tracks);
+---
+{isDraft && (
+  <aside class="mb-8 flex flex-wrap items-center gap-4 rounded-lg border-2 border-draft bg-draft-soft p-4" role="note">
+    <span class="stamp">Draft</span>
+    <p class="max-w-prose text-sm">
+      Who-decides information is our best current reading of APS policy and has not yet been confirmed by an APS contact
+      for {unconfirmed.length} of {Astro.props.tracks.length} tracks. We are confirming it as part of this project.
+      <a href={href('/tracks/')} class="underline">See what is verified.</a>
+    </p>
+  </aside>
+)}
