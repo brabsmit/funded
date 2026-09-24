@@ -1,0 +1,16 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import DraftBanner from '../components/DraftBanner.astro';
+import TrackLane from '../components/TrackLane.astro';
+const order = ['cip', 'mcmm', 'gift'];
+const tracks = (await getCollection('tracks')).map(t => t.data).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+---
+<Base title="How it works">
+  <h1 class="text-4xl">How a school facility need gets decided</h1>
+  <p class="mt-3 max-w-prose text-lg text-ink-muted">Three tracks, three different owners. A need lands on one of them based on what it is and what it costs.</p>
+  <div class="mt-6"><DraftBanner tracks={tracks} /></div>
+  <div class="grid gap-5 lg:grid-cols-3">
+    {tracks.map(t => <TrackLane track={t} />)}
+  </div>
+</Base>
