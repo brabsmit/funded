@@ -31,7 +31,7 @@ Google Sheet (source of truth, edited by the team)
 1. Upload `data/FundED-data-template.xlsx` to the project's Google Drive folder. Right-click → Open with → Google Sheets. Rename the resulting Sheet "FundED data". Delete the .xlsx copy from Drive to avoid two files with the same name.
 2. In the Sheet: File → Share → Publish to web → "Entire document", format "Comma-separated values (.csv)" → Publish. Copy the URL. It looks like `https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?output=csv`.
 3. Paste the part up to and including `/pub` into `publishedCsvBase` in `sync.config.json`.
-4. For each tab, click it and read the number after `#gid=` in the browser URL. Put it in `gids` for that tab.
+4. For each of the 8 data tabs (not Legend), click it and read the number after `#gid=` in the browser URL. Put it in `gids` for that tab.
 5. Run `npm run sync`. Fix anything it reports (tab and row number are given). Then `git diff --stat src/content`, and commit.
 6. Share the Sheet with the team (editor). Point them at the Legend tab.
 

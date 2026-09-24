@@ -7,6 +7,7 @@ Schools,status,live = every claim must have a source or the site will not build;
 Needs,current_stage_id,Must be a stage_id that belongs to the need's track_id,
 Needs,stage_basis / cost_basis / window_basis,What kind of claim each is,fact | requirement | estimate | interpretation
 Milestones,status,Exactly one milestone per need must be next,done | next | later
+Milestones,basis,What kind of claim the milestone is,fact | requirement | estimate | interpretation
 Milestones,date,ISO date,YYYY-MM-DD
 Engage,basis,What kind of claim the venue is,fact | requirement | estimate | interpretation
 Inquiries,status,Did the authority answer the question?,answered | partial | unanswered
