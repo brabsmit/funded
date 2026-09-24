@@ -27,4 +27,16 @@ describe('need helpers', () => {
   it('decidersFor has no next at the final stage', () => {
     expect(decidersFor({ ...need, current_stage_id: 'c' }, track).next).toBeUndefined();
   });
+  it('stagesFor throws when current_stage_id is not a stage of the track', () => {
+    const bad = { ...need, current_stage_id: 'missing' };
+    expect(() => stagesFor(bad, track)).toThrow(
+      'need hvac: current_stage_id "missing" is not a stage of track "cip"'
+    );
+  });
+  it('decidersFor throws when current_stage_id is not a stage of the track', () => {
+    const bad = { ...need, current_stage_id: 'missing' };
+    expect(() => decidersFor(bad, track)).toThrow(
+      'need hvac: current_stage_id "missing" is not a stage of track "cip"'
+    );
+  });
 });

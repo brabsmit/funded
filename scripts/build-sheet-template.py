@@ -22,8 +22,23 @@ ENUMS = {
 STATUS = {"Schools": "live,draft", "Milestones": "done,next,later", "Inquiries": "answered,partial,unanswered"}
 FONT = "Arial"
 
+# Cross-sheet reference validation: column name -> tab holding the id it points to.
+# "every column ending in source_id" is handled separately below.
+REF_TARGETS = {
+    "track_id": "Tracks",
+    "current_stage_id": "Stages",
+    "school_id": "Schools",
+    "need_id": "Needs",
+}
+# Each tab's own id column is skipped (e.g. track_id on Tracks is not a reference).
+OWN_ID_COLUMN = {
+    "Tracks": "track_id", "Stages": "stage_id", "Schools": "school_id", "Needs": "need_id",
+    "Milestones": "milestone_id", "Engage": "engage_id", "Inquiries": "inquiry_id", "Sources": "source_id",
+}
+
 wb = Workbook()
 wb.remove(wb.active)
+ref_validation_counts = {}
 for tab in TABS:
     ws = wb.create_sheet(tab)
     with open(SRC / f"{tab}.csv", newline="", encoding="utf-8") as f:
@@ -38,6 +53,7 @@ for tab in TABS:
         for c in row:
             c.font = Font(name=FONT)
     ws.freeze_panes = "A2"
+    ref_count = 0
     for i, name in enumerate(header, start=1):
         col = ws.cell(row=1, column=i).column_letter
         ws.column_dimensions[col].width = max(14, min(60, max(len(str(r[i-1])) if i-1 < len(r) else 0 for r in rows) + 2))
@@ -47,5 +63,18 @@ for tab in TABS:
                                 errorTitle="Not an allowed value", error=f"Use one of: {values.replace(',', ', ')}")
             ws.add_data_validation(dv)
             dv.add(f"{col}2:{col}500")
+        is_own_id = name == OWN_ID_COLUMN.get(tab)
+        target = None if is_own_id else (REF_TARGETS.get(name) or ("Sources" if name.endswith("source_id") else None))
+        if target and tab != "Legend":
+            ref_dv = DataValidation(type="list", formula1=f"={target}!$A$2:$A$500", allow_blank=True, showErrorMessage=True,
+                                errorTitle="Unknown reference", error=f"Must match an id already listed on {target}")
+            ws.add_data_validation(ref_dv)
+            ref_dv.add(f"{col}2:{col}500")
+            ref_count += 1
+    if ref_count:
+        ref_validation_counts[tab] = ref_count
 wb.save(OUT)
 print(f"wrote {OUT.relative_to(ROOT)} with tabs: {', '.join(TABS)}")
+print("cross-sheet reference validations per tab:")
+for tab in TABS:
+    print(f"  {tab}: {ref_validation_counts.get(tab, 0)}")

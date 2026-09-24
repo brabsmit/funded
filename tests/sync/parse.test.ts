@@ -19,6 +19,12 @@ describe('parseTab', () => {
   it('parseHeader returns trimmed header names', () => {
     expect(parseHeader(' a , b\n1,2\n')).toEqual(['a', 'b']);
   });
+  it('a leading UTF-8 BOM is stripped: same rows and header as without', () => {
+    const csv = 'a,b\n1,2\n';
+    const withBom = '﻿' + csv;
+    expect(parseTab(withBom)).toEqual(parseTab(csv));
+    expect(parseHeader(withBom)).toEqual(parseHeader(csv));
+  });
 });
 
 describe('requireColumns', () => {

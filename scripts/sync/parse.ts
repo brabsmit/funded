@@ -4,12 +4,12 @@ export type Row = Record<string, string>;
 export type Problem = { tab: string; row?: number; message: string };
 
 export function parseHeader(csv: string): string[] {
-  const first = Papa.parse<string[]>(csv, { preview: 1, skipEmptyLines: true }).data[0] ?? [];
+  const first = Papa.parse<string[]>(csv.replace(/^﻿/, ''), { preview: 1, skipEmptyLines: true }).data[0] ?? [];
   return first.map(h => h.trim());
 }
 
 export function parseTab(csv: string): Row[] {
-  const result = Papa.parse<Record<string, string>>(csv, {
+  const result = Papa.parse<Record<string, string>>(csv.replace(/^﻿/, ''), {
     header: true,
     skipEmptyLines: false,
     transformHeader: h => h.trim(),
