@@ -1,0 +1,55 @@
+{
+  "id": "gift",
+  "name": "Private gift / external funding",
+  "description": "Donations or privately funded building/grounds improvements reviewed under D-15",
+  "routing_rule": "Any private money for a facility improvement; approver depends on project size",
+  "policy_citation": "APS Policy D-15 External Funding (2025 draft text)",
+  "verification": "draft",
+  "stages": [
+    {
+      "id": "gift-proposal",
+      "order": 1,
+      "name": "Donor proposal to principal",
+      "decider": "Principal",
+      "venue": "School",
+      "basis": "requirement",
+      "source_id": "policy-d15-draft-2025"
+    },
+    {
+      "id": "gift-staff-review",
+      "order": 2,
+      "name": "Review by Asst. Supt. F&O and Superintendent",
+      "decider": "Superintendent (or designee)",
+      "venue": "Staff review",
+      "basis": "requirement",
+      "source_id": "policy-d15-draft-2025"
+    },
+    {
+      "id": "gift-board",
+      "order": 3,
+      "name": "School Board approval (projects >= $100001)",
+      "decider": "School Board",
+      "venue": "School Board meeting",
+      "basis": "requirement",
+      "source_id": "policy-d15-draft-2025"
+    },
+    {
+      "id": "gift-mou",
+      "order": 4,
+      "name": "MOU (>= $15000) or acceptance letter (< $15000)",
+      "decider": "School Board or Superintendent; principal for < $15000",
+      "basis": "requirement",
+      "source_id": "policy-d15-draft-2025"
+    }
+  ],
+  "sources": [
+    {
+      "id": "policy-d15-draft-2025",
+      "title": "Proposed revisions to Policy D-15 External Funding-Commercial Activities (draft)",
+      "publisher": "Arlington School Board (BoardDocs)",
+      "url": "https://go.boarddocs.com/vsba/arlington/Board.nsf/files/DD8P9T6391D5/$file/D-15%20External%20Funding-Commercial%20Activities.pdf",
+      "retrieved_on": "2026-09-24",
+      "notes": "January 2025 first draft; adopted text not verified"
+    }
+  ]
+}

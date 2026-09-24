@@ -1,73 +1,175 @@
 {
   "id": "oakridge",
-  "name": "Oakridge Elementary",
+  "name": "Oakridge Elementary School",
   "district": "Arlington Public Schools",
   "status": "live",
   "needs": [
     {
-      "id": "hvac",
-      "title": "HVAC replacement",
+      "id": "oakridge-hvac",
+      "title": "Oakridge Elementary HVAC replacement",
+      "category": "hvac",
+      "summary": "Replace aging HVAC equipment; bond package funds a broader refresh (HVAC, roofing, flooring, painting).",
       "track_id": "cip",
-      "current_stage_id": "cip-funding",
+      "current_stage_id": "cip-referendum",
       "stage_basis": "fact",
-      "stage_source_id": "cip-2027",
-      "cost": "$31M",
+      "stage_source_id": "county-bond-2026",
+      "cost": "$31M (whole Refresh: HVAC, roofing, flooring, painting)",
       "cost_basis": "estimate",
-      "cost_source_id": "cip-2027",
-      "window": "Summer 2027-2029",
+      "cost_source_id": "cip-fy27-36",
+      "window": "Summer 2027 to 2029",
       "window_basis": "estimate",
-      "window_source_id": "cip-2027",
+      "window_source_id": "cip-fy27-36",
       "milestones": [
         {
-          "id": "cip-adopted",
+          "id": "oakridge-cip-adopted",
           "date": "2026-06-18",
-          "label": "CIP adopted",
+          "label": "School Board adopts FY2027-36 CIP including Oakridge HVAC replacement and $80M bond request",
           "status": "done",
           "decider": "School Board",
+          "venue": "School Board meeting",
           "basis": "fact",
-          "source_id": "cip-2027"
+          "source_id": "cip-fy27-36"
         },
         {
-          "id": "bond",
-          "date": "2026-11-03",
-          "label": "Bond referendum",
-          "status": "next",
-          "decider": "Voters",
+          "id": "oakridge-county-cip",
+          "date": "2026-07-21",
+          "label": "County Board adopts County CIP containing the bond projects",
+          "status": "done",
+          "decider": "County Board",
+          "venue": "County Board meeting",
           "basis": "fact",
-          "source_id": "cip-2027"
+          "source_id": "county-bond-2026"
+        },
+        {
+          "id": "oakridge-referendum",
+          "date": "2026-11-03",
+          "label": "Voters decide $80M school bond (Question 4) incl. $31M Oakridge Refresh",
+          "status": "next",
+          "decider": "Arlington voters",
+          "venue": "General election",
+          "basis": "fact",
+          "source_id": "county-bond-2026"
+        },
+        {
+          "id": "oakridge-construction-start",
+          "date": "2027-06-01",
+          "label": "HVAC replacement implementation begins",
+          "status": "later",
+          "decider": "APS Facilities and Operations",
+          "venue": "Site",
+          "basis": "estimate",
+          "source_id": "cip-fy27-36"
+        },
+        {
+          "id": "oakridge-complete",
+          "date": "2029-01-01",
+          "label": "HVAC replacement implementation ends",
+          "status": "later",
+          "decider": "APS Facilities and Operations",
+          "venue": "Site",
+          "basis": "estimate",
+          "source_id": "cip-fy27-36"
         }
       ],
       "engage": [
         {
-          "id": "board",
-          "venue": "School Board meeting",
-          "when": "Twice monthly",
-          "how": "Sign up for public comment",
-          "url": "https://www.apsva.us/school-board-meetings/",
+          "id": "oakridge-sb-comment",
+          "venue": "School Board meeting public comment",
+          "when": "Regular meetings (7 p.m. unless noted; Sep 24 2026 at 8:30 p.m.)",
+          "how": "Online speaker form opens four business days before and closes 4 p.m. the day before; max 30 speakers x 2 minutes",
+          "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
+          "basis": "requirement",
+          "source_id": "aps-sign-up-to-speak"
+        },
+        {
+          "id": "oakridge-ws-mcmm",
+          "venue": "School Board work session on Facilities (Maintenance / Work Orders / MCMM)",
+          "when": "2026-09-29 1:00-2:30 p.m.",
+          "how": "Observe (work sessions typically have no public comment - our interpretation)",
+          "url": "https://www.apsva.us/post/september-schedule-of-board-meetings-work-sessions-and-advisory-council-and-committee-meetings-4/",
           "basis": "fact",
-          "source_id": "cip-2027"
+          "source_id": "aps-sept-2026-schedule"
+        },
+        {
+          "id": "oakridge-ws-fy28",
+          "venue": "School Board work session on FY 2028 Budget Direction",
+          "when": "2026-09-29 10:45 a.m.-12:15 p.m.",
+          "how": "Observe",
+          "url": "https://www.apsva.us/post/september-schedule-of-board-meetings-work-sessions-and-advisory-council-and-committee-meetings-4/",
+          "basis": "fact",
+          "source_id": "aps-sept-2026-schedule"
+        },
+        {
+          "id": "oakridge-vote",
+          "venue": "General election Question 4",
+          "when": "2026-11-03",
+          "how": "Vote on the $80M school bond",
+          "url": "https://www.arlingtonva.us/Government/Programs/Budget-Finance/Bonds/2026-Bond-Referenda",
+          "basis": "fact",
+          "source_id": "county-bond-2026"
+        },
+        {
+          "id": "oakridge-advisory",
+          "venue": "APS advisory councils (2026-27)",
+          "when": "Applications through 2026-10-31",
+          "how": "Apply to a new advisory council",
+          "url": "https://www.apsva.us/post/september-schedule-of-board-meetings-work-sessions-and-advisory-council-and-committee-meetings-4/",
+          "basis": "fact",
+          "source_id": "aps-sept-2026-schedule"
         }
       ],
       "inquiries": [
         {
-          "id": "apr-email",
+          "id": "email-2026-04-15",
           "date": "2026-04-15",
-          "to": "Superintendent",
-          "question": "What is the plan for the next two months?",
+          "to": "Superintendent Durán",
+          "question": "What is the plan to make my children's school safe for learning over the next two months?",
           "response_date": "2026-04-16",
-          "response_summary": "Copied the principal to monitor.",
-          "status": "partial"
+          "response_summary": "Copied the school principal, who will work closely to monitor the situation.",
+          "status": "partial",
+          "source_id": "email-2026-04"
         }
       ]
     }
   ],
   "sources": [
     {
-      "id": "cip-2027",
-      "title": "APS CIP FY2027-2036",
+      "id": "county-bond-2026",
+      "title": "2026 Bond Referenda",
+      "publisher": "Arlington County Government",
+      "url": "https://www.arlingtonva.us/Government/Programs/Budget-Finance/Bonds/2026-Bond-Referenda",
+      "retrieved_on": "2026-09-24",
+      "notes": "Question 4 text and project list"
+    },
+    {
+      "id": "cip-fy27-36",
+      "title": "APS Approved FY 2027-36 Capital Improvement Plan (CIP)",
       "publisher": "Arlington Public Schools",
-      "url": "https://www.apsva.us/cip",
+      "url": "https://www.apsva.us/wp-content/uploads/sites/57/2026/08/APS-FY2027-36-CIP-REPORT-FINAL.pdf",
+      "retrieved_on": "2026-09-24",
+      "notes": "Adopted June 18 2026; report dated August 2026; Appendix C funding timeline is an image (not read)"
+    },
+    {
+      "id": "aps-sign-up-to-speak",
+      "title": "Speak at a School Board Meeting",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
       "retrieved_on": "2026-09-24"
+    },
+    {
+      "id": "aps-sept-2026-schedule",
+      "title": "September Schedule of Board Meetings Work Sessions and Advisory Council and Committee Meetings",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/post/september-schedule-of-board-meetings-work-sessions-and-advisory-council-and-committee-meetings-4/",
+      "retrieved_on": "2026-09-24",
+      "notes": "Posted Sep 2 2026"
+    },
+    {
+      "id": "email-2026-04",
+      "title": "Email exchange with Superintendent Durán, April 15–16 2026",
+      "publisher": "Provided by team member (personal correspondence)",
+      "retrieved_on": "2026-09-24",
+      "notes": "Original held by the team; quoted in the pitch video."
     }
   ]
 }

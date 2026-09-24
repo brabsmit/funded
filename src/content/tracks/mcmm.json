@@ -1,0 +1,27 @@
+{
+  "id": "mcmm",
+  "name": "Major Construction/Minor Maintenance",
+  "description": "Annually budgeted facility repairs funded from operating budget/reserves ($3.0M one-time in FY27)",
+  "routing_rule": "Smaller facility work not listed as a CIP project; dollar cutoff vs CIP not found",
+  "verification": "draft",
+  "stages": [
+    {
+      "id": "mcmm-budget",
+      "order": 1,
+      "name": "Annual MC/MM budget allocation",
+      "decider": "School Board",
+      "venue": "Budget adoption",
+      "typical_duration": "annual",
+      "basis": "interpretation"
+    },
+    {
+      "id": "mcmm-work",
+      "order": 2,
+      "name": "Project selection and execution",
+      "decider": "APS Facilities and Operations",
+      "venue": "Staff",
+      "basis": "interpretation"
+    }
+  ],
+  "sources": []
+}

@@ -1,4 +1,14 @@
 stage_id,track_id,order,name,decider,venue,typical_duration,basis,source_id
-cip-plan,cip,1,In the CIP,School Board,CIP adoption,,requirement,cip-2027
-cip-funding,cip,2,Bond funding,Voters,Bond referendum,,requirement,cip-2027
-cip-design,cip,3,Design,Facilities & Operations,,,requirement,cip-2027
+cip-direction,cip,1,CIP direction,School Board,School Board meeting,about 3 months (Sep-Dec 2025),fact,cip-fy27-36
+cip-proposal,cip,2,Superintendent's proposed CIP,Superintendent,School Board meeting information item,1 meeting,fact,cip-fy27-36
+cip-adoption,cip,3,CIP adoption and bond request,School Board,School Board meeting (vote),about 1 month after proposal,fact,cip-fy27-36
+cip-county-ballot,cip,4,County Board resolution and court-ordered election,County Board then Circuit Court,County Board meeting,,requirement,cip-fy27-36
+cip-referendum,cip,5,Bond referendum,Arlington voters,General election,1 day,fact,county-bond-2026
+cip-design,cip,6,Project development and design,School Board approves at milestones,School Board meetings,6-12 months development then 6-9 months per design phase,estimate,cip-fy27-36
+cip-construction,cip,7,Construction,APS Facilities and Operations,Site,Summer 2027 to 2029 for Oakridge,estimate,cip-fy27-36
+mcmm-budget,mcmm,1,Annual MC/MM budget allocation,School Board,Budget adoption,annual,interpretation,
+mcmm-work,mcmm,2,Project selection and execution,APS Facilities and Operations,Staff,,interpretation,
+gift-proposal,gift,1,Donor proposal to principal,Principal,School,,requirement,policy-d15-draft-2025
+gift-staff-review,gift,2,Review by Asst. Supt. F&O and Superintendent,Superintendent (or designee),Staff review,,requirement,policy-d15-draft-2025
+gift-board,gift,3,School Board approval (projects >= $100001),School Board,School Board meeting,,requirement,policy-d15-draft-2025
+gift-mou,gift,4,MOU (>= $15000) or acceptance letter (< $15000),School Board or Superintendent; principal for < $15000,,,requirement,policy-d15-draft-2025
