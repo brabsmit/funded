@@ -30,6 +30,7 @@ describe('fmtMoney', () => {
   it('compacts to millions and thousands', () => {
     expect(fmtMoney(80_000_000)).toBe('$80M');
     expect(fmtMoney(31_500_000)).toBe('$31.5M');
+    expect(fmtMoney(45_650_000)).toBe('$45.65M');
     expect(fmtMoney(250_000)).toBe('$250K');
     expect(fmtMoney(900)).toBe('$900');
   });

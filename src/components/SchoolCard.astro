@@ -1,12 +1,24 @@
 ---
 import type { SchoolT } from '../schema/records';
 import { href } from '../lib/url';
+import { nextMilestone } from '../lib/need';
+import { fmtDate } from '../lib/dates';
 interface Props { school: SchoolT }
 const { school } = Astro.props;
-const needs = school.needs.length;
+const shortName = (title: string) => title.replace(new RegExp(`^${school.name.replace(/ School$/, '')}\\s*`), '').replace(/^\w/, c => c.toUpperCase());
 ---
-<a href={href(`/schools/${school.id}/`)} class="block rounded-lg border border-line bg-white p-5 transition hover:border-accent">
+<a href={href(`/schools/${school.id}/`)} class="block rounded-lg border border-line bg-white p-5 transition hover:border-accent" data-testid="school-card">
   <h2 class="text-2xl">{school.name}</h2>
-  <p class="text-ink-muted">{school.district}</p>
-  <p class="mt-3 text-sm">{needs} {needs === 1 ? 'need tracked' : 'needs tracked'}{school.status === 'draft' && ' · draft record'}</p>
+  <p class="text-ink-muted">{school.district}{school.status === 'draft' && <span class="ml-2 rounded border border-dashed border-draft px-1.5 py-0.5 text-[0.7rem] font-bold uppercase tracking-wide text-draft">draft record</span>}</p>
+  <ul class="mt-3 space-y-2 text-sm">
+    {school.needs.map(n => {
+      const m = nextMilestone(n);
+      return (
+        <li>
+          <span class="font-semibold">{shortName(n.title)}</span>
+          {m && <span class="block text-ink-muted">Next: {m.decider ? `${m.decider}, ` : ''}{fmtDate(m.date)}</span>}
+        </li>
+      );
+    })}
+  </ul>
 </a>

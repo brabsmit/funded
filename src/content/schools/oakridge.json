@@ -191,6 +191,22 @@
           "note": "No APS or County document prices the HVAC work by itself.",
           "basis": "interpretation",
           "source_id": "cip-fy27-36"
+        },
+        {
+          "id": "q4-jamestown",
+          "label": "Jamestown Elementary Refresh (HVAC, roofing, flooring, painting)",
+          "amount": 29000000,
+          "parent_id": "q4-bond",
+          "basis": "fact",
+          "source_id": "county-bond-2026"
+        },
+        {
+          "id": "q4-infrastructure",
+          "label": "Major Infrastructure: Building Systems",
+          "amount": 20000000,
+          "parent_id": "q4-bond",
+          "basis": "fact",
+          "source_id": "county-bond-2026"
         }
       ]
     }

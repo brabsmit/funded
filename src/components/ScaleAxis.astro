@@ -14,29 +14,32 @@ const toEnd = daysUntil(today, s.end);
 const spanYears = yearsUntil(s.start, s.end);
 const dot = (p: typeof start) => p.kind === 'inquiry' ? 'border-draft bg-white' : p.status === 'done' ? 'border-done bg-done' : p.status === 'next' ? 'border-accent bg-accent' : 'border-later bg-white';
 const align = (pct: number) => pct < 25 ? 'left-0 text-left' : pct > 75 ? 'right-0 text-right' : '-translate-x-1/2 text-center';
+const at = (pct: number) => pct < 25 ? '' : pct > 75 ? '' : `left: ${pct}%`;
+const startWord = start.kind === 'inquiry' ? 'a parent asked' : 'first step';
+const since = `${sinceStart} days since ${start.kind === 'inquiry' ? 'a parent asked' : 'the first step'}.`;
+const until = toEnd >= 0 ? `${toEnd} days until the planned finish.` : `The planned finish, ${fmtDate(s.end)}, has passed without confirmation.`;
 const title = `From the first question to the planned fix: ${spanYears} years. ${elapsed}% of that time has passed.`;
 ---
 <figure class="figure mt-6 rounded-lg border border-line bg-white p-5" role="img" aria-label={`${title} ${start.label} ${fmtDate(start.date)}; ${next ? `${next.label} ${fmtDate(next.date)}; ` : ''}planned finish ${fmtDate(end.date)}.`}>
   <figcaption class="text-lg">From the first question to the planned fix: <strong>{spanYears} years</strong></figcaption>
-  <p class="mt-1 text-sm text-ink-muted">{sinceStart} days since {start.label.toLowerCase().replace(/^asked/, 'the question to')}. {toEnd} days until the planned finish. {elapsed}% of the wait is behind us.</p>
+  <p class="mt-1 text-sm text-ink-muted">{since} {until} The filled part of the bar, {elapsed}%, is behind us.</p>
   <div class="relative mt-8 h-24 select-none" aria-hidden="true">
     {next && (
-      <div class:list={['absolute top-0 whitespace-nowrap text-sm', align(next.pct)]} style={`left: ${next.pct}%`}>
+      <div class:list={['absolute top-0 whitespace-nowrap text-sm', align(next.pct)]} style={at(next.pct)}>
         <span class="font-semibold">{fmtDate(next.date)}</span> <span class="text-ink-muted">next decision</span>
       </div>
     )}
     <div class="absolute left-0 right-0 top-9 h-3 rounded-full bg-accent-faint"></div>
     <div class="absolute left-0 top-9 h-3 rounded-l-full bg-accent-mid" style={`width: ${s.todayPct}%`}></div>
-    <div class="absolute top-7 h-7 w-0.5 -translate-x-1/2 bg-ink" style={`left: ${s.todayPct}%`}></div>
-    <div class:list={['absolute top-[3.6rem] whitespace-nowrap text-xs text-ink-muted', align(s.todayPct)]} style={`left: ${s.todayPct}%`}>today</div>
+    <div class="absolute top-7 h-7 w-0.5 -translate-x-1/2 bg-ink" style={`left: ${s.todayPct}%`} title={`Today, ${fmtDate(today)}`}></div>
     {s.yearTicks.map(t => (
       <div class="absolute top-[3.3rem] -translate-x-1/2 text-xs text-ink-muted" style={`left: ${t.pct}%`}><span class="mx-auto block h-1.5 w-px bg-line"></span>{t.year}</div>
     ))}
     {s.points.map(p => (
       <div class:list={['absolute top-[2.05rem] -translate-x-1/2 rounded-full border-[3px] ring-2 ring-white', dot(p), p.status === 'next' ? 'h-5 w-5 -mt-0.5' : 'h-4 w-4']} style={`left: ${p.pct}%`} title={`${fmtDate(p.date)}: ${p.label}`}></div>
     ))}
-    <div class="absolute bottom-0 left-0 max-w-[45%] text-sm leading-tight">
-      <span class="font-semibold">{fmtDate(start.date)}</span> <span class="text-ink-muted">{start.kind === 'inquiry' ? 'a parent asked' : start.label}</span>
+    <div class="absolute bottom-0 left-0 max-w-[45%] whitespace-nowrap text-sm leading-tight" title={start.label}>
+      <span class="font-semibold">{fmtDate(start.date)}</span> <span class="text-ink-muted">{startWord}</span>
     </div>
     <div class="absolute bottom-0 right-0 max-w-[45%] text-right text-sm leading-tight">
       <span class="font-semibold">{end.date.slice(0, 4)}</span> <span class="text-ink-muted">planned finish</span>

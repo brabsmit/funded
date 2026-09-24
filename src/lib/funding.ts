@@ -14,8 +14,8 @@ export function fundingTree(rows: FundingT[]): FundingNode[] {
 }
 
 export function fmtMoney(n: number): string {
-  const compact = (v: number, suffix: string) => `$${Number.isInteger(v) ? v : v.toFixed(1)}${suffix}`;
-  if (n >= 1_000_000) return compact(Math.round(n / 100_000) / 10, 'M');
-  if (n >= 1_000) return compact(Math.round(n / 100) / 10, 'K');
+  const compact = (v: number, suffix: string) => `$${parseFloat(v.toFixed(2))}${suffix}`;
+  if (n >= 1_000_000) return compact(n / 1_000_000, 'M');
+  if (n >= 1_000) return compact(n / 1_000, 'K');
   return `$${n}`;
 }

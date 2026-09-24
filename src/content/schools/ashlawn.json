@@ -1,0 +1,117 @@
+{
+  "id": "ashlawn",
+  "name": "Ashlawn Elementary School",
+  "district": "Arlington Public Schools",
+  "status": "draft",
+  "notes": "CIP says construction completes August 2026; completion not confirmed.",
+  "needs": [
+    {
+      "id": "ashlawn-kitchen",
+      "title": "Ashlawn Elementary kitchen renovation",
+      "category": "kitchen",
+      "summary": "New kitchen and a small addition to improve meal service. Approved project budget $4.1M; construction scheduled for completion in August 2026.",
+      "track_id": "cip",
+      "current_stage_id": "cip-construction",
+      "stage_basis": "fact",
+      "stage_source_id": "cip-fy27-36",
+      "cost": "$4.1M (approved project budget)",
+      "cost_basis": "fact",
+      "cost_source_id": "cip-fy27-36",
+      "window": "Completion scheduled August 2026",
+      "window_basis": "fact",
+      "window_source_id": "cip-fy27-36",
+      "why_track": "A building addition is a capital project in the adopted CIP, funded ahead of the 2026 bond.",
+      "why_track_basis": "interpretation",
+      "why_track_source_id": "cip-fy27-36",
+      "milestones": [
+        {
+          "id": "ashlawn-cip-adopted",
+          "date": "2026-06-18",
+          "label": "Adopted CIP carries the $4.1M approved project budget",
+          "status": "done",
+          "decider": "School Board",
+          "venue": "School Board meeting",
+          "basis": "fact",
+          "source_id": "cip-fy27-36"
+        },
+        {
+          "id": "ashlawn-complete",
+          "date": "2026-08-31",
+          "label": "Construction scheduled for completion, August 2026",
+          "status": "next",
+          "decider": "APS Facilities and Operations",
+          "venue": "Site",
+          "basis": "estimate",
+          "source_id": "cip-fy27-36"
+        }
+      ],
+      "engage": [
+        {
+          "id": "ashlawn-sb-oct8",
+          "venue": "School Board meeting, Oct 8, 2026",
+          "when": "Thursday, 7 p.m., Syphax Education Center, 2110 Washington Blvd",
+          "how": "Sign up to speak: the online form opens Oct 2 and closes Oct 7 at 4 p.m.",
+          "date": "2026-10-08",
+          "deadline": "2026-10-07",
+          "ask": "Did the Ashlawn kitchen open in August 2026 as scheduled, and if not, when?",
+          "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
+          "basis": "fact",
+          "source_id": "aps-sb-meetings-2026-27"
+        },
+        {
+          "id": "ashlawn-sb-comment",
+          "venue": "School Board meeting public comment (any meeting)",
+          "when": "Regular meetings, generally 7 p.m. at the Syphax Education Center",
+          "how": "Online speaker form opens four business days before and closes 4 p.m. the day before; max 30 speakers x 2 minutes",
+          "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
+          "basis": "requirement",
+          "source_id": "aps-sign-up-to-speak"
+        }
+      ],
+      "inquiries": [
+        {
+          "id": "q-ashlawn-done",
+          "to": "APS Facilities and Operations",
+          "question": "Was the Ashlawn kitchen completed in August 2026 as the CIP scheduled?",
+          "why": "The August 2026 CIP report still says \"scheduled for completion in August 2026\". No later document confirms it.",
+          "status": "open",
+          "source_id": "cip-fy27-36"
+        }
+      ],
+      "funding": [
+        {
+          "id": "ashlawn-budget",
+          "label": "Approved project budget",
+          "amount": 4100000,
+          "basis": "fact",
+          "source_id": "cip-fy27-36"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "cip-fy27-36",
+      "title": "APS Approved FY 2027-36 Capital Improvement Plan (CIP)",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/wp-content/uploads/sites/57/2026/08/APS-FY2027-36-CIP-REPORT-FINAL.pdf",
+      "retrieved_on": "2026-09-24",
+      "notes": "Adopted June 18 2026; report dated August 2026; Appendix C funding timeline is an image (not read)"
+    },
+    {
+      "id": "aps-sb-meetings-2026-27",
+      "title": "School Board Meetings (2026-27 dates)",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/",
+      "retrieved_on": "2026-09-24",
+      "notes": "Lists Oct 8, Oct 22, Nov 12 2026; 7 p.m. at Syphax unless noted"
+    },
+    {
+      "id": "aps-sign-up-to-speak",
+      "title": "Speak at a School Board Meeting",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
+      "retrieved_on": "2026-09-24"
+    }
+  ]
+}

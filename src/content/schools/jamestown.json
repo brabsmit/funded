@@ -1,0 +1,180 @@
+{
+  "id": "jamestown",
+  "name": "Jamestown Elementary School",
+  "district": "Arlington Public Schools",
+  "status": "draft",
+  "notes": "Named in Question 4 beside Oakridge. Not yet verified with APS.",
+  "needs": [
+    {
+      "id": "jamestown-refresh",
+      "title": "Jamestown Elementary HVAC and roof replacement",
+      "category": "hvac",
+      "summary": "Replace the HVAC systems and the roof. Named in the proposed $80M school bond (Nov 3, 2026) as the Jamestown Refresh (HVAC, roofing, flooring, painting).",
+      "track_id": "cip",
+      "current_stage_id": "cip-referendum",
+      "stage_basis": "fact",
+      "stage_source_id": "county-bond-2026",
+      "cost": "$29M (whole Refresh: HVAC, roofing, flooring, painting)",
+      "cost_basis": "estimate",
+      "cost_source_id": "cip-fy27-36",
+      "window": "Summer 2027 to 2029",
+      "window_basis": "estimate",
+      "window_source_id": "cip-fy27-36",
+      "why_track": "A combined HVAC and roof replacement is a capital project the School Board lists in the 10-year CIP and funds through County bonds, so it waits for the bond cycle.",
+      "why_track_basis": "interpretation",
+      "why_track_source_id": "cip-fy27-36",
+      "milestones": [
+        {
+          "id": "jamestown-cip-adopted",
+          "date": "2026-06-18",
+          "label": "School Board adopts FY2027-36 CIP including the Jamestown project and $80M bond request",
+          "status": "done",
+          "decider": "School Board",
+          "venue": "School Board meeting",
+          "basis": "fact",
+          "source_id": "cip-fy27-36"
+        },
+        {
+          "id": "jamestown-county-cip",
+          "date": "2026-07-21",
+          "label": "County Board adopts County CIP containing the bond projects",
+          "status": "done",
+          "decider": "County Board",
+          "venue": "County Board meeting",
+          "basis": "fact",
+          "source_id": "county-bond-2026"
+        },
+        {
+          "id": "jamestown-referendum",
+          "date": "2026-11-03",
+          "label": "Voters decide $80M school bond (Question 4) incl. $29M Jamestown Refresh",
+          "status": "next",
+          "decider": "Arlington voters",
+          "venue": "General election",
+          "basis": "fact",
+          "source_id": "county-bond-2026"
+        },
+        {
+          "id": "jamestown-construction-start",
+          "date": "2027-06-01",
+          "label": "Implementation begins (Summer 2027)",
+          "status": "later",
+          "decider": "APS Facilities and Operations",
+          "venue": "Site",
+          "basis": "estimate",
+          "source_id": "cip-fy27-36"
+        },
+        {
+          "id": "jamestown-complete",
+          "date": "2029-01-01",
+          "label": "Implementation scheduled to end during 2029 (CIP planning estimate)",
+          "status": "later",
+          "decider": "APS Facilities and Operations",
+          "venue": "Site",
+          "basis": "estimate",
+          "source_id": "cip-fy27-36"
+        }
+      ],
+      "engage": [
+        {
+          "id": "jamestown-sb-oct8",
+          "venue": "School Board meeting, Oct 8, 2026",
+          "when": "Thursday, 7 p.m., Syphax Education Center, 2110 Washington Blvd",
+          "how": "Sign up to speak: the online form opens Oct 2 and closes Oct 7 at 4 p.m. Two minutes per speaker, first 30 speakers.",
+          "date": "2026-10-08",
+          "deadline": "2026-10-07",
+          "ask": "If Question 4 passes, when does design for the Jamestown HVAC and roof work start, and which comes first?",
+          "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
+          "basis": "fact",
+          "source_id": "aps-sb-meetings-2026-27"
+        },
+        {
+          "id": "jamestown-vote",
+          "venue": "General election, Question 4",
+          "when": "Tuesday, Nov 3, 2026",
+          "how": "Vote on the $80M school bond. Question 4 names the Jamestown Refresh.",
+          "date": "2026-11-03",
+          "url": "https://www.arlingtonva.us/Government/Programs/Budget-Finance/Bonds/2026-Bond-Referenda",
+          "basis": "fact",
+          "source_id": "county-bond-2026"
+        },
+        {
+          "id": "jamestown-sb-comment",
+          "venue": "School Board meeting public comment (any meeting)",
+          "when": "Regular meetings, generally 7 p.m. at the Syphax Education Center",
+          "how": "Online speaker form opens four business days before and closes 4 p.m. the day before; max 30 speakers x 2 minutes",
+          "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
+          "basis": "requirement",
+          "source_id": "aps-sign-up-to-speak"
+        }
+      ],
+      "inquiries": [],
+      "funding": [
+        {
+          "id": "j-q4-bond",
+          "label": "Question 4: school bond on the Nov 3, 2026 ballot",
+          "amount": 80000000,
+          "basis": "fact",
+          "source_id": "county-bond-2026"
+        },
+        {
+          "id": "j-refresh",
+          "label": "Jamestown Elementary Refresh (HVAC, roofing, flooring, painting)",
+          "amount": 29000000,
+          "parent_id": "j-q4-bond",
+          "basis": "estimate",
+          "source_id": "cip-fy27-36"
+        },
+        {
+          "id": "j-oakridge",
+          "label": "Oakridge Elementary Refresh",
+          "amount": 31000000,
+          "parent_id": "j-q4-bond",
+          "basis": "fact",
+          "source_id": "county-bond-2026"
+        },
+        {
+          "id": "j-infrastructure",
+          "label": "Major Infrastructure: Building Systems",
+          "amount": 20000000,
+          "parent_id": "j-q4-bond",
+          "basis": "fact",
+          "source_id": "county-bond-2026"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "county-bond-2026",
+      "title": "2026 Bond Referenda",
+      "publisher": "Arlington County Government",
+      "url": "https://www.arlingtonva.us/Government/Programs/Budget-Finance/Bonds/2026-Bond-Referenda",
+      "retrieved_on": "2026-09-24",
+      "notes": "Question 4 text and project list"
+    },
+    {
+      "id": "cip-fy27-36",
+      "title": "APS Approved FY 2027-36 Capital Improvement Plan (CIP)",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/wp-content/uploads/sites/57/2026/08/APS-FY2027-36-CIP-REPORT-FINAL.pdf",
+      "retrieved_on": "2026-09-24",
+      "notes": "Adopted June 18 2026; report dated August 2026; Appendix C funding timeline is an image (not read)"
+    },
+    {
+      "id": "aps-sb-meetings-2026-27",
+      "title": "School Board Meetings (2026-27 dates)",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/",
+      "retrieved_on": "2026-09-24",
+      "notes": "Lists Oct 8, Oct 22, Nov 12 2026; 7 p.m. at Syphax unless noted"
+    },
+    {
+      "id": "aps-sign-up-to-speak",
+      "title": "Speak at a School Board Meeting",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
+      "retrieved_on": "2026-09-24"
+    }
+  ]
+}

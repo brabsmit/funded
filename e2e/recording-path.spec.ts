@@ -6,6 +6,12 @@ test('recording path: home → Oakridge → four blocks', async ({ page }, info)
   await page.goto('./');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText("Check a school's status");
   await expect(page.getByText('Draft', { exact: true })).toBeVisible();
+  // Four schools at different stages; the live one leads; every card says what is next.
+  const cards = page.getByTestId('school-card');
+  await expect(cards).toHaveCount(4);
+  await expect(cards.first()).toContainText('Oakridge');
+  await expect(cards.first()).toContainText(/Next: .*Nov 3, 2026/);
+  await expect(page.getByText('draft record')).toHaveCount(3);
   await shot('1-home');
 
   await page.getByRole('link', { name: /Oakridge/ }).click();
@@ -42,4 +48,13 @@ test('tracks and roadmap render', async ({ page }) => {
   await expect(page.locator('section#cip, section#mcmm, section#gift')).toHaveCount(3);
   await page.goto('./roadmap/');
   await expect(page.getByText('Phase 1 · Now')).toBeVisible();
+});
+
+test('padding schools render at their own stages', async ({ page }, info) => {
+  for (const [id, stage] of [['jamestown', 'Bond referendum'], ['hoffman-boston', 'Project development and design'], ['ashlawn', 'Construction']]) {
+    await page.goto(`./schools/${id}/`);
+    await expect(page.getByText('Where it stands').locator('..')).toContainText(stage);
+    await expect(page.getByRole('figure', { name: /Where the money sits/ })).toBeVisible();
+    if (info.project.name === 'laptop') await page.screenshot({ path: `e2e/screenshots/laptop-4-${id}.png`, fullPage: true });
+  }
 });

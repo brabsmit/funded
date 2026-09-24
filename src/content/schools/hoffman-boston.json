@@ -1,0 +1,117 @@
+{
+  "id": "hoffman-boston",
+  "name": "Hoffman-Boston Elementary School",
+  "district": "Arlington Public Schools",
+  "status": "draft",
+  "notes": "Already funded; which stage it is in today is our reading of the CIP, not confirmed.",
+  "needs": [
+    {
+      "id": "hb-hvac-roof",
+      "title": "Hoffman-Boston Elementary HVAC and roof replacement",
+      "category": "hvac",
+      "summary": "HVAC modernization and roof replacement with ceilings, lighting, and interior finishes in affected areas. School Board-approved project budget $45.65M; completion anticipated Fall 2028.",
+      "track_id": "cip",
+      "current_stage_id": "cip-design",
+      "stage_basis": "interpretation",
+      "stage_source_id": "cip-fy27-36",
+      "cost": "$45.65M (School Board-approved project budget)",
+      "cost_basis": "fact",
+      "cost_source_id": "cip-fy27-36",
+      "window": "Completion anticipated Fall 2028",
+      "window_basis": "estimate",
+      "window_source_id": "cip-fy27-36",
+      "why_track": "Funded through earlier bonds and the adopted CIP. The CIP gives a budget and a completion date but does not say whether design or construction is under way today.",
+      "why_track_basis": "interpretation",
+      "why_track_source_id": "cip-fy27-36",
+      "milestones": [
+        {
+          "id": "hb-budget-approved",
+          "date": "2026-06-18",
+          "label": "Adopted CIP carries the School Board-approved $45.65M project budget",
+          "status": "done",
+          "decider": "School Board",
+          "venue": "School Board meeting",
+          "basis": "fact",
+          "source_id": "cip-fy27-36"
+        },
+        {
+          "id": "hb-complete",
+          "date": "2028-09-01",
+          "label": "Completion anticipated Fall 2028",
+          "status": "next",
+          "decider": "APS Facilities and Operations",
+          "venue": "Site",
+          "basis": "estimate",
+          "source_id": "cip-fy27-36"
+        }
+      ],
+      "engage": [
+        {
+          "id": "hb-sb-oct8",
+          "venue": "School Board meeting, Oct 8, 2026",
+          "when": "Thursday, 7 p.m., Syphax Education Center, 2110 Washington Blvd",
+          "how": "Sign up to speak: the online form opens Oct 2 and closes Oct 7 at 4 p.m.",
+          "date": "2026-10-08",
+          "deadline": "2026-10-07",
+          "ask": "Is the Hoffman-Boston HVAC and roof project in design or in construction today, and which classrooms will be affected in which school year?",
+          "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
+          "basis": "fact",
+          "source_id": "aps-sb-meetings-2026-27"
+        },
+        {
+          "id": "hb-sb-comment",
+          "venue": "School Board meeting public comment (any meeting)",
+          "when": "Regular meetings, generally 7 p.m. at the Syphax Education Center",
+          "how": "Online speaker form opens four business days before and closes 4 p.m. the day before; max 30 speakers x 2 minutes",
+          "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
+          "basis": "requirement",
+          "source_id": "aps-sign-up-to-speak"
+        }
+      ],
+      "inquiries": [
+        {
+          "id": "q-hb-stage",
+          "to": "APS Facilities and Operations",
+          "question": "Is the Hoffman-Boston project in design or in construction today?",
+          "why": "The CIP gives a budget and a Fall 2028 completion but not the current stage.",
+          "status": "open",
+          "source_id": "cip-fy27-36"
+        }
+      ],
+      "funding": [
+        {
+          "id": "hb-budget",
+          "label": "School Board-approved project budget",
+          "amount": 45650000,
+          "basis": "fact",
+          "source_id": "cip-fy27-36"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "cip-fy27-36",
+      "title": "APS Approved FY 2027-36 Capital Improvement Plan (CIP)",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/wp-content/uploads/sites/57/2026/08/APS-FY2027-36-CIP-REPORT-FINAL.pdf",
+      "retrieved_on": "2026-09-24",
+      "notes": "Adopted June 18 2026; report dated August 2026; Appendix C funding timeline is an image (not read)"
+    },
+    {
+      "id": "aps-sb-meetings-2026-27",
+      "title": "School Board Meetings (2026-27 dates)",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/",
+      "retrieved_on": "2026-09-24",
+      "notes": "Lists Oct 8, Oct 22, Nov 12 2026; 7 p.m. at Syphax unless noted"
+    },
+    {
+      "id": "aps-sign-up-to-speak",
+      "title": "Speak at a School Board Meeting",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
+      "retrieved_on": "2026-09-24"
+    }
+  ]
+}
