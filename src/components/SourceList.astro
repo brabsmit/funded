@@ -1,0 +1,18 @@
+---
+import type { SourceT } from '../schema/records';
+interface Props { sources: SourceT[] }
+const { sources } = Astro.props;
+---
+<section class="mt-12 border-t border-line pt-6" aria-labelledby="sources">
+  <h2 id="sources" class="text-2xl mb-3">Sources</h2>
+  <ol class="list-decimal space-y-2 pl-6 text-sm">
+    {sources.map(s => (
+      <li id={`source-${s.id}`}>
+        {s.url ? <a href={s.url} class="underline" target="_blank" rel="noopener">{s.title}</a> : s.title}
+        {s.publisher && <span class="text-ink-muted"> · {s.publisher}</span>}
+        {s.retrieved_on && <span class="text-ink-muted"> · retrieved {s.retrieved_on}</span>}
+        {s.notes && <span class="block text-ink-muted">{s.notes}</span>}
+      </li>
+    ))}
+  </ol>
+</section>

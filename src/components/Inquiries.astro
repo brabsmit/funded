@@ -1,0 +1,26 @@
+---
+import type { NeedT, SourceT } from '../schema/records';
+interface Props { need: NeedT; sources: SourceT[] }
+const { need, sources } = Astro.props;
+const fmt = (d: string) => new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+const label = { answered: 'Answered', partial: 'Partial answer', unanswered: 'No answer' } as const;
+const tone = { answered: 'bg-done text-white', partial: 'bg-warn text-white', unanswered: 'bg-draft text-white' } as const;
+---
+{need.inquiries.length > 0 && (
+  <ol class="divide-y divide-line rounded-lg border border-line bg-white">
+    {need.inquiries.map(q => {
+      const src = q.source_id ? sources.find(s => s.id === q.source_id) : undefined;
+      return (
+        <li class="p-4">
+          <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-sm text-ink-muted">
+            <span>{fmt(q.date)}</span><span>to {q.to}</span>
+            <span class={`rounded px-2 py-0.5 text-[0.7rem] font-bold uppercase tracking-wide ${tone[q.status]}`}>{label[q.status]}</span>
+          </div>
+          <blockquote class="mt-2 border-l-4 border-line pl-3 italic">{q.question}</blockquote>
+          {q.response_summary && <p class="mt-2"><span class="text-ink-muted">Response{q.response_date ? ` on ${fmt(q.response_date)}` : ''}:</span> {q.response_summary}</p>}
+          {src && <p class="mt-1 text-sm text-ink-muted">Source: {src.title}</p>}
+        </li>
+      );
+    })}
+  </ol>
+)}

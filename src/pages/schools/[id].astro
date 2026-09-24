@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import DraftBanner from '../../components/DraftBanner.astro';
 import NeedSection from '../../components/NeedSection.astro';
+import SourceList from '../../components/SourceList.astro';
 
 export async function getStaticPaths() {
   const schools = await getCollection('schools');
@@ -21,4 +22,5 @@ const trackById = new Map(tracks.map(t => [t.id, t]));
     if (!track) throw new Error(`school ${school.id}: need ${need.id} references unknown track ${need.track_id}`);
     return <NeedSection need={need} track={track} sources={school.sources} />;
   })}
+  <SourceList sources={school.sources} />
 </Base>
