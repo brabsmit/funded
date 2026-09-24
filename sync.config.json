@@ -1,8 +1,4 @@
 {
-  "publishedCsvBase": "",
-  "gids": {
-    "Tracks": 0, "Stages": 0, "Schools": 0, "Needs": 0,
-    "Milestones": 0, "Engage": 0, "Inquiries": 0, "Sources": 0
-  },
-  "_how": "File > Share > Publish to web > Entire document as CSV. Paste the URL up to and including /pub into publishedCsvBase. Each tab's gid is the number after #gid= in the browser URL when that tab is selected."
+  "sheetId": "1wI5G4wcn3ltWP0YvC9PEE0kLfoq-aBu0",
+  "_how": "sheetId is the long id in the Sheet's URL (docs.google.com/spreadsheets/d/<sheetId>/edit). The Sheet must be shared as 'Anyone with the link: Viewer'. Tabs are fetched by name. If the Sheet is converted or replaced, paste the new id here."
 }

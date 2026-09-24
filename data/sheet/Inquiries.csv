@@ -1,2 +1,2 @@
-inquiry_id,need_id,date,to,question,response_date,response_summary,status,source_id
-email-2026-04-15,oakridge-hvac,2026-04-15,Superintendent Durán,What is the plan to make my children's school safe for learning over the next two months?,2026-04-16,"Copied the school principal, who will work closely to monitor the situation.",partial,email-2026-04
+"inquiry_id","need_id","date","to","question","response_date","response_summary","status","source_id"
+"email-2026-04-15","oakridge-hvac","2026-04-15","Superintendent Durán","What is the plan to make my children's school safe for learning over the next two months?","2026-04-16","Copied the school principal, who will work closely to monitor the situation.","partial","email-2026-04"

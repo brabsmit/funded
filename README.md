@@ -32,14 +32,13 @@ Google Sheet (source of truth, edited by the team)
 
 ## Connecting the Sheet (one-time, Bryan)
 
-1. Upload `data/FundED-data-template.xlsx` to the project's Google Drive folder. Right-click → Open with → Google Sheets. Rename the resulting Sheet "FundED data". Delete the .xlsx copy from Drive to avoid two files with the same name. The header row is frozen, not protected; to lock it, select row 1 → Data → Protect sheets and ranges.
-2. In the Sheet: File → Share → Publish to web → "Entire document", format "Comma-separated values (.csv)" → Publish. Copy the URL. It looks like `https://docs.google.com/spreadsheets/d/e/2PACX-.../pub?output=csv`.
-3. Paste the part up to and including `/pub` into `publishedCsvBase` in `sync.config.json`.
-4. For each of the 8 data tabs (not Legend), click it and read the number after `#gid=` in the browser URL. Put it in `gids` for that tab.
-5. Run `npm run sync`. Fix anything it reports (tab and row number are given). Then `git diff --stat src/content`, and commit.
-6. Share the Sheet with the team (editor). Point them at the Legend tab.
+1. Upload `data/FundED-data-template.xlsx` to the project's Google Drive folder and open it with Google Sheets. If Sheets shows it in Office mode (an `.xlsx` badge by the title), use File → Save as Google Sheets so teammates get normal collaborative editing; that creates a new file with a new id, so do step 3 again afterwards. The header row is frozen, not protected; to lock it, select row 1 → Data → Protect sheets and ranges.
+2. Share → General access: "Anyone with the link", role Viewer. Give teammates Editor access individually. (No "Publish to web" is needed.)
+3. Copy the long id from the Sheet's URL (`docs.google.com/spreadsheets/d/<id>/edit`) into `sheetId` in `sync.config.json`. Tabs are fetched by name, so the tab names must stay exactly `Tracks`, `Stages`, `Schools`, `Needs`, `Milestones`, `Engage`, `Inquiries`, `Sources`.
+4. Run `npm run sync`. Fix anything it reports (tab and row number are given). Then `git diff --stat src/content`, and commit.
+5. Point teammates at the Legend tab.
 
-The published CSV is readable by anyone with the link. The Inquiries tab summarizes the April 2026 email exchange; it is already quoted in the public pitch video. If that changes, switch to a service account (about one hour) before adding anything more sensitive.
+Anyone with the link can read the Sheet. The Inquiries tab summarizes the April 2026 email exchange; it is already quoted in the public pitch video. If that changes, switch to a service account (about one hour) before adding anything more sensitive.
 
 ## Updating data later
 
