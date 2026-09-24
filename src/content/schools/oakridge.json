@@ -82,22 +82,13 @@
           "source_id": "aps-sign-up-to-speak"
         },
         {
-          "id": "oakridge-ws-mcmm",
-          "venue": "School Board work session on Facilities (Maintenance / Work Orders / MCMM)",
-          "when": "2026-09-29 1:00-2:30 p.m.",
-          "how": "Observe",
-          "url": "https://www.apsva.us/post/september-schedule-of-board-meetings-work-sessions-and-advisory-council-and-committee-meetings-4/",
+          "id": "oakridge-sb-october",
+          "venue": "School Board meetings, Oct 8 and Oct 22, 2026",
+          "when": "Thursdays, 7 p.m., Syphax Education Center, 2110 Washington Blvd",
+          "how": "Sign up to speak: the online form opens four business days before each meeting and closes 4 p.m. the day before",
+          "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
           "basis": "fact",
-          "source_id": "aps-sept-2026-schedule"
-        },
-        {
-          "id": "oakridge-ws-fy28",
-          "venue": "School Board work session on FY 2028 Budget Direction",
-          "when": "2026-09-29 10:45 a.m.-12:15 p.m.",
-          "how": "Observe",
-          "url": "https://www.apsva.us/post/september-schedule-of-board-meetings-work-sessions-and-advisory-council-and-committee-meetings-4/",
-          "basis": "fact",
-          "source_id": "aps-sept-2026-schedule"
+          "source_id": "aps-sb-meetings-2026-27"
         },
         {
           "id": "oakridge-vote",
@@ -107,6 +98,15 @@
           "url": "https://www.arlingtonva.us/Government/Programs/Budget-Finance/Bonds/2026-Bond-Referenda",
           "basis": "fact",
           "source_id": "county-bond-2026"
+        },
+        {
+          "id": "oakridge-ccpta-oct21",
+          "venue": "County Council of PTAs (CCPTA) meeting",
+          "when": "Wednesday, Oct 21, 2026, 7 p.m., via Zoom",
+          "how": "Open to PTA delegates only: ask your school PTA's CCPTA delegate to raise the need",
+          "url": "https://www.arlingtonccpta.org/",
+          "basis": "fact",
+          "source_id": "ccpta-2026-27"
         },
         {
           "id": "oakridge-advisory",
@@ -155,6 +155,22 @@
       "publisher": "Arlington Public Schools",
       "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
       "retrieved_on": "2026-09-24"
+    },
+    {
+      "id": "aps-sb-meetings-2026-27",
+      "title": "School Board Meetings (2026-27 dates)",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/",
+      "retrieved_on": "2026-09-24",
+      "notes": "Lists Oct 8, Oct 22, Nov 12 2026; 7 p.m. at Syphax unless noted"
+    },
+    {
+      "id": "ccpta-2026-27",
+      "title": "Arlington County Council of PTAs: 2026-27 meetings",
+      "publisher": "Arlington CCPTA",
+      "url": "https://www.arlingtonccpta.org/",
+      "retrieved_on": "2026-09-24",
+      "notes": "Zoom, 7 p.m.; open to PTA delegates and executive board invitees only"
     },
     {
       "id": "aps-sept-2026-schedule",
