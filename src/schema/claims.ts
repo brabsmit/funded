@@ -12,6 +12,10 @@ export function claimsOf(need: NeedT): Claim[] {
   if (need.window !== undefined) {
     out.push({ need_id: need.id, label: 'window', basis: need.window_basis ?? 'interpretation', source_id: need.window_source_id });
   }
+  if (need.why_track !== undefined) {
+    out.push({ need_id: need.id, label: 'why_track', basis: need.why_track_basis ?? 'interpretation', source_id: need.why_track_source_id });
+  }
+  for (const f of need.funding ?? []) out.push({ need_id: need.id, label: `funding:${f.id}`, basis: f.basis, source_id: f.source_id });
   for (const m of need.milestones) out.push({ need_id: need.id, label: `milestone:${m.id}`, basis: m.basis, source_id: m.source_id });
   for (const e of need.engage) out.push({ need_id: need.id, label: `engage:${e.id}`, basis: e.basis, source_id: e.source_id });
   return out;

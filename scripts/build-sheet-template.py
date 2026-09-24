@@ -11,15 +11,16 @@ from openpyxl.worksheet.datavalidation import DataValidation
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "data" / "sheet"
 OUT = ROOT / "data" / "FundED-data-template.xlsx"
-TABS = ["Tracks", "Stages", "Schools", "Needs", "Milestones", "Engage", "Inquiries", "Sources", "Legend"]
+TABS = ["Tracks", "Stages", "Schools", "Needs", "Milestones", "Engage", "Inquiries", "Funding", "Sources", "Legend"]
 ENUMS = {
     "basis": "fact,requirement,estimate,interpretation",
     "stage_basis": "fact,requirement,estimate,interpretation",
     "cost_basis": "fact,requirement,estimate,interpretation",
     "window_basis": "fact,requirement,estimate,interpretation",
+    "why_track_basis": "fact,requirement,estimate,interpretation",
     "verification": "draft,documented,confirmed",
 }
-STATUS = {"Schools": "live,draft", "Milestones": "done,next,later", "Inquiries": "answered,partial,unanswered"}
+STATUS = {"Schools": "live,draft", "Milestones": "done,next,later", "Inquiries": "open,answered,partial,unanswered"}
 FONT = "Arial"
 
 # Cross-sheet reference validation: column name -> tab holding the id it points to.
@@ -29,11 +30,12 @@ REF_TARGETS = {
     "current_stage_id": "Stages",
     "school_id": "Schools",
     "need_id": "Needs",
+    "parent_id": "Funding",
 }
 # Each tab's own id column is skipped (e.g. track_id on Tracks is not a reference).
 OWN_ID_COLUMN = {
     "Tracks": "track_id", "Stages": "stage_id", "Schools": "school_id", "Needs": "need_id",
-    "Milestones": "milestone_id", "Engage": "engage_id", "Inquiries": "inquiry_id", "Sources": "source_id",
+    "Milestones": "milestone_id", "Engage": "engage_id", "Inquiries": "inquiry_id", "Funding": "funding_id", "Sources": "source_id",
 }
 
 wb = Workbook()

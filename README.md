@@ -34,11 +34,13 @@ Google Sheet (source of truth, edited by the team)
 
 1. Upload `data/FundED-data-template.xlsx` to the project's Google Drive folder and open it with Google Sheets. If Sheets shows it in Office mode (an `.xlsx` badge by the title), use File → Save as Google Sheets so teammates get normal collaborative editing; that creates a new file with a new id, so do step 3 again afterwards. The header row is frozen, not protected; to lock it, select row 1 → Data → Protect sheets and ranges.
 2. Share → General access: "Anyone with the link", role Viewer. Give teammates Editor access individually. (No "Publish to web" is needed.)
-3. Copy the long id from the Sheet's URL (`docs.google.com/spreadsheets/d/<id>/edit`) into `sheetId` in `sync.config.json`. Tabs are fetched by name, so the tab names must stay exactly `Tracks`, `Stages`, `Schools`, `Needs`, `Milestones`, `Engage`, `Inquiries`, `Sources`.
+3. Copy the long id from the Sheet's URL (`docs.google.com/spreadsheets/d/<id>/edit`) into `sheetId` in `sync.config.json`. Tabs are fetched by name, so the tab names must stay exactly `Tracks`, `Stages`, `Schools`, `Needs`, `Milestones`, `Engage`, `Inquiries`, `Funding`, `Sources`.
 4. Run `npm run sync`. Fix anything it reports (tab and row number are given). Then `git diff --stat src/content`, and commit.
 5. Point teammates at the Legend tab.
 
 Anyone with the link can read the Sheet. The Inquiries tab summarizes the April 2026 email exchange; it is already quoted in the public pitch video. If that changes, switch to a service account (about one hour) before adding anything more sensitive.
+
+Countdowns ("40 days until…") are computed at build time. To pin them for a screenshot or the film, build with `FUNDED_AS_OF=2026-09-24 npm run build`.
 
 ## Updating data later
 
@@ -48,4 +50,4 @@ If a remote sync fails, `data/sheet/` may hold a mix of fresh and old CSVs; run 
 
 ## Adding a school
 
-Sources tab first (add every document you will cite). Then Schools, Needs (one row per need), Milestones (exactly one `next` per need), Engage, Inquiries. Set the school `status` to `draft` until every claim has a source; the sync output lists what is missing.
+Sources tab first (add every document you will cite). Then Schools, Needs (one row per need), Milestones (exactly one `next` per need), Engage (give each venue a `date` or `deadline` so it sorts, and an `ask`), Inquiries (use status `open` for a question nobody has asked yet), Funding (the bond total, the project inside it, and any unpriced slice). Set the school `status` to `draft` until every claim has a source; the sync output lists what is missing.

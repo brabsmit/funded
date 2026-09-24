@@ -26,6 +26,10 @@ export function goodTabs(): Tabs {
     Inquiries: [
       { inquiry_id: 'apr-email', need_id: 'hvac', date: '2026-04-15', to: 'Superintendent', question: 'What is the plan for the next two months?', response_date: '2026-04-16', response_summary: 'Copied the principal to monitor.', status: 'partial' },
     ],
+    Funding: [
+      { funding_id: 'q4', need_id: 'hvac', label: 'Question 4 school bond', amount: '80000000', basis: 'fact', source_id: 'cip-2027' },
+      { funding_id: 'refresh', need_id: 'hvac', label: 'Oakridge Refresh', amount: '31000000', parent_id: 'q4', basis: 'estimate', source_id: 'cip-2027' },
+    ],
     Sources: [
       { source_id: 'cip-2027', title: 'APS CIP FY2027-2036', publisher: 'Arlington Public Schools', url: 'https://www.apsva.us/cip', retrieved_on: '2026-09-24' },
     ],

@@ -6,11 +6,18 @@ Stages,basis,What kind of claim the stage is,fact | requirement | estimate | int
 Schools,status,live = every claim must have a source or the site will not build; draft = warnings only,live | draft
 Needs,current_stage_id,Must be a stage_id that belongs to the need's track_id,
 Needs,stage_basis / cost_basis / window_basis,What kind of claim each is,fact | requirement | estimate | interpretation
+Needs,why_track,One sentence on why the need sits on this track and not a faster one; shown under the pipeline,
 Milestones,status,Exactly one milestone per need must be next,done | next | later
 Milestones,basis,What kind of claim the milestone is,fact | requirement | estimate | interpretation
 Milestones,date,ISO date,YYYY-MM-DD
 Engage,basis,What kind of claim the venue is,fact | requirement | estimate | interpretation
-Inquiries,status,Did the authority answer the question?,answered | partial | unanswered
+Engage,date,"ISO date the venue happens (a meeting, an election)",YYYY-MM-DD
+Engage,deadline,ISO date the sign-up or application closes; venues sort by this when present,YYYY-MM-DD
+Engage,ask,The specific question to put to this venue; shown with a copy button,
+Inquiries,status,open = a question no one has asked yet (leave date blank); the rest need a date,open | answered | partial | unanswered
+Inquiries,why,Why the question matters or why it is still open,
+Funding,amount,"Whole dollars, digits only (80000000). Leave blank when no source prices it separately.",number
+Funding,parent_id,The funding_id this amount sits inside (same need). Blank for the top-level total.,
 Sources,source_id,Referenced by every *_source_id column. Add the document here first.,
 (all),*_id,Lowercase letters and digits and dashes only. No spaces.,
 (all),blank cell,Leave blank when unknown. Never type TBD or ?.,

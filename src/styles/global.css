@@ -10,6 +10,8 @@
   --color-line: #d9d6cf;
   --color-accent: #1f5f8b;
   --color-accent-soft: #e3eef7;
+  --color-accent-mid: #7ea6c6;
+  --color-accent-faint: #cfdfec;
   --color-done: #2e7d4f;
   --color-later: #9aa3ad;
   --color-draft: #b4541a;
@@ -37,3 +39,12 @@ h1, h2, h3 { font-family: var(--font-serif); letter-spacing: -0.01em; }
 }
 
 [popover]::backdrop { background: rgb(0 0 0 / 0.25); }
+
+.figure { font-variant-numeric: proportional-nums; }
+.hatch {
+  background-color: var(--color-accent-soft);
+  background-image: repeating-linear-gradient(135deg, var(--color-accent-mid) 0 2px, transparent 2px 8px);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .copy-ask { transition: background-color 150ms; }
+}

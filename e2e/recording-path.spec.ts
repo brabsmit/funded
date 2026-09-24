@@ -12,10 +12,22 @@ test('recording path: home → Oakridge → four blocks', async ({ page }, info)
   await expect(page).toHaveURL(/\/schools\/oakridge\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Oakridge');
 
-  for (const h of ['Where it is', 'What happens next', 'Who decides', 'Where to engage']) {
+  for (const h of ['The short answer', 'Where it is', 'What happens next', 'Who decides', 'Where to engage', 'What has been asked']) {
     await expect(page.getByRole('heading', { name: new RegExp(h) })).toBeVisible();
   }
   await expect(page.getByText('Next', { exact: true })).toHaveCount(1);
+
+  // Understand: the short answer leads with one countdown, the scale axis and the money picture render.
+  await expect(page.getByTestId('countdown')).toContainText(/\d+ days/);
+  await expect(page.getByRole('img', { name: /From the first question to the planned fix/ })).toBeVisible();
+  await expect(page.getByRole('figure', { name: /Where the money sits/ })).toBeVisible();
+  await expect(page.getByText('Why this track')).toBeVisible();
+
+  // Act: the soonest venue comes first with a closing date, carries a ready-to-say ask, and open questions are marked.
+  const venues = page.getByTestId('engage-item');
+  await expect(venues.first()).toContainText(/Closes|On /);
+  await expect(page.getByTestId('ask').first()).toBeVisible();
+  await expect(page.getByText('Not yet asked')).toHaveCount(2);
   await shot('2-oakridge');
 
   // Source popover opens without JavaScript beyond the platform.

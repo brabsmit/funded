@@ -1,0 +1,4 @@
+"funding_id","need_id","label","amount","parent_id","note","basis","source_id","","","","","","","","","","","","","","","","","",""
+"q4-bond","oakridge-hvac","Question 4: school bond on the Nov 3, 2026 ballot","80000000","","","fact","county-bond-2026","","","","","","","","","","","","","","","","","",""
+"oakridge-refresh","oakridge-hvac","Oakridge Elementary Refresh (HVAC, roofing, flooring, painting)","31000000","q4-bond","","estimate","cip-fy27-36","","","","","","","","","","","","","","","","","",""
+"oakridge-hvac-slice","oakridge-hvac","HVAC replacement","","oakridge-refresh","No APS or County document prices the HVAC work by itself.","interpretation","cip-fy27-36","","","","","","","","","","","","","","","","","",""

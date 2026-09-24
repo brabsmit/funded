@@ -1,26 +1,27 @@
 import { z } from 'astro/zod';
 import type { Row, Problem } from './parse';
-import { Track, School, Source, Stage, Milestone, Engage, Inquiry, Need, SchoolStatus, type TrackT, type SchoolT, type SourceT } from '../../src/schema/records';
+import { Track, School, Source, Stage, Milestone, Engage, Inquiry, Funding, Need, SchoolStatus, type TrackT, type SchoolT, type SourceT } from '../../src/schema/records';
 import { unsourcedClaims } from '../../src/schema/claims';
 
 export type { Problem };
-export type TabName = 'Tracks' | 'Stages' | 'Schools' | 'Needs' | 'Milestones' | 'Engage' | 'Inquiries' | 'Sources';
+export type TabName = 'Tracks' | 'Stages' | 'Schools' | 'Needs' | 'Milestones' | 'Engage' | 'Inquiries' | 'Funding' | 'Sources';
 export type Tabs = Record<TabName, Row[]>;
 
 export const TAB_COLUMNS: Record<TabName, string[]> = {
   Tracks: ['track_id', 'name', 'description', 'routing_rule', 'policy_citation', 'verification', 'verified_by', 'verified_on'],
   Stages: ['stage_id', 'track_id', 'order', 'name', 'decider', 'venue', 'typical_duration', 'basis', 'source_id'],
   Schools: ['school_id', 'name', 'district', 'status', 'notes'],
-  Needs: ['need_id', 'school_id', 'title', 'category', 'summary', 'track_id', 'current_stage_id', 'stage_basis', 'stage_source_id', 'cost', 'cost_basis', 'cost_source_id', 'window', 'window_basis', 'window_source_id'],
+  Needs: ['need_id', 'school_id', 'title', 'category', 'summary', 'track_id', 'current_stage_id', 'stage_basis', 'stage_source_id', 'cost', 'cost_basis', 'cost_source_id', 'window', 'window_basis', 'window_source_id', 'why_track', 'why_track_basis', 'why_track_source_id'],
   Milestones: ['milestone_id', 'need_id', 'date', 'label', 'status', 'decider', 'venue', 'basis', 'source_id'],
-  Engage: ['engage_id', 'need_id', 'venue', 'when', 'how', 'url', 'basis', 'source_id'],
-  Inquiries: ['inquiry_id', 'need_id', 'date', 'to', 'question', 'response_date', 'response_summary', 'status', 'source_id'],
+  Engage: ['engage_id', 'need_id', 'venue', 'when', 'date', 'deadline', 'how', 'ask', 'url', 'basis', 'source_id'],
+  Inquiries: ['inquiry_id', 'need_id', 'date', 'to', 'question', 'why', 'response_date', 'response_summary', 'status', 'source_id'],
+  Funding: ['funding_id', 'need_id', 'label', 'amount', 'parent_id', 'note', 'basis', 'source_id'],
   Sources: ['source_id', 'title', 'publisher', 'url', 'retrieved_on', 'notes'],
 };
 
 const ID_COLUMN: Record<TabName, string> = {
   Tracks: 'track_id', Stages: 'stage_id', Schools: 'school_id', Needs: 'need_id',
-  Milestones: 'milestone_id', Engage: 'engage_id', Inquiries: 'inquiry_id', Sources: 'source_id',
+  Milestones: 'milestone_id', Engage: 'engage_id', Inquiries: 'inquiry_id', Funding: 'funding_id', Sources: 'source_id',
 };
 
 type Indexed = { row: number; data: Row };
@@ -47,6 +48,7 @@ function toRecord(tab: TabName, data: Row, drop: string[] = []): Record<string, 
     if (k === ID_COLUMN[tab]) rec.id = v;
     else if (drop.includes(k)) continue;
     else if (k === 'order') rec.order = Number(v);
+    else if (k === 'amount') rec.amount = /^\d+(\.\d+)?$/.test(v) ? Number(v) : v; // non-numeric text falls through to the schema error
     else rec[k] = v;
   }
   return rec;
@@ -127,6 +129,16 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
   const milestones = byNeed('Milestones', Milestone);
   const engage = byNeed('Engage', Engage);
   const inquiries = byNeed('Inquiries', Inquiry);
+  const funding = byNeed('Funding', Funding);
+  for (const [needId, rows] of funding) {
+    const ids = new Set(rows.map(f => f.id));
+    for (const f of rows) {
+      if (f.parent_id && !ids.has(f.parent_id)) {
+        const row = tabs.Funding.findIndex(r => r.funding_id === f.id) + 2;
+        errors.push({ tab: 'Funding', row, message: `funding "${f.id}": parent_id "${f.parent_id}" is not a funding row of need "${needId}"` });
+      }
+    }
+  }
 
   // Needs grouped by school
   const needsBySchool = new Map<string, Array<Record<string, unknown>>>();
@@ -152,7 +164,8 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
       ...validNeed,
       milestones: ms,
       engage: engage.get(needId) ?? [],
-      inquiries: (inquiries.get(needId) ?? []).sort((a, b) => a.date.localeCompare(b.date)),
+      inquiries: (inquiries.get(needId) ?? []).sort((a, b) => (a.date ?? '9999').localeCompare(b.date ?? '9999')), // undated (open) questions last
+      funding: funding.get(needId) ?? [],
     };
     (needsBySchool.get(data.school_id) ?? needsBySchool.set(data.school_id, []).get(data.school_id)!).push(rec);
     (needRefsBySchool.get(data.school_id) ?? needRefsBySchool.set(data.school_id, []).get(data.school_id)!).push({ row, needId });
@@ -169,6 +182,8 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
       ...(n.milestones as Array<{ source_id?: string }>).map(x => x.source_id),
       ...(n.engage as Array<{ source_id?: string }>).map(x => x.source_id),
       ...(n.inquiries as Array<{ source_id?: string }>).map(x => x.source_id),
+      n.why_track_source_id,
+      ...(n.funding as Array<{ source_id?: string }>).map(x => x.source_id),
     ] as Array<string | undefined>);
     const rec = { ...toRecord('Schools', data), needs, sources: collect(refs) };
     // Validate as draft so referential-integrity errors (unknown source refs, etc.) surface

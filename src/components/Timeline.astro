@@ -1,9 +1,9 @@
 ---
 import type { NeedT, SourceT } from '../schema/records';
 import BasisChip from './BasisChip.astro';
+import { fmtDate as fmt } from '../lib/dates';
 interface Props { need: NeedT; sources: SourceT[] }
 const { need, sources } = Astro.props;
-const fmt = (d: string) => new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 ---
 <ol class="relative border-l-2 border-line pl-6">
   {need.milestones.map(m => (

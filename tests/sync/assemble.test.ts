@@ -113,4 +113,34 @@ describe('assemble', () => {
     expect(m).toContain('Milestones:2 unknown need_id "ghost"');
     expect(m).toContain('Engage:2 unknown need_id "ghost"');
   });
+
+  it('attaches Funding rows to their need with numeric amounts', () => {
+    const r = assemble(goodTabs());
+    expect(r.errors).toEqual([]);
+    const f = r.schools[0].needs[0].funding;
+    expect(f.map(x => x.id)).toEqual(['q4', 'refresh']);
+    expect(f[0].amount).toBe(80_000_000);
+    expect(f[1].parent_id).toBe('q4');
+  });
+
+  it('a Funding row with an unknown parent_id is reported on the Funding tab and row', () => {
+    const t = goodTabs(); t.Funding[1].parent_id = 'ghost';
+    expect(msgs(assemble(t))).toContain('Funding:3 funding "refresh": parent_id "ghost" is not a funding row of need "hvac"');
+  });
+
+  it('a Funding amount that is not a number is reported on its row', () => {
+    const t = goodTabs(); t.Funding[0].amount = '$80M';
+    const r = assemble(t);
+    expect(r.errors.some(e => e.tab === 'Funding' && e.row === 2 && /amount/.test(e.message))).toBe(true);
+  });
+
+  it('open inquiries without a date sort after dated ones', () => {
+    const t = goodTabs();
+    t.Inquiries.unshift({ inquiry_id: 'if-fails', need_id: 'hvac', to: 'APS Facilities', question: 'What if the bond fails?', status: 'open' });
+    t.Inquiries.unshift({ inquiry_id: 'interim', need_id: 'hvac', to: 'Principal', question: 'Interim plan?', status: 'open' });
+    t.Inquiries.push({ inquiry_id: 'mar-call', need_id: 'hvac', date: '2026-03-01', to: 'Principal', question: 'Any plan?', status: 'unanswered' });
+    const r = assemble(t);
+    expect(r.errors).toEqual([]);
+    expect(r.schools[0].needs[0].inquiries.map(q => q.id)).toEqual(['mar-call', 'apr-email', 'interim', 'if-fails']);
+  });
 });

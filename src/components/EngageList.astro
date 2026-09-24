@@ -1,16 +1,43 @@
 ---
 import type { NeedT, SourceT } from '../schema/records';
 import BasisChip from './BasisChip.astro';
-interface Props { need: NeedT; sources: SourceT[] }
-const { need, sources } = Astro.props;
+import { engageOrder } from '../lib/engage';
+import { fmtDate } from '../lib/dates';
+interface Props { need: NeedT; sources: SourceT[]; today: string }
+const { need, sources, today } = Astro.props;
+const items = engageOrder(need.engage, today);
+const when = (e: (typeof items)[number]) => {
+  if (!e.closes || e.daysLeft === undefined) return undefined;
+  if (e.past) return `Passed ${fmtDate(e.closes)}`;
+  const left = e.daysLeft === 0 ? 'today' : e.daysLeft === 1 ? 'tomorrow' : `in ${e.daysLeft} days`;
+  return e.deadline ? `Closes ${fmtDate(e.deadline)}, ${left}` : `On ${fmtDate(e.closes)}, ${left}`;
+};
 ---
-<ul class="grid gap-3 sm:grid-cols-2">
-  {need.engage.map(e => (
-    <li class="rounded-lg border border-line bg-white p-4">
-      <p class="text-lg font-semibold">{e.url ? <a href={e.url} class="underline decoration-line hover:decoration-accent" target="_blank" rel="noopener">{e.venue}</a> : e.venue}</p>
+<ol class="grid gap-3 sm:grid-cols-2">
+  {items.map((e, i) => (
+    <li class:list={['rounded-lg border bg-white p-4', e.past ? 'border-line text-ink-muted' : i === 0 ? 'border-2 border-accent' : 'border-line']} data-testid="engage-item">
+      <div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
+        <p class="text-lg font-semibold">{e.url ? <a href={e.url} class="underline decoration-line hover:decoration-accent" target="_blank" rel="noopener">{e.venue}</a> : e.venue}</p>
+        {when(e) && <span class:list={['rounded px-2 py-0.5 text-[0.7rem] font-bold uppercase tracking-wide', e.past ? 'bg-line text-ink-muted' : e.daysLeft !== undefined && e.daysLeft <= 7 ? 'bg-accent text-white' : 'bg-accent-soft text-accent']}>{when(e)}</span>}
+      </div>
       {e.when && <p class="text-sm text-ink-muted">{e.when}</p>}
       {e.how && <p class="mt-1">{e.how}</p>}
+      {e.ask && (
+        <div class="mt-3 rounded border-l-4 border-accent bg-accent-soft/60 p-3" data-testid="ask">
+          <p class="text-sm text-ink-muted">What to ask</p>
+          <p class="mt-0.5 italic">“{e.ask}”</p>
+          <button type="button" class="copy-ask mt-2 rounded border border-line bg-white px-2 py-0.5 text-sm hover:border-accent" data-ask={e.ask}>Copy this question</button>
+        </div>
+      )}
       <div class="mt-2"><BasisChip basis={e.basis} sourceId={e.source_id} sources={sources} uid={`src-${need.id}-${e.id}`} /></div>
     </li>
   ))}
-</ul>
+</ol>
+<script>
+  for (const b of document.querySelectorAll<HTMLButtonElement>('.copy-ask')) {
+    b.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(b.dataset.ask ?? ''); b.textContent = 'Copied'; setTimeout(() => (b.textContent = 'Copy this question'), 1500); }
+      catch { b.textContent = 'Select and copy the text above'; }
+    });
+  }
+</script>

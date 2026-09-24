@@ -6,10 +6,13 @@ import Timeline from './Timeline.astro';
 import Deciders from './Deciders.astro';
 import EngageList from './EngageList.astro';
 import Inquiries from './Inquiries.astro';
+import ShortAnswer from './ShortAnswer.astro';
+import ScaleAxis from './ScaleAxis.astro';
+import FundingBars from './FundingBars.astro';
 import { href } from '../lib/url';
 import { verificationLabel } from '../lib/labels';
-interface Props { need: NeedT; track: TrackT; sources: SourceT[] }
-const { need, track, sources } = Astro.props;
+interface Props { need: NeedT; track: TrackT; sources: SourceT[]; today: string }
+const { need, track, sources, today } = Astro.props;
 const block = 'mt-10';
 const sectionHeading = 'text-2xl mb-4 flex items-baseline gap-3';
 ---
@@ -19,6 +22,11 @@ const sectionHeading = 'text-2xl mb-4 flex items-baseline gap-3';
     {need.summary && <p class="mt-2 max-w-prose text-ink-muted">{need.summary}</p>}
   </header>
 
+  <section class="mt-6" aria-labelledby={`${need.id}-answer`}>
+    <h3 id={`${need.id}-answer`} class={sectionHeading}>The short answer</h3>
+    <ShortAnswer need={need} track={track} today={today} />
+  </section>
+
   <section class={block} aria-labelledby={`${need.id}-where`}>
     <h3 id={`${need.id}-where`} class={sectionHeading}>Where it is</h3>
     <div class="mb-4 flex items-center gap-3">
@@ -26,11 +34,16 @@ const sectionHeading = 'text-2xl mb-4 flex items-baseline gap-3';
       <BasisChip basis={need.stage_basis} sourceId={need.stage_source_id} sources={sources} uid={`src-${need.id}-stage`} />
     </div>
     <Pipeline need={need} track={track} />
+    {need.why_track && (
+      <p class="mt-5 max-w-prose"><span class="text-ink-muted">Why this track:</span> {need.why_track} <BasisChip basis={need.why_track_basis ?? 'interpretation'} sourceId={need.why_track_source_id} sources={sources} uid={`src-${need.id}-why`} /></p>
+    )}
   </section>
 
   <section class={block} aria-labelledby={`${need.id}-next`}>
     <h3 id={`${need.id}-next`} class={sectionHeading}>What happens next</h3>
     <Timeline need={need} sources={sources} />
+    <ScaleAxis need={need} today={today} />
+    <FundingBars need={need} sources={sources} />
   </section>
 
   <section class={block} aria-labelledby={`${need.id}-who`}>
@@ -41,7 +54,7 @@ const sectionHeading = 'text-2xl mb-4 flex items-baseline gap-3';
 
   <section class={block} aria-labelledby={`${need.id}-engage`}>
     <h3 id={`${need.id}-engage`} class={sectionHeading}>Where to engage</h3>
-    <EngageList need={need} sources={sources} />
+    <EngageList need={need} sources={sources} today={today} />
   </section>
 
   {need.inquiries.length > 0 && (

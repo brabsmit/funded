@@ -19,6 +19,9 @@
       "window": "Summer 2027 to 2029",
       "window_basis": "estimate",
       "window_source_id": "cip-fy27-36",
+      "why_track": "A whole-system HVAC replacement is a capital project: the School Board lists it in the 10-year CIP and funds it through County bonds, so it waits for the bond cycle. We found no dollar cutoff in any APS document that would move it to the faster maintenance (MC/MM) budget.",
+      "why_track_basis": "interpretation",
+      "why_track_source_id": "cip-fy27-36",
       "milestones": [
         {
           "id": "oakridge-cip-adopted",
@@ -73,37 +76,36 @@
       ],
       "engage": [
         {
-          "id": "oakridge-sb-comment",
-          "venue": "School Board meeting public comment",
-          "when": "Regular meetings, generally 7 p.m. at the Syphax Education Center",
-          "how": "Online speaker form opens four business days before and closes 4 p.m. the day before; max 30 speakers x 2 minutes",
-          "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
-          "basis": "requirement",
-          "source_id": "aps-sign-up-to-speak"
-        },
-        {
-          "id": "oakridge-sb-october",
-          "venue": "School Board meetings, Oct 8 and Oct 22, 2026",
-          "when": "Thursdays, 7 p.m., Syphax Education Center, 2110 Washington Blvd",
-          "how": "Sign up to speak: the online form opens four business days before each meeting and closes 4 p.m. the day before",
+          "id": "oakridge-sb-oct8",
+          "venue": "School Board meeting, Oct 8, 2026",
+          "when": "Thursday, 7 p.m., Syphax Education Center, 2110 Washington Blvd",
+          "how": "Sign up to speak: the online form opens Oct 2 (four business days before) and closes Oct 7 at 4 p.m. Two minutes per speaker, first 30 speakers.",
+          "date": "2026-10-08",
+          "deadline": "2026-10-07",
+          "ask": "If Question 4 passes on Nov 3, when does design for the Oakridge HVAC replacement start, and what is the plan for hot classrooms before construction begins in summer 2027?",
           "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
           "basis": "fact",
           "source_id": "aps-sb-meetings-2026-27"
         },
         {
-          "id": "oakridge-vote",
-          "venue": "General election Question 4",
-          "when": "2026-11-03",
-          "how": "Vote on the $80M school bond",
-          "url": "https://www.arlingtonva.us/Government/Programs/Budget-Finance/Bonds/2026-Bond-Referenda",
+          "id": "oakridge-sb-oct22",
+          "venue": "School Board meeting, Oct 22, 2026",
+          "when": "Thursday, 7 p.m., Syphax Education Center, 2110 Washington Blvd",
+          "how": "Sign up to speak: the online form opens Oct 16 and closes Oct 21 at 4 p.m. Two minutes per speaker, first 30 speakers.",
+          "date": "2026-10-22",
+          "deadline": "2026-10-21",
+          "ask": "If Question 4 fails, what happens to the Oakridge Refresh, and would the HVAC replacement move to the maintenance (MC/MM) budget or wait for the next bond?",
+          "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
           "basis": "fact",
-          "source_id": "county-bond-2026"
+          "source_id": "aps-sb-meetings-2026-27"
         },
         {
           "id": "oakridge-ccpta-oct21",
           "venue": "County Council of PTAs (CCPTA) meeting",
           "when": "Wednesday, Oct 21, 2026, 7 p.m., via Zoom",
           "how": "Open to PTA delegates only: ask your school PTA's CCPTA delegate to raise the need",
+          "date": "2026-10-21",
+          "ask": "Which other schools are waiting on the same Nov 3 bond, and can CCPTA ask APS for one written timeline per school?",
           "url": "https://www.arlingtonccpta.org/",
           "basis": "fact",
           "source_id": "ccpta-2026-27"
@@ -111,11 +113,31 @@
         {
           "id": "oakridge-advisory",
           "venue": "APS advisory councils (2026-27)",
-          "when": "Applications through 2026-10-31",
+          "when": "Applications through Oct 31, 2026",
           "how": "Apply to a new advisory council",
+          "deadline": "2026-10-31",
           "url": "https://www.apsva.us/post/september-schedule-of-board-meetings-work-sessions-and-advisory-council-and-committee-meetings-4/",
           "basis": "fact",
           "source_id": "aps-sept-2026-schedule"
+        },
+        {
+          "id": "oakridge-vote",
+          "venue": "General election, Question 4",
+          "when": "Tuesday, Nov 3, 2026",
+          "how": "Vote on the $80M school bond. Question 4 names the Oakridge Refresh.",
+          "date": "2026-11-03",
+          "url": "https://www.arlingtonva.us/Government/Programs/Budget-Finance/Bonds/2026-Bond-Referenda",
+          "basis": "fact",
+          "source_id": "county-bond-2026"
+        },
+        {
+          "id": "oakridge-sb-comment",
+          "venue": "School Board meeting public comment (any meeting)",
+          "when": "Regular meetings, generally 7 p.m. at the Syphax Education Center",
+          "how": "Online speaker form opens four business days before and closes 4 p.m. the day before; max 30 speakers x 2 minutes",
+          "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
+          "basis": "requirement",
+          "source_id": "aps-sign-up-to-speak"
         }
       ],
       "inquiries": [
@@ -128,6 +150,47 @@
           "response_summary": "Copied the school principal, who will work closely to monitor the situation.",
           "status": "partial",
           "source_id": "email-2026-04"
+        },
+        {
+          "id": "q-if-bond-fails",
+          "to": "APS Facilities and Operations",
+          "question": "If Question 4 fails on Nov 3, what happens to the Oakridge Refresh, and does the HVAC replacement move to the maintenance budget?",
+          "why": "No document says. The County notes the School Board may reallocate bond funds among CIP projects, and nothing names Oakridge either way.",
+          "status": "open",
+          "source_id": "county-bond-2026"
+        },
+        {
+          "id": "q-interim-plan",
+          "to": "Oakridge principal and APS Facilities",
+          "question": "What is the interim plan for hot classrooms between now and the summer 2027 construction start?",
+          "why": "The April 2026 email asked this for one spring. The reply named who would monitor, not what would be done.",
+          "status": "open",
+          "source_id": "email-2026-04"
+        }
+      ],
+      "funding": [
+        {
+          "id": "q4-bond",
+          "label": "Question 4: school bond on the Nov 3, 2026 ballot",
+          "amount": 80000000,
+          "basis": "fact",
+          "source_id": "county-bond-2026"
+        },
+        {
+          "id": "oakridge-refresh",
+          "label": "Oakridge Elementary Refresh (HVAC, roofing, flooring, painting)",
+          "amount": 31000000,
+          "parent_id": "q4-bond",
+          "basis": "estimate",
+          "source_id": "cip-fy27-36"
+        },
+        {
+          "id": "oakridge-hvac-slice",
+          "label": "HVAC replacement",
+          "parent_id": "oakridge-refresh",
+          "note": "No APS or County document prices the HVAC work by itself.",
+          "basis": "interpretation",
+          "source_id": "cip-fy27-36"
         }
       ]
     }
@@ -148,13 +211,6 @@
       "url": "https://www.apsva.us/wp-content/uploads/sites/57/2026/08/APS-FY2027-36-CIP-REPORT-FINAL.pdf",
       "retrieved_on": "2026-09-24",
       "notes": "Adopted June 18 2026; report dated August 2026; Appendix C funding timeline is an image (not read)"
-    },
-    {
-      "id": "aps-sign-up-to-speak",
-      "title": "Speak at a School Board Meeting",
-      "publisher": "Arlington Public Schools",
-      "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
-      "retrieved_on": "2026-09-24"
     },
     {
       "id": "aps-sb-meetings-2026-27",
@@ -179,6 +235,13 @@
       "url": "https://www.apsva.us/post/september-schedule-of-board-meetings-work-sessions-and-advisory-council-and-committee-meetings-4/",
       "retrieved_on": "2026-09-24",
       "notes": "Posted Sep 2 2026"
+    },
+    {
+      "id": "aps-sign-up-to-speak",
+      "title": "Speak at a School Board Meeting",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
+      "retrieved_on": "2026-09-24"
     },
     {
       "id": "email-2026-04",

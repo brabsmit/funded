@@ -1,0 +1,41 @@
+---
+import type { NeedT, TrackT } from '../schema/records';
+import { shortAnswer } from '../lib/answer';
+import { fmtDate } from '../lib/dates';
+interface Props { need: NeedT; track: TrackT; today: string }
+const { need, track, today } = Astro.props;
+const a = shortAnswer(need, track, today);
+const dt = 'text-sm text-ink-muted';
+const dd = 'mt-0.5 text-lg leading-snug';
+const finishYear = a.finish?.date.slice(0, 4);
+---
+<div class="grid gap-6 rounded-lg border-2 border-accent bg-white p-5 md:grid-cols-[1fr_auto] md:gap-10">
+  <dl class="space-y-4">
+    <div>
+      <dt class={dt}>Where it stands</dt>
+      <dd class={dd}><strong>{a.stage.name}.</strong> {a.next.label}</dd>
+    </div>
+    <div>
+      <dt class={dt}>Who decides next</dt>
+      <dd class={dd}><strong>{a.next.decider ?? a.stage.decider}</strong>{a.after && <>, then <strong>{a.after.decider}</strong> ({a.after.name.toLowerCase()})</>}</dd>
+    </div>
+    <div>
+      <dt class={dt}>Your next move</dt>
+      <dd class={dd}>
+        {a.move ? (
+          <>
+            {a.move.url ? <a href={`#${need.id}-engage`} class="underline decoration-line hover:decoration-accent">{a.move.venue}</a> : a.move.venue}
+            {a.move.closes && <span class="text-ink-muted"> · {a.move.deadline ? 'sign-up closes' : 'on'} {fmtDate(a.move.closes)}{a.move.daysLeft !== undefined && a.move.daysLeft >= 0 && `, ${a.move.daysLeft === 0 ? 'today' : `${a.move.daysLeft} days`}`}</span>}
+          </>
+        ) : 'No dated venue is open right now. Public comment at any School Board meeting still applies.'}
+      </dd>
+    </div>
+  </dl>
+  <div class="figure border-t border-line pt-4 md:min-w-[14rem] md:border-l md:border-t-0 md:pl-8 md:pt-0" data-testid="countdown">
+    <p class="text-5xl font-semibold leading-none tracking-tight">{a.next.daysLeft < 0 ? 'Passed' : a.next.daysLeft === 0 ? 'Today' : <>{a.next.daysLeft} <span class="text-2xl font-normal">days</span></>}</p>
+    <p class="mt-2 text-sm text-ink-muted">until {a.next.decider ? `${a.next.decider} decide` : 'the next decision'}, {fmtDate(a.next.date)}</p>
+    {a.finish && (
+      <p class="mt-4 border-t border-line pt-3 text-sm text-ink-muted">Fix scheduled to finish in <strong class="text-ink">{finishYear}</strong>, about {a.finish.yearsLeft} years out</p>
+    )}
+  </div>
+</div>

@@ -1,0 +1,37 @@
+---
+import type { NeedT, SourceT } from '../schema/records';
+import BasisChip from './BasisChip.astro';
+import { fundingTree, fmtMoney, type FundingNode } from '../lib/funding';
+interface Props { need: NeedT; sources: SourceT[] }
+const { need, sources } = Astro.props;
+const roots = fundingTree(need.funding);
+const flat: Array<FundingNode & { width: number; ofParent?: string }> = [];
+const walk = (n: FundingNode, parentWidth: number, parent?: FundingNode) => {
+  const width = n.share !== undefined ? parentWidth * n.share : parentWidth;
+  flat.push({ ...n, width, ofParent: n.share !== undefined && parent ? `${Math.round(n.share * 100)}% of ${parent.label.split(':')[0]}` : undefined });
+  n.children.forEach(c => walk(c, width, n));
+};
+roots.forEach(r => walk(r, 100));
+const fill = ['bg-accent-faint', 'bg-accent', 'hatch'];
+---
+{flat.length > 0 && (
+  <figure class="figure mt-6 rounded-lg border border-line bg-white p-5" aria-label="Where the money sits">
+    <figcaption class="text-lg">Where the money sits</figcaption>
+    <ol class="mt-4 space-y-4">
+      {flat.map(f => (
+        <li style={`padding-left: ${f.depth * 1.25}rem`}>
+          <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm">
+            <span class="text-xl font-semibold">{f.amount !== undefined ? fmtMoney(f.amount) : 'Not priced'}</span>
+            <span>{f.label}</span>
+            {f.ofParent && <span class="text-ink-muted">{f.ofParent}</span>}
+            <BasisChip basis={f.basis} sourceId={f.source_id} sources={sources} uid={`src-${need.id}-funding-${f.id}`} />
+          </div>
+          <div class="mt-1.5 h-5 w-full">
+            <div class:list={['h-5 rounded-r', fill[Math.min(f.depth, fill.length - 1)]]} style={`width: ${Math.max(f.width, 2)}%`}></div>
+          </div>
+          {f.note && <p class="mt-1 text-sm text-ink-muted">{f.note}</p>}
+        </li>
+      ))}
+    </ol>
+  </figure>
+)}
