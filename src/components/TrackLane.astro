@@ -1,14 +1,14 @@
 ---
 import type { TrackT } from '../schema/records';
 import BasisChip from './BasisChip.astro';
+import { verificationLabel } from '../lib/labels';
 interface Props { track: TrackT }
 const { track } = Astro.props;
-const vlabel = { draft: 'Draft', documented: 'Documented, not yet confirmed', confirmed: 'Confirmed with APS' } as const;
 ---
 <section id={track.id} class="rounded-lg border border-line bg-white p-5">
   <header class="flex flex-wrap items-baseline justify-between gap-2">
     <h2 class="text-2xl">{track.name}</h2>
-    <span class:list={['rounded px-2 py-0.5 text-[0.7rem] font-bold uppercase tracking-wide', track.verification === 'confirmed' ? 'bg-done text-white' : 'bg-draft-soft text-draft']}>{vlabel[track.verification]}</span>
+    <span class:list={['rounded px-2 py-0.5 text-[0.7rem] font-bold uppercase tracking-wide', track.verification === 'confirmed' ? 'bg-done text-white' : 'bg-draft-soft text-draft']}>{verificationLabel[track.verification]}</span>
   </header>
   <p class="mt-2 text-ink-muted">{track.description}</p>
   <dl class="mt-3 text-sm">
