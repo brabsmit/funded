@@ -1,0 +1,44 @@
+---
+import type { NeedT, TrackT, SourceT } from '../schema/records';
+import BasisChip from './BasisChip.astro';
+import Pipeline from './Pipeline.astro';
+import Timeline from './Timeline.astro';
+import Deciders from './Deciders.astro';
+import EngageList from './EngageList.astro';
+import { href } from '../lib/url';
+interface Props { need: NeedT; track: TrackT; sources: SourceT[] }
+const { need, track, sources } = Astro.props;
+const block = 'mt-10';
+const h2 = 'text-2xl mb-4 flex items-baseline gap-3';
+---
+<article id={need.id} class="mt-6">
+  <header>
+    <h2 class="text-3xl">{need.title}</h2>
+    {need.summary && <p class="mt-2 max-w-prose text-ink-muted">{need.summary}</p>}
+  </header>
+
+  <section class={block} aria-labelledby={`${need.id}-where`}>
+    <h2 id={`${need.id}-where`} class={h2}>
+      <span>Where it is</span>
+      <a href={href(`/tracks/#${track.id}`)} class="rounded bg-accent-soft px-2 py-0.5 text-sm font-semibold text-accent">{track.name}</a>
+      <BasisChip basis={need.stage_basis} sourceId={need.stage_source_id} sources={sources} uid={`src-${need.id}-stage`} />
+    </h2>
+    <Pipeline need={need} track={track} />
+  </section>
+
+  <section class={block} aria-labelledby={`${need.id}-next`}>
+    <h2 id={`${need.id}-next`} class={h2}>What happens next</h2>
+    <Timeline need={need} sources={sources} />
+  </section>
+
+  <section class={block} aria-labelledby={`${need.id}-who`}>
+    <h2 id={`${need.id}-who`} class={h2}>Who decides</h2>
+    <Deciders need={need} track={track} />
+    <p class="mt-2 text-sm text-ink-muted">From the <a href={href(`/tracks/#${track.id}`)} class="underline">{track.name}</a> track, verification: {track.verification}.</p>
+  </section>
+
+  <section class={block} aria-labelledby={`${need.id}-engage`}>
+    <h2 id={`${need.id}-engage`} class={h2}>Where to engage</h2>
+    <EngageList need={need} sources={sources} />
+  </section>
+</article>

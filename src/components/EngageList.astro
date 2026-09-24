@@ -1,0 +1,16 @@
+---
+import type { NeedT, SourceT } from '../schema/records';
+import BasisChip from './BasisChip.astro';
+interface Props { need: NeedT; sources: SourceT[] }
+const { need, sources } = Astro.props;
+---
+<ul class="grid gap-3 sm:grid-cols-2">
+  {need.engage.map(e => (
+    <li class="rounded-lg border border-line bg-white p-4">
+      <p class="text-lg font-semibold">{e.url ? <a href={e.url} class="underline decoration-line hover:decoration-accent" target="_blank" rel="noopener">{e.venue}</a> : e.venue}</p>
+      {e.when && <p class="text-sm text-ink-muted">{e.when}</p>}
+      {e.how && <p class="mt-1">{e.how}</p>}
+      <div class="mt-2"><BasisChip basis={e.basis} sourceId={e.source_id} sources={sources} uid={`src-${need.id}-${e.id}`} /></div>
+    </li>
+  ))}
+</ul>

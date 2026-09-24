@@ -1,0 +1,27 @@
+---
+import type { NeedT, SourceT } from '../schema/records';
+import BasisChip from './BasisChip.astro';
+interface Props { need: NeedT; sources: SourceT[] }
+const { need, sources } = Astro.props;
+const fmt = (d: string) => new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+---
+<ol class="relative border-l-2 border-line pl-6">
+  {need.milestones.map(m => (
+    <li class:list={['relative mb-5', { 'rounded-lg border-2 border-accent bg-accent-soft p-4 -ml-6 pl-6': m.status === 'next' }]}>
+      <span class:list={['absolute -left-[0.95rem] top-1.5 h-4 w-4 rounded-full border-2 border-paper', { 'bg-done': m.status === 'done', 'bg-accent': m.status === 'next', 'bg-later': m.status === 'later' }]} aria-hidden="true" />
+      <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <span class="text-sm text-ink-muted">{fmt(m.date)}</span>
+        {m.status === 'next' && <span class="rounded bg-accent px-2 py-0.5 text-[0.7rem] font-bold uppercase tracking-wide text-white">Next</span>}
+        <BasisChip basis={m.basis} sourceId={m.source_id} sources={sources} uid={`src-${need.id}-${m.id}`} />
+      </div>
+      <p class:list={['mt-1', { 'text-xl font-semibold': m.status === 'next' }]}>{m.label}</p>
+      {(m.decider || m.venue) && <p class="text-sm text-ink-muted">{[m.decider, m.venue].filter(Boolean).join(' · ')}</p>}
+      {m.status === 'next' && (need.cost || need.window) && (
+        <dl class="mt-3 flex flex-wrap gap-x-8 gap-y-2">
+          {need.cost && <div><dt class="text-[0.7rem] uppercase tracking-wide text-ink-muted">Cost</dt><dd class="text-lg font-semibold">{need.cost} <BasisChip basis={need.cost_basis ?? 'interpretation'} sourceId={need.cost_source_id} sources={sources} uid={`src-${need.id}-cost`} /></dd></div>}
+          {need.window && <div><dt class="text-[0.7rem] uppercase tracking-wide text-ink-muted">Window</dt><dd class="text-lg font-semibold">{need.window} <BasisChip basis={need.window_basis ?? 'interpretation'} sourceId={need.window_source_id} sources={sources} uid={`src-${need.id}-window`} /></dd></div>}
+        </dl>
+      )}
+    </li>
+  ))}
+</ol>

@@ -1,0 +1,17 @@
+---
+import type { NeedT, TrackT } from '../schema/records';
+import { stagesFor } from '../lib/need';
+interface Props { need: NeedT; track: TrackT }
+const stages = stagesFor(Astro.props.need, Astro.props.track);
+---
+<ol class="grid gap-2" style={`grid-template-columns: repeat(${stages.length}, minmax(0, 1fr));`} aria-label="Pipeline stages">
+  {stages.map((s, i) => (
+    <li class="flex flex-col gap-2">
+      <div class:list={['h-3 rounded-full', { 'bg-done': s.state === 'done', 'bg-accent': s.state === 'current', 'bg-later/40': s.state === 'later' }]} />
+      <div class:list={['text-sm leading-tight', { 'font-semibold text-ink': s.state === 'current', 'text-ink-muted': s.state !== 'current' }]}>
+        <span class="block text-[0.7rem] uppercase tracking-wide">{s.state === 'current' ? 'Now' : s.state === 'done' ? 'Done' : `Step ${i + 1}`}</span>
+        {s.name}
+      </div>
+    </li>
+  ))}
+</ol>

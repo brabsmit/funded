@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import DraftBanner from '../../components/DraftBanner.astro';
+import NeedSection from '../../components/NeedSection.astro';
+
+export async function getStaticPaths() {
+  const schools = await getCollection('schools');
+  return schools.map(s => ({ params: { id: s.data.id }, props: { school: s.data } }));
+}
+const { school } = Astro.props;
+const tracks = (await getCollection('tracks')).map(t => t.data);
+const trackById = new Map(tracks.map(t => [t.id, t]));
+---
+<Base title={school.name}>
+  <p class="text-sm text-ink-muted">{school.district}</p>
+  <h1 class="text-4xl">{school.name}</h1>
+  <div class="mt-6"><DraftBanner tracks={tracks} /></div>
+  {school.needs.map(need => {
+    const track = trackById.get(need.track_id);
+    if (!track) throw new Error(`school ${school.id}: need ${need.id} references unknown track ${need.track_id}`);
+    return <NeedSection need={need} track={track} sources={school.sources} />;
+  })}
+</Base>

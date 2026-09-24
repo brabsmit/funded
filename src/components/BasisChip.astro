@@ -1,0 +1,20 @@
+---
+import type { BasisT, SourceT } from '../schema/records';
+interface Props { basis: BasisT; sourceId?: string; sources: SourceT[]; uid: string }
+const { basis, sourceId, sources, uid } = Astro.props;
+const src = sourceId ? sources.find(s => s.id === sourceId) : undefined;
+---
+{src ? (
+  <>
+    <button type="button" popovertarget={uid} class="chip cursor-help" aria-label={`${basis}; source: ${src.title}`}>{basis} <span aria-hidden="true">ⓘ</span></button>
+    <div id={uid} popover class="max-w-sm rounded-lg border border-line bg-white p-4 text-sm shadow-lg">
+      <p class="font-semibold">{src.title}</p>
+      {src.publisher && <p class="text-ink-muted">{src.publisher}</p>}
+      {src.retrieved_on && <p class="text-ink-muted">Retrieved {src.retrieved_on}</p>}
+      {src.url && <p class="mt-2"><a href={src.url} class="text-accent underline" target="_blank" rel="noopener">Open source ↗</a></p>}
+      {src.notes && <p class="mt-2">{src.notes}</p>}
+    </div>
+  </>
+) : (
+  <span class="chip chip-unsourced" title="No source recorded for this claim">{basis} · unsourced</span>
+)}

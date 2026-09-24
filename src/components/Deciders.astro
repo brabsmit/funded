@@ -1,0 +1,18 @@
+---
+import type { NeedT, TrackT } from '../schema/records';
+import { decidersFor } from '../lib/need';
+interface Props { need: NeedT; track: TrackT }
+const { current, next } = decidersFor(Astro.props.need, Astro.props.track);
+const cell = (label: string, s: typeof current) => ({ label, s });
+const cells = [cell('Decides the current step', current), ...(next ? [cell('Decides the next step', next)] : [])];
+---
+<div class="grid gap-4 sm:grid-cols-2">
+  {cells.map(({ label, s }) => (
+    <div class="rounded-lg border border-line bg-white p-4">
+      <p class="text-[0.7rem] uppercase tracking-wide text-ink-muted">{label}</p>
+      <p class="mt-1 text-xl font-semibold">{s.decider}</p>
+      <p class="text-ink-muted">{s.name}{s.venue ? ` · ${s.venue}` : ''}</p>
+      {s.typical_duration && <p class="mt-2 text-sm text-ink-muted">Typically {s.typical_duration}</p>}
+    </div>
+  ))}
+</div>
