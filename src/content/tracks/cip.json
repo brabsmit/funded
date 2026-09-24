@@ -48,7 +48,6 @@
       "name": "Bond referendum",
       "decider": "Arlington voters",
       "venue": "General election",
-      "typical_duration": "1 day",
       "basis": "fact",
       "source_id": "county-bond-2026"
     },
@@ -56,8 +55,8 @@
       "id": "cip-design",
       "order": 6,
       "name": "Project development and design",
-      "decider": "School Board approves at milestones",
-      "venue": "School Board meetings",
+      "decider": "School Board",
+      "venue": "School Board meetings (approves at design milestones)",
       "basis": "estimate",
       "source_id": "cip-fy27-36"
     },
@@ -67,7 +66,6 @@
       "name": "Construction",
       "decider": "APS Facilities and Operations",
       "venue": "Site",
-      "typical_duration": "Summer 2027 to 2029 for Oakridge",
       "basis": "estimate",
       "source_id": "cip-fy27-36"
     }

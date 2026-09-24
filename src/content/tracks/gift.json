@@ -37,7 +37,7 @@
       "id": "gift-mou",
       "order": 4,
       "name": "MOU (>= $15,000) or acceptance letter (< $15,000) (2025 draft policy)",
-      "decider": "School Board or Superintendent; principal for < $15000",
+      "decider": "School Board or Superintendent; principal for < $15,000",
       "basis": "requirement",
       "source_id": "policy-d15-draft-2025"
     }
