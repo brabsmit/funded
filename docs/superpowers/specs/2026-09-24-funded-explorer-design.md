@@ -31,7 +31,7 @@ One Google Sheet in the project's Drive folder, beside the project tracker. Tabs
 | `Tracks` | funding/approval track | `track_id`, `name`, `description`, `routing_rule`, `policy_citation`, `verification` (draft / documented / confirmed), `verified_by`, `verified_on` |
 | `Stages` | stage within a track | `stage_id`, `track_id`, `order`, `name`, `decider`, `venue`, `typical_duration`, `basis`, `source_id` |
 | `Schools` | school | `school_id`, `name`, `district`, `status` (live / draft), `notes` |
-| `Needs` | facility need | `need_id`, `school_id`, `title`, `category`, `summary`, `track_id`, `current_stage_id`, `cost`, `cost_basis`, `cost_source_id`, `window`, `window_basis`, `window_source_id` |
+| `Needs` | facility need | `need_id`, `school_id`, `title`, `category`, `summary`, `track_id`, `current_stage_id`, `stage_basis`, `stage_source_id`, `cost`, `cost_basis`, `cost_source_id`, `window`, `window_basis`, `window_source_id` |
 | `Milestones` | dated step for a need | `milestone_id`, `need_id`, `date`, `label`, `status` (done / next / later), `decider`, `venue`, `basis`, `source_id` |
 | `Engage` | venue a person can act in | `engage_id`, `need_id`, `venue`, `when`, `how`, `url`, `source_id` |
 | `Inquiries` | question asked of an authority | `inquiry_id`, `need_id`, `date`, `to`, `question`, `response_date`, `response_summary`, `status` (answered / partial / unanswered), `source_id` |
@@ -50,7 +50,7 @@ Zod schemas in `src/schema/` are the single definition of a valid record. Both A
 
 ### Claims and provenance
 
-A "claim" is any user-facing statement of fact about a need: cost, window, a milestone date, a decider, a stage. Each carries:
+A "claim" is any user-facing statement of fact about a need. The enumerated set, which is what the build rule checks, is: the need's current stage, cost, and window; every milestone; and every engagement venue. Track stages (decider, venue, duration) are claims on the track and are covered by the track's verification status rather than per-claim sourcing. Each claim carries:
 
 - `basis`: `fact` | `requirement` | `estimate` | `interpretation`
 - `source_id`: reference into the school's sources list, or empty
