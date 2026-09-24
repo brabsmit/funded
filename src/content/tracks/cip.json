@@ -1,0 +1,45 @@
+{
+  "id": "cip",
+  "name": "Capital (CIP)",
+  "description": "Bond-funded capital projects",
+  "routing_rule": "Major renovations and new construction",
+  "policy_citation": "CIP FY2027-36",
+  "verification": "draft",
+  "stages": [
+    {
+      "id": "cip-plan",
+      "order": 1,
+      "name": "In the CIP",
+      "decider": "School Board",
+      "venue": "CIP adoption",
+      "basis": "requirement",
+      "source_id": "cip-2027"
+    },
+    {
+      "id": "cip-funding",
+      "order": 2,
+      "name": "Bond funding",
+      "decider": "Voters",
+      "venue": "Bond referendum",
+      "basis": "requirement",
+      "source_id": "cip-2027"
+    },
+    {
+      "id": "cip-design",
+      "order": 3,
+      "name": "Design",
+      "decider": "Facilities & Operations",
+      "basis": "requirement",
+      "source_id": "cip-2027"
+    }
+  ],
+  "sources": [
+    {
+      "id": "cip-2027",
+      "title": "APS CIP FY2027-2036",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/cip",
+      "retrieved_on": "2026-09-24"
+    }
+  ]
+}

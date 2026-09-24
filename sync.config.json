@@ -1,0 +1,8 @@
+{
+  "publishedCsvBase": "",
+  "gids": {
+    "Tracks": 0, "Stages": 0, "Schools": 0, "Needs": 0,
+    "Milestones": 0, "Engage": 0, "Inquiries": 0, "Sources": 0
+  },
+  "_how": "File > Share > Publish to web > Entire document as CSV. Paste the URL up to and including /pub into publishedCsvBase. Each tab's gid is the number after #gid= in the browser URL when that tab is selected."
+}

@@ -1,0 +1,4 @@
+stage_id,track_id,order,name,decider,venue,typical_duration,basis,source_id
+cip-plan,cip,1,In the CIP,School Board,CIP adoption,,requirement,cip-2027
+cip-funding,cip,2,Bond funding,Voters,Bond referendum,,requirement,cip-2027
+cip-design,cip,3,Design,Facilities & Operations,,,requirement,cip-2027

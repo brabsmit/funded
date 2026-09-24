@@ -1,0 +1,73 @@
+{
+  "id": "oakridge",
+  "name": "Oakridge Elementary",
+  "district": "Arlington Public Schools",
+  "status": "live",
+  "needs": [
+    {
+      "id": "hvac",
+      "title": "HVAC replacement",
+      "track_id": "cip",
+      "current_stage_id": "cip-funding",
+      "stage_basis": "fact",
+      "stage_source_id": "cip-2027",
+      "cost": "$31M",
+      "cost_basis": "estimate",
+      "cost_source_id": "cip-2027",
+      "window": "Summer 2027-2029",
+      "window_basis": "estimate",
+      "window_source_id": "cip-2027",
+      "milestones": [
+        {
+          "id": "cip-adopted",
+          "date": "2026-06-18",
+          "label": "CIP adopted",
+          "status": "done",
+          "decider": "School Board",
+          "basis": "fact",
+          "source_id": "cip-2027"
+        },
+        {
+          "id": "bond",
+          "date": "2026-11-03",
+          "label": "Bond referendum",
+          "status": "next",
+          "decider": "Voters",
+          "basis": "fact",
+          "source_id": "cip-2027"
+        }
+      ],
+      "engage": [
+        {
+          "id": "board",
+          "venue": "School Board meeting",
+          "when": "Twice monthly",
+          "how": "Sign up for public comment",
+          "url": "https://www.apsva.us/school-board-meetings/",
+          "basis": "fact",
+          "source_id": "cip-2027"
+        }
+      ],
+      "inquiries": [
+        {
+          "id": "apr-email",
+          "date": "2026-04-15",
+          "to": "Superintendent",
+          "question": "What is the plan for the next two months?",
+          "response_date": "2026-04-16",
+          "response_summary": "Copied the principal to monitor.",
+          "status": "partial"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "cip-2027",
+      "title": "APS CIP FY2027-2036",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/cip",
+      "retrieved_on": "2026-09-24"
+    }
+  ]
+}
