@@ -7,8 +7,8 @@ const fmt = (d: string) => new Date(d + 'T00:00:00').toLocaleDateString('en-US',
 ---
 <ol class="relative border-l-2 border-line pl-6">
   {need.milestones.map(m => (
-    <li class:list={['relative mb-5', { 'rounded-lg border-2 border-accent bg-accent-soft p-4 -ml-6 pl-6': m.status === 'next' }]}>
-      <span class:list={['absolute -left-[0.95rem] top-1.5 h-4 w-4 rounded-full border-2 border-paper', { 'bg-done': m.status === 'done', 'bg-accent': m.status === 'next', 'bg-later': m.status === 'later' }]} aria-hidden="true" />
+    <li class:list={['relative mb-5 border-2', { 'rounded-lg border-accent bg-accent-soft p-4': m.status === 'next', 'border-transparent': m.status !== 'next' }]}>
+      <span class:list={['absolute -left-[2.15rem] top-1.5 h-4 w-4 rounded-full border-2 border-paper', { 'bg-done': m.status === 'done', 'bg-accent': m.status === 'next', 'bg-later': m.status === 'later' }]} aria-hidden="true" />
       <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <span class="text-sm text-ink-muted">{fmt(m.date)}</span>
         {m.status === 'next' && <span class="rounded bg-accent px-2 py-0.5 text-[0.7rem] font-bold uppercase tracking-wide text-white">Next</span>}
