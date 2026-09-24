@@ -7,7 +7,7 @@ const src = sourceId ? sources.find(s => s.id === sourceId) : undefined;
 {src ? (
   <>
     <button type="button" popovertarget={uid} class="chip cursor-help" aria-label={`${basis}; source: ${src.title}`}>{basis} <span aria-hidden="true">ⓘ</span></button>
-    <div id={uid} popover class="max-w-sm rounded-lg border border-line bg-white p-4 text-sm shadow-lg">
+    <div id={uid} popover class="m-auto max-w-sm rounded-lg border border-line bg-white p-4 text-sm shadow-lg">
       <p class="font-semibold">{src.title}</p>
       {src.publisher && <p class="text-ink-muted">{src.publisher}</p>}
       {src.retrieved_on && <p class="text-ink-muted">Retrieved {src.retrieved_on}</p>}

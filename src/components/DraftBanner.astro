@@ -10,7 +10,7 @@ const { isDraft, unconfirmed } = draftState(Astro.props.tracks);
     <span class="stamp">Draft</span>
     <p class="max-w-prose text-sm">
       Who-decides information is our best current reading of APS policy and has not yet been confirmed by an APS contact
-      for {unconfirmed.length} of {Astro.props.tracks.length} tracks. We are confirming it as part of this project.
+      for {unconfirmed.length} of {Astro.props.tracks.length} tracks. We are confirming it as part of this project.{' '}
       <a href={href('/tracks/')} class="underline">See what is verified.</a>
     </p>
   </aside>
