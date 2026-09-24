@@ -3,7 +3,7 @@
   "name": "Capital Improvement Plan",
   "description": "10-year School Board plan funding major facility investments largely through County GO bonds",
   "routing_rule": "Large building-system projects the School Board lists in the adopted CIP (Oakridge is here)",
-  "policy_citation": "APS Policy F-1 Capital Improvement Plan; Va. Code 15.2-2640 for bond request",
+  "policy_citation": "Va. Code § 15.2-2640 (bond referendum request); adopted FY2027-36 CIP",
   "verification": "documented",
   "stages": [
     {
@@ -12,7 +12,6 @@
       "name": "CIP direction",
       "decider": "School Board",
       "venue": "School Board meeting",
-      "typical_duration": "about 3 months (Sep-Dec 2025)",
       "basis": "fact",
       "source_id": "cip-fy27-36"
     },
@@ -22,7 +21,6 @@
       "name": "Superintendent's proposed CIP",
       "decider": "Superintendent",
       "venue": "School Board meeting information item",
-      "typical_duration": "1 meeting",
       "basis": "fact",
       "source_id": "cip-fy27-36"
     },
@@ -32,7 +30,6 @@
       "name": "CIP adoption and bond request",
       "decider": "School Board",
       "venue": "School Board meeting (vote)",
-      "typical_duration": "about 1 month after proposal",
       "basis": "fact",
       "source_id": "cip-fy27-36"
     },
@@ -61,7 +58,6 @@
       "name": "Project development and design",
       "decider": "School Board approves at milestones",
       "venue": "School Board meetings",
-      "typical_duration": "6-12 months development then 6-9 months per design phase",
       "basis": "estimate",
       "source_id": "cip-fy27-36"
     },

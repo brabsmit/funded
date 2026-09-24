@@ -1,14 +1,15 @@
 # Oakridge research notes — handoff to Authority Mapping
 
-Source: `.superpowers/sdd/2026-09-24-funded-explorer/oakridge-research.md` (retrieved 2026-09-24).
+Full source quotes are in the team's working notes; ask Bryan. (Retrieved 2026-09-24.)
 
 ## $31M scope correction
 The CIP prints $31M only in the bond-project list, for the whole "Refresh" (HVAC, roofing,
 flooring, painting) — not HVAC alone: "Oakridge Elementary Refresh Project (HVAC, roofing,
 flooring, painting) - $31M" (`cip-fy27-36`, Executive Summary). No document prices HVAC by
 itself. `Needs.cost` is written as `$31M (whole Refresh: HVAC, roofing, flooring, painting)`
-so the on-screen callout can't imply $31M is the HVAC cost. If other site copy says "$31M
-HVAC project," fix that copy too.
+so the on-screen callout can't imply $31M is the HVAC cost. The pitch-video script's
+on-screen callout in segment 5 currently says "$31M" for the HVAC fix and must change to
+reflect the Refresh scope.
 
 ## "Contingent on the bond" is our interpretation
 Oakridge Refresh is named inside Question 4 ($80M) on the Nov 3 2026 ballot
@@ -39,19 +40,20 @@ treated Nov 4 as a typo and used Nov 3 everywhere (sourced to `county-bond-2026`
 
 ## Milestone date conventions
 CIP gives only season/year for two dates: "Summer 2027" (construction start) → written as
-`2027-06-01`; "2029" (completion) → written as `2029-01-01`. Both first-day-of-period by our
-convention, both `basis: estimate`. The two "done" milestones (CIP adoption 2026-06-18,
-County CIP adoption 2026-07-21) are exact dates as printed, `basis: fact`.
+`2027-06-01`; "2029" (completion) → written as `2029-01-01`, first-day-of-period by our
+convention, both `basis: estimate`. The actual end could fall anywhere in 2029, not
+necessarily January. The two "done" milestones (CIP adoption 2026-06-18, County CIP adoption
+2026-07-21) are exact dates as printed, `basis: fact`.
 
 ## Not reached
 CCPTA (Oakridge PTA) page; APS Facilities & Operations contact page/form; BoardDocs agenda
 pages for the Sep 24 2026 Board meeting and Sep 29 2026 work sessions (only the September
-schedule post was read); the County Board resolution date that put Question 4 on the ballot
-(only the July 21 2026 County CIP adoption date was found); CIP Appendix C funding timeline
-(image, not text-extracted).
+schedule post was read); the County Board resolution date for Question 4 (only the July 21
+2026 County CIP adoption date was found); CIP Appendix C funding timeline (image, not
+extracted); the Superintendent's proposed-CIP presentation (H-4, May 14 2026), HTTP 403.
 
 ## Sync result
 `npm run sync:local` at `Schools.oakridge.status = live`: zero warnings, zero errors. Every
 claim (stage, cost, window, each milestone, each engage row) has a `source_id`. One
-`Inquiries` row (`email-2026-04-15`, source `email-2026-04`) — no second row exists because
-no follow-up was actually sent.
+`Inquiries` row (`email-2026-04-15`, source `email-2026-04`); no second row exists — no
+follow-up was actually sent.

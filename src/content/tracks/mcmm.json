@@ -1,7 +1,7 @@
 {
   "id": "mcmm",
   "name": "Major Construction/Minor Maintenance",
-  "description": "Annually budgeted facility repairs funded from operating budget/reserves ($3.0M one-time in FY27)",
+  "description": "Facility repair and replacement work funded outside the CIP; $3.0M one-time investment in FY27 per the APS budget page",
   "routing_rule": "Smaller facility work not listed as a CIP project; dollar cutoff vs CIP not found",
   "verification": "draft",
   "stages": [

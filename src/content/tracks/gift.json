@@ -9,7 +9,7 @@
     {
       "id": "gift-proposal",
       "order": 1,
-      "name": "Donor proposal to principal",
+      "name": "Donor proposal to principal (2025 draft policy)",
       "decider": "Principal",
       "venue": "School",
       "basis": "requirement",
@@ -18,7 +18,7 @@
     {
       "id": "gift-staff-review",
       "order": 2,
-      "name": "Review by Asst. Supt. F&O and Superintendent",
+      "name": "Review by Asst. Supt. F&O and Superintendent (2025 draft policy)",
       "decider": "Superintendent (or designee)",
       "venue": "Staff review",
       "basis": "requirement",
@@ -27,7 +27,7 @@
     {
       "id": "gift-board",
       "order": 3,
-      "name": "School Board approval (projects >= $100001)",
+      "name": "School Board approval (projects >= $100,001) (2025 draft policy)",
       "decider": "School Board",
       "venue": "School Board meeting",
       "basis": "requirement",
@@ -36,7 +36,7 @@
     {
       "id": "gift-mou",
       "order": 4,
-      "name": "MOU (>= $15000) or acceptance letter (< $15000)",
+      "name": "MOU (>= $15,000) or acceptance letter (< $15,000) (2025 draft policy)",
       "decider": "School Board or Superintendent; principal for < $15000",
       "basis": "requirement",
       "source_id": "policy-d15-draft-2025"

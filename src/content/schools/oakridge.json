@@ -8,7 +8,7 @@
       "id": "oakridge-hvac",
       "title": "Oakridge Elementary HVAC replacement",
       "category": "hvac",
-      "summary": "Replace aging HVAC equipment; bond package funds a broader refresh (HVAC, roofing, flooring, painting).",
+      "summary": "Replace aging HVAC equipment. The project is named in the proposed $80M school bond (Nov 3, 2026) as part of a broader Oakridge Refresh (HVAC, roofing, flooring, painting).",
       "track_id": "cip",
       "current_stage_id": "cip-referendum",
       "stage_basis": "fact",
@@ -63,7 +63,7 @@
         {
           "id": "oakridge-complete",
           "date": "2029-01-01",
-          "label": "HVAC replacement implementation ends",
+          "label": "Implementation scheduled to end during 2029 (CIP planning estimate)",
           "status": "later",
           "decider": "APS Facilities and Operations",
           "venue": "Site",
@@ -75,7 +75,7 @@
         {
           "id": "oakridge-sb-comment",
           "venue": "School Board meeting public comment",
-          "when": "Regular meetings (7 p.m. unless noted; Sep 24 2026 at 8:30 p.m.)",
+          "when": "Regular meetings, generally 7 p.m. at the Syphax Education Center",
           "how": "Online speaker form opens four business days before and closes 4 p.m. the day before; max 30 speakers x 2 minutes",
           "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
           "basis": "requirement",
@@ -85,7 +85,7 @@
           "id": "oakridge-ws-mcmm",
           "venue": "School Board work session on Facilities (Maintenance / Work Orders / MCMM)",
           "when": "2026-09-29 1:00-2:30 p.m.",
-          "how": "Observe (work sessions typically have no public comment - our interpretation)",
+          "how": "Observe",
           "url": "https://www.apsva.us/post/september-schedule-of-board-meetings-work-sessions-and-advisory-council-and-committee-meetings-4/",
           "basis": "fact",
           "source_id": "aps-sept-2026-schedule"
