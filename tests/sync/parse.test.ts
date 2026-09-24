@@ -13,6 +13,9 @@ describe('parseTab', () => {
   it('omits empty cells instead of returning empty strings', () => {
     expect(parseTab('a,b,c\n1,,3\n')).toEqual([{ a: '1', c: '3' }]);
   });
+  it('a blank row between data rows becomes a placeholder so later rows keep their spreadsheet row number', () => {
+    expect(parseTab('a,b\n1,2\n,\n3,4\n')).toEqual([{ a: '1', b: '2' }, {}, { a: '3', b: '4' }]);
+  });
   it('parseHeader returns trimmed header names', () => {
     expect(parseHeader(' a , b\n1,2\n')).toEqual(['a', 'b']);
   });

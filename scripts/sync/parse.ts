@@ -11,7 +11,7 @@ export function parseHeader(csv: string): string[] {
 export function parseTab(csv: string): Row[] {
   const result = Papa.parse<Record<string, string>>(csv, {
     header: true,
-    skipEmptyLines: 'greedy',
+    skipEmptyLines: false,
     transformHeader: h => h.trim(),
     transform: v => v.trim(),
   });
@@ -19,8 +19,13 @@ export function parseTab(csv: string): Row[] {
   for (const raw of result.data) {
     const row: Row = {};
     for (const [k, v] of Object.entries(raw)) if (k && v !== '') row[k] = v;
-    if (Object.keys(row).length > 0) rows.push(row);
+    rows.push(row);
   }
+  // Drop only *trailing* blank placeholders (a file ending in blank lines, or the phantom
+  // empty line produced by a trailing newline) so those don't become phantom rows. Blank
+  // rows in the middle stay as `{}` placeholders so later rows keep their real spreadsheet
+  // row number (header = row 1, first data row = row 2).
+  while (rows.length > 0 && Object.keys(rows[rows.length - 1]).length === 0) rows.pop();
   return rows;
 }
 

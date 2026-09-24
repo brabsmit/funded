@@ -62,11 +62,17 @@ describe('assemble', () => {
   it('live school with an unsourced claim is an error; draft school is a warning', () => {
     const t = goodTabs(); delete t.Needs[0].cost_source_id;
     const live = assemble(t);
-    expect(live.errors.some(e => /claim "cost" has no source/.test(e.message))).toBe(true);
+    expect(live.errors.filter(e => /claim "cost" has no source/.test(e.message))).toHaveLength(1);
     t.Schools[0].status = 'draft';
     const draft = assemble(t);
     expect(draft.errors).toEqual([]);
     expect(draft.warnings.some(w => /claim "cost" has no source/.test(w.message))).toBe(true);
+  });
+
+  it('reports an invalid school status on its own row', () => {
+    const t = goodTabs(); t.Schools[0].status = 'archived';
+    const r = assemble(t);
+    expect(r.errors.some(e => e.tab === 'Schools' && e.row === 2 && /status/.test(e.message))).toBe(true);
   });
 
   it('reports duplicate ids within a tab', () => {
@@ -78,5 +84,33 @@ describe('assemble', () => {
     const t = goodTabs();
     t.Needs[0].track_id = 'nope'; t.Milestones[1].source_id = 'ghost';
     expect(assemble(t).errors.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('a blank row in a tab does not shift the spreadsheet row number of later rows', () => {
+    const t = goodTabs();
+    t.Milestones.splice(1, 0, {});
+    t.Milestones[2].source_id = 'ghost';
+    expect(msgs(assemble(t))).toContain('Milestones:4 unknown source_id "ghost"');
+  });
+
+  it('a bad field on a Needs row is reported against the Needs tab and row, not the Schools tab', () => {
+    const t = goodTabs(); t.Needs[0].stage_basis = 'guess';
+    const r = assemble(t);
+    expect(r.errors.some(e => e.tab === 'Needs' && e.row === 2 && /stage_basis/.test(e.message))).toBe(true);
+    expect(r.errors.some(e => e.tab === 'Schools')).toBe(false);
+  });
+
+  it('reports a need whose school does not exist', () => {
+    const t = goodTabs(); t.Needs[0].school_id = 'ghost-school';
+    expect(msgs(assemble(t))).toContain('Needs:2 need "hvac": unknown school_id "ghost-school"');
+  });
+
+  it('rows referencing an unknown need_id are reported under their own tab and row', () => {
+    const t = goodTabs();
+    t.Milestones[0].need_id = 'ghost';
+    t.Engage[0].need_id = 'ghost';
+    const m = msgs(assemble(t));
+    expect(m).toContain('Milestones:2 unknown need_id "ghost"');
+    expect(m).toContain('Engage:2 unknown need_id "ghost"');
   });
 });

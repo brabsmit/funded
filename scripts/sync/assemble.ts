@@ -1,6 +1,6 @@
 import { z } from 'astro/zod';
 import type { Row, Problem } from './parse';
-import { Track, School, Source, Stage, Milestone, Engage, Inquiry, type TrackT, type SchoolT, type SourceT } from '../../src/schema/records';
+import { Track, School, Source, Stage, Milestone, Engage, Inquiry, Need, SchoolStatus, type TrackT, type SchoolT, type SourceT } from '../../src/schema/records';
 import { unsourcedClaims } from '../../src/schema/claims';
 
 export type { Problem };
@@ -30,6 +30,7 @@ function index(tab: TabName, rows: Row[], errors: Problem[]): Indexed[] {
   const out: Indexed[] = [];
   rows.forEach((data, i) => {
     const rowNo = i + 2;
+    if (Object.keys(data).length === 0) return; // blank-row placeholder; not an error, keeps later rows aligned
     const key = data[ID_COLUMN[tab]];
     if (!key) { errors.push({ tab, row: rowNo, message: `missing ${ID_COLUMN[tab]}` }); return; }
     if (seen.has(key)) { errors.push({ tab, row: rowNo, message: `duplicate ${ID_COLUMN[tab]} "${key}"` }); return; }
@@ -57,6 +58,12 @@ function validate<T>(schema: z.ZodType<T>, tab: TabName, row: number, rec: unkno
   for (const issue of r.error.issues) errors.push({ tab, row, message: `${issue.path.join('.') || 'row'}: ${issue.message}` });
   return undefined;
 }
+
+// A Needs row's own scalar fields, validated per-row before the arrays (milestones/engage/
+// inquiries) are attached — so a bad field (e.g. stage_basis) is reported against the Needs
+// tab and row, not re-reported against the Schools tab/row when the assembled school is
+// validated later.
+const NeedBase = Need.omit({ milestones: true, engage: true, inquiries: true });
 
 export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; errors: Problem[]; warnings: Problem[] } {
   const errors: Problem[] = [];
@@ -99,14 +106,20 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
     if (!trackIds.has(trackId)) errors.push({ tab: 'Stages', message: `stages reference unknown track_id "${trackId}"` });
   }
 
+  // Needs: index first (before the child tabs) so Milestones/Engage/Inquiries rows can be
+  // checked against the set of need_ids that actually survived indexing.
+  const needEntries = index('Needs', tabs.Needs, errors);
+  const needIds = new Set(needEntries.map(e => e.data.need_id));
+
   // Children of needs
   const byNeed = <T>(tab: TabName, schema: z.ZodType<T>): Map<string, T[]> => {
     const m = new Map<string, T[]>();
     for (const { row, data } of index(tab, tabs[tab], errors)) {
+      if (!data.need_id) { errors.push({ tab, row, message: 'missing need_id' }); continue; }
+      if (!needIds.has(data.need_id)) { errors.push({ tab, row, message: `unknown need_id "${data.need_id}"` }); continue; }
       checkSource(tab, row, data.source_id);
       const rec = validate(schema, tab, row, toRecord(tab, data, ['need_id']), errors);
       if (!rec) continue;
-      if (!data.need_id) { errors.push({ tab, row, message: 'missing need_id' }); continue; }
       (m.get(data.need_id) ?? m.set(data.need_id, []).get(data.need_id)!).push(rec);
     }
     return m;
@@ -117,9 +130,14 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
 
   // Needs grouped by school
   const needsBySchool = new Map<string, Array<Record<string, unknown>>>();
-  for (const { row, data } of index('Needs', tabs.Needs, errors)) {
+  const needRefsBySchool = new Map<string, Array<{ row: number; needId: string }>>();
+  for (const { row, data } of needEntries) {
     const needId = data.need_id;
     if (!data.school_id) { errors.push({ tab: 'Needs', row, message: `need "${needId}": missing school_id` }); continue; }
+
+    const validNeed = validate(NeedBase, 'Needs', row, toRecord('Needs', data, ['school_id']), errors);
+    if (!validNeed) continue; // a malformed Needs row is reported here only, not re-reported via the Schools-level parse
+
     if (!trackIds.has(data.track_id ?? '')) errors.push({ tab: 'Needs', row, message: `need "${needId}": unknown track_id "${data.track_id}"` });
     else if (stageTrack.get(data.current_stage_id ?? '') !== data.track_id) {
       errors.push({ tab: 'Needs', row, message: `need "${needId}": current_stage_id "${data.current_stage_id}" is not a stage of track "${data.track_id}"` });
@@ -131,22 +149,20 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
     if (nextCount !== 1) errors.push({ tab: 'Milestones', message: `need "${needId}": expected exactly one milestone with status "next", found ${nextCount}` });
 
     const rec = {
-      ...toRecord('Needs', data, ['school_id']),
+      ...validNeed,
       milestones: ms,
       engage: engage.get(needId) ?? [],
       inquiries: (inquiries.get(needId) ?? []).sort((a, b) => a.date.localeCompare(b.date)),
     };
     (needsBySchool.get(data.school_id) ?? needsBySchool.set(data.school_id, []).get(data.school_id)!).push(rec);
-  }
-  for (const m of [milestones, engage, inquiries]) {
-    for (const needId of m.keys()) {
-      if (!tabs.Needs.some(n => n.need_id === needId)) errors.push({ tab: 'Needs', message: `rows reference unknown need_id "${needId}"` });
-    }
+    (needRefsBySchool.get(data.school_id) ?? needRefsBySchool.set(data.school_id, []).get(data.school_id)!).push({ row, needId });
   }
 
   // Schools
   const schools: SchoolT[] = [];
-  for (const { row, data } of index('Schools', tabs.Schools, errors)) {
+  const schoolEntries = index('Schools', tabs.Schools, errors);
+  const knownSchoolIds = new Set(schoolEntries.map(e => e.data.school_id));
+  for (const { row, data } of schoolEntries) {
     const needs = needsBySchool.get(data.school_id) ?? [];
     const refs = needs.flatMap(n => [
       n.stage_source_id, n.cost_source_id, n.window_source_id,
@@ -155,7 +171,10 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
       ...(n.inquiries as Array<{ source_id?: string }>).map(x => x.source_id),
     ] as Array<string | undefined>);
     const rec = { ...toRecord('Schools', data), needs, sources: collect(refs) };
-    // Validate as draft first so integrity errors surface separately from the live rule.
+    // Validate as draft so referential-integrity errors (unknown source refs, etc.) surface
+    // independently of the live-only unsourced-claims rule, which is enforced below by hand
+    // so it is reported exactly once per claim instead of also being re-flagged by re-parsing
+    // the school a second time at its real status.
     const draftCheck = School.safeParse({ ...rec, status: 'draft' });
     if (!draftCheck.success) {
       for (const issue of draftCheck.error.issues) errors.push({ tab: 'Schools', row, message: `${issue.path.join('.') || 'row'}: ${issue.message}` });
@@ -167,11 +186,24 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
         (data.status === 'live' ? errors : warnings).push(p);
       }
     }
-    const s = validate(School, 'Schools', row, rec, errors);
-    if (s) schools.push(s);
+    const statusCheck = SchoolStatus.safeParse(data.status);
+    if (!statusCheck.success) {
+      errors.push({ tab: 'Schools', row, message: `status: ${statusCheck.error.issues[0]?.message ?? 'invalid status'}` });
+      continue;
+    }
+    schools.push({ ...draftCheck.data, status: statusCheck.data });
   }
 
-  // Dedupe error messages produced by both the manual live rule and the schema refine.
+  // A Needs row can name a school_id that no School row has.
+  for (const [schoolId, refs] of needRefsBySchool) {
+    if (!knownSchoolIds.has(schoolId)) {
+      for (const { row, needId } of refs) errors.push({ tab: 'Needs', row, message: `need "${needId}": unknown school_id "${schoolId}"` });
+    }
+  }
+
+  // Dedupe exact-duplicate problems — e.g. a Needs row whose stage_source_id and
+  // cost_source_id happen to name the same unknown source would otherwise report that
+  // unknown source_id twice for the identical tab/row/message.
   const seen = new Set<string>();
   const dedupe = (ps: Problem[]) => ps.filter(p => { const k = `${p.tab}|${p.row ?? ''}|${p.message}`; if (seen.has(k)) return false; seen.add(k); return true; });
 
