@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+
+  --color-ink: #1a1d21;
+  --color-ink-muted: #5b6470;
+  --color-paper: #fbfaf7;
+  --color-line: #d9d6cf;
+  --color-accent: #1f5f8b;
+  --color-accent-soft: #e3eef7;
+  --color-done: #2e7d4f;
+  --color-later: #9aa3ad;
+  --color-draft: #b4541a;
+  --color-draft-soft: #fbe9dc;
+  --color-warn: #8a6d00;
+}
+
+html { font-size: 20px; background: var(--color-paper); color: var(--color-ink); }
+body { font-family: var(--font-sans); font-variant-numeric: tabular-nums; }
+h1, h2, h3 { font-family: var(--font-serif); letter-spacing: -0.01em; }
+
+.chip {
+  @apply inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[0.7rem] uppercase tracking-wide;
+  border-color: var(--color-line);
+  color: var(--color-ink-muted);
+  background: white;
+}
+.chip-unsourced { border-style: dashed; color: var(--color-warn); }
+
+.stamp {
+  @apply inline-block rotate-[-3deg] rounded border-4 px-3 py-1 font-bold uppercase tracking-widest;
+  color: var(--color-draft);
+  border-color: var(--color-draft);
+  background: var(--color-draft-soft);
+}

@@ -1,0 +1,32 @@
+---
+import "../styles/global.css";
+interface Props { title: string; description?: string }
+const { title, description = "Where a school facility need stands, who decides next, and where to engage." } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/+$/, '') + '/';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · FundED</title>
+    <meta name="description" content={description} />
+  </head>
+  <body class="min-h-screen">
+    <header class="border-b border-line">
+      <nav class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+        <a href={base} class="font-serif text-xl font-semibold">FundED</a>
+        <div class="flex gap-5 text-sm text-ink-muted">
+          <a href={`${base}tracks/`}>How it works</a>
+          <a href={`${base}roadmap/`}>Roadmap</a>
+        </div>
+      </nav>
+    </header>
+    <main class="mx-auto max-w-5xl px-4 py-8">
+      <slot />
+    </main>
+    <footer class="mx-auto max-w-5xl px-4 py-10 text-sm text-ink-muted">
+      FundED · Arlington Public Schools pilot · An EMBA Ethics Project, Georgetown McDonough, Fall 2026.
+    </footer>
+  </body>
+</html>

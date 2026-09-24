@@ -1,1 +1,8 @@
 .superpowers/
+node_modules/
+dist/
+.astro/
+e2e/screenshots/
+test-results/
+playwright-report/
+.DS_Store
