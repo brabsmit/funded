@@ -1,0 +1,15 @@
+tab,column,meaning,allowed_values
+Tracks,track_id,Short id for the track (lowercase-dashes),
+Tracks,verification,Has an APS contact confirmed this track's stages and deciders?,draft | documented | confirmed
+Stages,order,Position of the stage within its track (1 = first),whole number
+Stages,basis,What kind of claim the stage is,fact | requirement | estimate | interpretation
+Schools,status,live = every claim must have a source or the site will not build; draft = warnings only,live | draft
+Needs,current_stage_id,Must be a stage_id that belongs to the need's track_id,
+Needs,stage_basis / cost_basis / window_basis,What kind of claim each is,fact | requirement | estimate | interpretation
+Milestones,status,Exactly one milestone per need must be next,done | next | later
+Milestones,date,ISO date,YYYY-MM-DD
+Engage,basis,What kind of claim the venue is,fact | requirement | estimate | interpretation
+Inquiries,status,Did the authority answer the question?,answered | partial | unanswered
+Sources,source_id,Referenced by every *_source_id column. Add the document here first.,
+(all),*_id,Lowercase letters and digits and dashes only. No spaces.,
+(all),blank cell,Leave blank when unknown. Never type TBD or ?.,
