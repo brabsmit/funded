@@ -20,10 +20,10 @@ const h2 = 'text-2xl mb-4 flex items-baseline gap-3';
 
   <section class={block} aria-labelledby={`${need.id}-where`}>
     <h2 id={`${need.id}-where`} class={h2}>Where it is</h2>
-    <p class="mb-4 flex items-center gap-3">
+    <div class="mb-4 flex items-center gap-3">
       <a href={href(`/tracks/#${track.id}`)} class="rounded bg-accent-soft px-2 py-0.5 text-sm font-semibold text-accent">{track.name}</a>
       <BasisChip basis={need.stage_basis} sourceId={need.stage_source_id} sources={sources} uid={`src-${need.id}-stage`} />
-    </p>
+    </div>
     <Pipeline need={need} track={track} />
   </section>
 
