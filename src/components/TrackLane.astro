@@ -1,9 +1,11 @@
 ---
 import type { TrackT } from '../schema/records';
 import BasisChip from './BasisChip.astro';
+import EngageList from './EngageList.astro';
+import Inquiries from './Inquiries.astro';
 import { verificationLabel } from '../lib/labels';
-interface Props { track: TrackT }
-const { track } = Astro.props;
+interface Props { track: TrackT; today: string }
+const { track, today } = Astro.props;
 ---
 <section id={track.id} class="rounded-lg border border-line bg-white p-5">
   <header class="flex flex-wrap items-baseline justify-between gap-2">
@@ -27,4 +29,17 @@ const { track } = Astro.props;
       </li>
     ))}
   </ol>
+  {track.engage.length > 0 && (
+    <section class="mt-6" aria-labelledby={`${track.id}-raise`} data-testid="track-raise">
+      <h3 id={`${track.id}-raise`} class="text-lg">How to raise a need on this track</h3>
+      <p class="mb-3 text-sm text-ink-muted">Soonest first. Each venue carries a question you can put to it as written.</p>
+      <EngageList rows={track.engage} sources={track.sources} today={today} uid={track.id} dense />
+    </section>
+  )}
+  {track.inquiries.length > 0 && (
+    <section class="mt-6" aria-labelledby={`${track.id}-asked`} data-testid="track-asked">
+      <h3 id={`${track.id}-asked`} class="text-lg">What has been asked about this track</h3>
+      <div class="mt-3"><Inquiries inquiries={track.inquiries} sources={track.sources} /></div>
+    </section>
+  )}
 </section>

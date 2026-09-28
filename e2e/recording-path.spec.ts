@@ -43,9 +43,16 @@ test('recording path: home → Oakridge → four blocks', async ({ page }, info)
   await shot('3-popover');
 });
 
-test('tracks and roadmap render', async ({ page }) => {
+test('tracks and roadmap render', async ({ page }, info) => {
   await page.goto('./tracks/');
   await expect(page.locator('section#cip, section#mcmm, section#gift')).toHaveCount(3);
+  // MC/MM and gift have no example school, so the lane itself shows how to raise a need and what has been asked.
+  const mcmm = page.locator('section#mcmm');
+  await expect(mcmm.getByTestId('engage-item').first()).toBeVisible();
+  await expect(mcmm.getByTestId('ask').first()).toBeVisible();
+  await expect(mcmm.getByText('No answer', { exact: true })).toBeVisible();
+  await expect(page.locator('section#gift').getByTestId('engage-item').first()).toBeVisible();
+  if (info.project.name === 'laptop') await page.screenshot({ path: 'e2e/screenshots/laptop-5-tracks.png', fullPage: true });
   await page.goto('./roadmap/');
   await expect(page.getByText('Phase 1 · Now')).toBeVisible();
 });

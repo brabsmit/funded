@@ -51,3 +51,5 @@ If a remote sync fails, `data/sheet/` may hold a mix of fresh and old CSVs; run 
 ## Adding a school
 
 Sources tab first (add every document you will cite). Then Schools, Needs (one row per need), Milestones (exactly one `next` per need), Engage (give each venue a `date` or `deadline` so it sorts, and an `ask`), Inquiries (use status `open` for a question nobody has asked yet), Funding (the bond total, the project inside it, and any unpriced slice). Set the school `status` to `draft` until every claim has a source; the sync output lists what is missing.
+
+An Engage or Inquiries row can belong to a track instead of a need: leave `need_id` blank and fill `track_id`. Those rows render on the Tracks page as "How to raise a need on this track" and "What has been asked about this track", which is how MC/MM and gifts are shown while no school has a sourced need on them.

@@ -143,4 +143,40 @@ describe('assemble', () => {
     expect(r.errors).toEqual([]);
     expect(r.schools[0].needs[0].inquiries.map(q => q.id)).toEqual(['mar-call', 'apr-email', 'interim', 'if-fails']);
   });
+
+  describe('track-level engage and inquiries', () => {
+    const withTrackRows = () => {
+      const t = goodTabs();
+      t.Engage.push({ engage_id: 'cip-fac', track_id: 'cip', venue: 'Facilities Advisory Council', deadline: '2026-10-31', ask: 'How are projects prioritized?', basis: 'fact', source_id: 'cip-2027' });
+      t.Inquiries.push({ inquiry_id: 'cip-ccpta', track_id: 'cip', date: '2026-08-13', to: 'School Board', question: 'Where does engagement occur?', status: 'unanswered', source_id: 'cip-2027' });
+      return t;
+    };
+    it('rows with a track_id and no need_id attach to the track, and their sources join the track sources', () => {
+      const r = assemble(withTrackRows());
+      expect(r.errors).toEqual([]);
+      expect(r.tracks[0].engage.map(e => e.id)).toEqual(['cip-fac']);
+      expect(r.tracks[0].inquiries.map(q => q.id)).toEqual(['cip-ccpta']);
+      expect(r.tracks[0].sources.map(s => s.id)).toEqual(['cip-2027']);
+      expect(r.schools[0].needs[0].engage.map(e => e.id)).toEqual(['board']);
+    });
+    it('a track with no such rows gets empty arrays', () => {
+      const r = assemble(goodTabs());
+      expect(r.tracks[0].engage).toEqual([]);
+      expect(r.tracks[0].inquiries).toEqual([]);
+    });
+    it('a row must name exactly one of need_id or track_id', () => {
+      const both = withTrackRows(); both.Engage[1].need_id = 'hvac';
+      expect(msgs(assemble(both))).toContain('Engage:3 exactly one of need_id or track_id is required');
+      const neither = goodTabs(); delete neither.Inquiries[0].need_id;
+      expect(msgs(assemble(neither))).toContain('Inquiries:2 exactly one of need_id or track_id is required');
+    });
+    it('an unknown track_id is reported on its own row', () => {
+      const t = withTrackRows(); t.Inquiries[1].track_id = 'ghost';
+      expect(msgs(assemble(t))).toContain('Inquiries:3 unknown track_id "ghost"');
+    });
+    it('a track-level inquiry source must exist', () => {
+      const t = withTrackRows(); t.Engage[1].source_id = 'ghost';
+      expect(msgs(assemble(t))).toContain('Engage:3 unknown source_id "ghost"');
+    });
+  });
 });

@@ -42,6 +42,38 @@
       "source_id": "policy-d15-draft-2025"
     }
   ],
+  "engage": [
+    {
+      "id": "gift-principal",
+      "venue": "Conversation with the principal",
+      "when": "Any time; start here",
+      "how": "Under the D-15 draft a private-funding proposal starts with the school. CCPTA guidance: confirm staff would welcome and can maintain it.",
+      "ask": "Would APS accept and maintain this improvement, what would it add to annual operating costs, and would other schools want the same feature?",
+      "url": "https://www.arlingtonccpta.org/ptaptsa-leader-resources/5-points-on-fundraising",
+      "basis": "requirement",
+      "source_id": "policy-d15-draft-2025"
+    },
+    {
+      "id": "gift-fo-review",
+      "venue": "Facilities and Operations review (projects under $15,000, 2025 draft policy)",
+      "when": "After the principal agrees",
+      "how": "The 2025 draft makes projects under $15,000 reviewable by Facilities and Operations, with an acceptance letter rather than an MOU.",
+      "ask": "Does this project meet the three D-15 tests: benefit, no unplanned operating cost, no new inequity among schools?",
+      "basis": "requirement",
+      "source_id": "policy-d15-draft-2025"
+    },
+    {
+      "id": "gift-board",
+      "venue": "School Board approval (projects of $100,001 or more, 2025 draft policy)",
+      "when": "School Board meeting; MOU required at $15,000 and above",
+      "how": "Larger privately funded improvements go to the Board. The equity test in D-15 asks whether other schools would want a similar feature.",
+      "ask": "If this school can fund it privately, what is the plan for schools that cannot?",
+      "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
+      "basis": "requirement",
+      "source_id": "policy-d15-draft-2025"
+    }
+  ],
+  "inquiries": [],
   "sources": [
     {
       "id": "policy-d15-draft-2025",

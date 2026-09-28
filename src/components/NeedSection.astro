@@ -54,13 +54,13 @@ const sectionHeading = 'text-2xl mb-4 flex items-baseline gap-3';
 
   <section class={block} aria-labelledby={`${need.id}-engage`}>
     <h3 id={`${need.id}-engage`} class={sectionHeading}>Where to engage</h3>
-    <EngageList need={need} sources={sources} today={today} />
+    <EngageList rows={need.engage} sources={sources} today={today} uid={need.id} />
   </section>
 
   {need.inquiries.length > 0 && (
     <section class={block} aria-labelledby={`${need.id}-asked`}>
       <h3 id={`${need.id}-asked`} class={sectionHeading}>What has been asked</h3>
-      <Inquiries need={need} sources={sources} />
+      <Inquiries inquiries={need.inquiries} sources={sources} />
     </section>
   )}
 </article>

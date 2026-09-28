@@ -25,15 +25,6 @@ export const Stage = z.object({
   basis: Basis, source_id: id.optional(),
 });
 
-export const Track = z.object({
-  id, name: text, description: text, routing_rule: text,
-  policy_citation: text.optional(),
-  verification: Verification,
-  verified_by: text.optional(), verified_on: date.optional(),
-  stages: z.array(Stage).min(1),
-  sources: z.array(Source),
-});
-
 export const Milestone = z.object({
   id, date, label: text, status: MilestoneStatus,
   decider: text.optional(), venue: text.optional(),
@@ -62,6 +53,18 @@ export const Inquiry = z.object({
   status: InquiryStatus, source_id: id.optional(),
 }).superRefine((q, ctx) => {
   if (q.status !== 'open' && !q.date) ctx.addIssue({ code: 'custom', path: ['date'], message: 'date is required unless status is open' });
+});
+
+export const Track = z.object({
+  id, name: text, description: text, routing_rule: text,
+  policy_citation: text.optional(),
+  verification: Verification,
+  verified_by: text.optional(), verified_on: date.optional(),
+  stages: z.array(Stage).min(1),
+  /** Venues and open questions that belong to the track as a whole (how to raise a need on it), not to one school's need. */
+  engage: z.array(Engage).default([]),
+  inquiries: z.array(Inquiry).default([]),
+  sources: z.array(Source),
 });
 
 export const Need = z.object({

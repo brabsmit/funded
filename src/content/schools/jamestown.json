@@ -108,7 +108,17 @@
           "source_id": "aps-sign-up-to-speak"
         }
       ],
-      "inquiries": [],
+      "inquiries": [
+        {
+          "id": "jamestown-sb-2026-06-18",
+          "date": "2026-06-18",
+          "to": "School Board",
+          "question": "After at least four years of excessive heat, leaking equipment and loud temporary air-conditioning units, will the Board accelerate Jamestown's HVAC replacement rather than wait roughly two more years?",
+          "why": "Public comment by a Jamestown parent at the CIP adoption meeting. The Board thanked speakers and adopted the CIP that night with Jamestown's HVAC and roof inside the Nov 3 bond question; no direct answer to the speaker is in the transcript.",
+          "status": "unanswered",
+          "source_id": "aps-sb-transcript-2026-06-18"
+        }
+      ],
       "funding": [
         {
           "id": "j-q4-bond",
@@ -175,6 +185,14 @@
       "publisher": "Arlington Public Schools",
       "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
       "retrieved_on": "2026-09-24"
+    },
+    {
+      "id": "aps-sb-transcript-2026-06-18",
+      "title": "School Board meeting transcript, June 18, 2026",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/wp-content/uploads/sites/57/2026/06/SB-Meeting-Transcripts-for-06182026.pdf",
+      "retrieved_on": "2026-09-28",
+      "notes": "Auto-captioned transcript. CIP adoption night; Jamestown parent public comment on HVAC (speaker Whitney Fahmy)."
     }
   ]
 }

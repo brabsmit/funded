@@ -1,11 +1,12 @@
 ---
-import type { NeedT, SourceT } from '../schema/records';
+import type { EngageT, SourceT } from '../schema/records';
 import BasisChip from './BasisChip.astro';
 import { engageOrder } from '../lib/engage';
 import { fmtDate } from '../lib/dates';
-interface Props { need: NeedT; sources: SourceT[]; today: string }
-const { need, sources, today } = Astro.props;
-const items = engageOrder(need.engage, today);
+/** `uid` namespaces source-popover ids (a need id or a track id). `dense` is one column, for a narrow lane. */
+interface Props { rows: EngageT[]; sources: SourceT[]; today: string; uid: string; dense?: boolean }
+const { rows, sources, today, uid, dense = false } = Astro.props;
+const items = engageOrder(rows, today);
 const when = (e: (typeof items)[number]) => {
   if (!e.closes || e.daysLeft === undefined) return undefined;
   if (e.past) return `Passed ${fmtDate(e.closes)}`;
@@ -13,7 +14,7 @@ const when = (e: (typeof items)[number]) => {
   return e.deadline ? `Closes ${fmtDate(e.deadline)}, ${left}` : `On ${fmtDate(e.closes)}, ${left}`;
 };
 ---
-<ol class="grid gap-3 sm:grid-cols-2">
+<ol class:list={['grid gap-3', dense ? '' : 'sm:grid-cols-2']}>
   {items.map((e, i) => (
     <li class:list={['rounded-lg border bg-white p-4', e.past ? 'border-line text-ink-muted' : i === 0 ? 'border-2 border-accent' : 'border-line']} data-testid="engage-item">
       <div class="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
@@ -29,7 +30,7 @@ const when = (e: (typeof items)[number]) => {
           <button type="button" class="copy-ask mt-2 rounded border border-line bg-white px-2 py-0.5 text-sm hover:border-accent" data-ask={e.ask}>Copy this question</button>
         </div>
       )}
-      <div class="mt-2"><BasisChip basis={e.basis} sourceId={e.source_id} sources={sources} uid={`src-${need.id}-${e.id}`} /></div>
+      <div class="mt-2"><BasisChip basis={e.basis} sourceId={e.source_id} sources={sources} uid={`src-${uid}-${e.id}`} /></div>
     </li>
   ))}
 </ol>

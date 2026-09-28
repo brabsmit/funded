@@ -1,14 +1,14 @@
 ---
-import type { NeedT, SourceT } from '../schema/records';
+import type { InquiryT, SourceT } from '../schema/records';
 import { fmtDate } from '../lib/dates';
-interface Props { need: NeedT; sources: SourceT[] }
-const { need, sources } = Astro.props;
+interface Props { inquiries: InquiryT[]; sources: SourceT[] }
+const { inquiries, sources } = Astro.props;
 const label = { open: 'Not yet asked', answered: 'Answered', partial: 'Partial answer', unanswered: 'No answer' } as const;
 const tone = { open: 'border border-dashed border-ink-muted text-ink-muted', answered: 'bg-done text-white', partial: 'bg-warn text-white', unanswered: 'bg-draft text-white' } as const;
 ---
-{need.inquiries.length > 0 && (
+{inquiries.length > 0 && (
   <ol class="divide-y divide-line rounded-lg border border-line bg-white">
-    {need.inquiries.map(q => {
+    {inquiries.map(q => {
       const src = q.source_id ? sources.find(s => s.id === q.source_id) : undefined;
       return (
         <li class="p-4">

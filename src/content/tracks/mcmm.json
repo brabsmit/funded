@@ -1,27 +1,163 @@
 {
   "id": "mcmm",
   "name": "Major Construction/Minor Maintenance",
-  "description": "Facility repair and replacement work funded outside the CIP; $3.0M one-time investment in FY27 per the APS budget page",
-  "routing_rule": "Smaller facility work not listed as a CIP project; dollar cutoff vs CIP not found",
+  "description": "Replacement of major building components (HVAC, roofs, floors, cafeterias) too large for the operating maintenance budget and not listed as a CIP project; funded annually in the Capital Projects Fund, $3.0M one-time in FY27",
+  "routing_rule": "Smaller facility work not listed as a CIP project; no public dollar cutoff vs the CIP",
+  "policy_citation": "APS Policy F-5.7 Capital and Maintenance Program and PIP F-5.7 (revisions adopted Aug 13, 2026 under consent; the revised PIP removed the MC/MM committee)",
   "verification": "draft",
   "stages": [
     {
-      "id": "mcmm-budget",
+      "id": "mcmm-work-order",
       "order": 1,
-      "name": "Annual MC/MM budget allocation",
-      "decider": "School Board",
-      "venue": "Budget adoption",
-      "typical_duration": "annual",
-      "basis": "interpretation"
+      "name": "Need entered as a work order",
+      "decider": "School work-order coordinator",
+      "venue": "School (each facility has a designated coordinator)",
+      "basis": "fact",
+      "source_id": "aps-maintenance-services"
     },
     {
-      "id": "mcmm-work",
+      "id": "mcmm-assessment",
       "order": 2,
-      "name": "Project selection and execution",
+      "name": "Facilities assessment and placement in the MC/MM program",
       "decider": "APS Facilities and Operations",
-      "venue": "Staff",
-      "basis": "interpretation"
+      "venue": "Staff; no public list of candidate projects",
+      "basis": "interpretation",
+      "source_id": "aps-maintenance-services"
+    },
+    {
+      "id": "mcmm-budget",
+      "order": 3,
+      "name": "Annual MC/MM funding in the Capital Projects Fund",
+      "decider": "School Board",
+      "venue": "Budget adoption (Superintendent proposes; Board holds public hearings)",
+      "typical_duration": "annual",
+      "basis": "fact",
+      "source_id": "aps-budget-page"
+    },
+    {
+      "id": "mcmm-execution",
+      "order": 4,
+      "name": "Project execution",
+      "decider": "APS Facilities and Operations",
+      "venue": "Site",
+      "basis": "fact",
+      "source_id": "aps-maintenance-services"
     }
   ],
-  "sources": []
+  "engage": [
+    {
+      "id": "mcmm-work-order",
+      "venue": "Your school's work-order coordinator",
+      "when": "Any time",
+      "how": "A designated coordinator at each school enters work orders; Maintenance Services routes them to a trades division. Ask the front office who that is.",
+      "ask": "Has this need been entered as a work order, and has Maintenance Services referred it to the MC/MM program or to the CIP?",
+      "url": "https://www.apsva.us/departments/facilities-operations/maintenance/",
+      "basis": "fact",
+      "source_id": "aps-maintenance-services"
+    },
+    {
+      "id": "mcmm-sb-oct8",
+      "venue": "School Board meeting, Oct 8, 2026",
+      "when": "Thursday, 7 p.m., Syphax Education Center",
+      "how": "Sign up to speak (2 minutes) when the form opens the week before.",
+      "date": "2026-10-08",
+      "ask": "On Aug 13 the CCPTA asked where community engagement occurs in the MC/MM process now that the committee is gone from PIP F-5.7. What is the answer, and where will the MC/MM project list be published?",
+      "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/sign-up-to-speak/",
+      "basis": "fact",
+      "source_id": "aps-sb-meetings-2026-27"
+    },
+    {
+      "id": "mcmm-ccpta-oct21",
+      "venue": "County Council of PTAs (CCPTA) meeting",
+      "when": "Wednesday, Oct 21, 2026, 7 p.m., Zoom",
+      "how": "Through your PTA delegate. The CCPTA executive board raised MC/MM transparency with the Board on Aug 13.",
+      "date": "2026-10-21",
+      "ask": "Has APS responded to the CCPTA's Aug 13 question on MC/MM engagement? Can the CCPTA ask for the FY27 $3.0M project list?",
+      "url": "https://www.arlingtonccpta.org/",
+      "basis": "fact",
+      "source_id": "ccpta-2026-27"
+    },
+    {
+      "id": "mcmm-fac",
+      "venue": "Advisory Council on School Facilities and Capital Programs",
+      "when": "Applications through Oct 31, 2026; meets monthly with public minutes",
+      "how": "Apply through the general advisory council application. The council advises the Board on facilities and the capital program.",
+      "deadline": "2026-10-31",
+      "ask": "How are MC/MM needs identified and prioritized, which projects were deferred this year, and where can a school community see that list?",
+      "url": "https://www.apsva.us/engage/school-board-advisory-councils/",
+      "basis": "fact",
+      "source_id": "aps-advisory-application"
+    },
+    {
+      "id": "mcmm-budget-fy28",
+      "venue": "FY2028 budget public hearing",
+      "when": "Spring 2027; the Superintendent proposes in late winter and the Board holds hearings before adopting",
+      "how": "Public hearings are the one scheduled moment the MC/MM allocation is decided in public.",
+      "ask": "Which projects does the MC/MM allocation fund this year, which were deferred, and by what criteria?",
+      "url": "https://www.apsva.us/budget/",
+      "basis": "interpretation",
+      "source_id": "aps-budget-page"
+    }
+  ],
+  "inquiries": [
+    {
+      "id": "mcmm-ccpta-2026-08-13",
+      "date": "2026-08-13",
+      "to": "School Board",
+      "question": "Where in the MC/MM process does meaningful community engagement occur? If the committee named in the PIP is no longer the vehicle, what will take its place? Will Facilities and Operations publish proposed projects and priorities, and will school communities be able to identify needs and give feedback?",
+      "why": "Asked in public comment by the CCPTA executive board the night the Board adopted revisions to Policy F-5.7 under consent. The revised PIP removed most references to the MC/MM committee. No public answer appears in the Sept 10 or Sept 24 meeting transcripts.",
+      "status": "unanswered",
+      "source_id": "aps-sb-transcript-2026-08-13"
+    }
+  ],
+  "sources": [
+    {
+      "id": "aps-maintenance-services",
+      "title": "Maintenance Services",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/departments/facilities-operations/maintenance/",
+      "retrieved_on": "2026-09-28",
+      "notes": "Work orders entered by a coordinator at each school; MC/MM \"funded annually in the Capital Projects Fund\"; operating budget covers scheduled maintenance and minor repairs."
+    },
+    {
+      "id": "aps-budget-page",
+      "title": "Budget",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/budget/",
+      "retrieved_on": "2026-09-24",
+      "notes": "FY27 MC/MM $3.0M one-time; no definition"
+    },
+    {
+      "id": "aps-sb-meetings-2026-27",
+      "title": "School Board Meetings (2026-27 dates)",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/arlington-school-board/school-board-meetings/",
+      "retrieved_on": "2026-09-24",
+      "notes": "Lists Oct 8, Oct 22, Nov 12 2026; 7 p.m. at Syphax unless noted"
+    },
+    {
+      "id": "ccpta-2026-27",
+      "title": "Arlington County Council of PTAs: 2026-27 meetings",
+      "publisher": "Arlington CCPTA",
+      "url": "https://www.arlingtonccpta.org/",
+      "retrieved_on": "2026-09-24",
+      "notes": "Zoom, 7 p.m.; open to PTA delegates and executive board invitees only"
+    },
+    {
+      "id": "aps-advisory-application",
+      "title": "School Board Advisory Councils: Apply Today",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/engage/school-board-advisory-councils/",
+      "retrieved_on": "2026-09-28",
+      "notes": "Application timeline May 20 - October 31, 2026, rolling appointments; councils meet monthly; lists the Advisory Council on School Facilities and Capital Programs."
+    },
+    {
+      "id": "aps-sb-transcript-2026-08-13",
+      "title": "School Board meeting transcript, August 13, 2026",
+      "publisher": "Arlington Public Schools",
+      "url": "https://www.apsva.us/wp-content/uploads/sites/57/2026/08/Transcripts-for-08132026.pdf",
+      "retrieved_on": "2026-09-28",
+      "notes": "Auto-captioned transcript. Consent adoption of revisions to Policy F-1 and F-5.7; CCPTA executive board public comment on MC/MM engagement (speaker Sasha McNichol)."
+    }
+  ]
 }

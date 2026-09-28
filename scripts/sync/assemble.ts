@@ -13,8 +13,8 @@ export const TAB_COLUMNS: Record<TabName, string[]> = {
   Schools: ['school_id', 'name', 'district', 'status', 'notes'],
   Needs: ['need_id', 'school_id', 'title', 'category', 'summary', 'track_id', 'current_stage_id', 'stage_basis', 'stage_source_id', 'cost', 'cost_basis', 'cost_source_id', 'window', 'window_basis', 'window_source_id', 'why_track', 'why_track_basis', 'why_track_source_id'],
   Milestones: ['milestone_id', 'need_id', 'date', 'label', 'status', 'decider', 'venue', 'basis', 'source_id'],
-  Engage: ['engage_id', 'need_id', 'venue', 'when', 'date', 'deadline', 'how', 'ask', 'url', 'basis', 'source_id'],
-  Inquiries: ['inquiry_id', 'need_id', 'date', 'to', 'question', 'why', 'response_date', 'response_summary', 'status', 'source_id'],
+  Engage: ['engage_id', 'need_id', 'track_id', 'venue', 'when', 'date', 'deadline', 'how', 'ask', 'url', 'basis', 'source_id'],
+  Inquiries: ['inquiry_id', 'need_id', 'track_id', 'date', 'to', 'question', 'why', 'response_date', 'response_summary', 'status', 'source_id'],
   Funding: ['funding_id', 'need_id', 'label', 'amount', 'parent_id', 'note', 'basis', 'source_id'],
   Sources: ['source_id', 'title', 'publisher', 'url', 'retrieved_on', 'notes'],
 };
@@ -95,11 +95,48 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
     (stagesByTrack.get(data.track_id) ?? stagesByTrack.set(data.track_id, []).get(data.track_id)!).push(s);
   }
 
+  // Needs: index first (before the child tabs) so Milestones/Engage/Inquiries rows can be
+  // checked against the set of need_ids that actually survived indexing.
+  const needEntries = index('Needs', tabs.Needs, errors);
+  const needIds = new Set(needEntries.map(e => e.data.need_id));
+  const trackRowIds = new Set(index('Tracks', tabs.Tracks, []).map(e => e.data.track_id));
+
+  // Children of needs (and, for Engage and Inquiries, of tracks): a row names exactly one owner.
+  const byOwner = <T>(tab: TabName, schema: z.ZodType<T>, allowTrack: boolean): { needs: Map<string, T[]>; tracks: Map<string, T[]> } => {
+    const needs = new Map<string, T[]>();
+    const tracks = new Map<string, T[]>();
+    const push = (m: Map<string, T[]>, k: string, v: T) => (m.get(k) ?? m.set(k, []).get(k)!).push(v);
+    for (const { row, data } of index(tab, tabs[tab], errors)) {
+      const owners = [data.need_id, allowTrack ? data.track_id : undefined].filter(Boolean).length;
+      if (owners !== 1) {
+        errors.push({ tab, row, message: allowTrack ? 'exactly one of need_id or track_id is required' : 'missing need_id' });
+        continue;
+      }
+      if (data.need_id && !needIds.has(data.need_id)) { errors.push({ tab, row, message: `unknown need_id "${data.need_id}"` }); continue; }
+      if (!data.need_id && !trackRowIds.has(data.track_id)) { errors.push({ tab, row, message: `unknown track_id "${data.track_id}"` }); continue; }
+      checkSource(tab, row, data.source_id);
+      const rec = validate(schema, tab, row, toRecord(tab, data, ['need_id', 'track_id']), errors);
+      if (!rec) continue;
+      if (data.need_id) push(needs, data.need_id, rec); else push(tracks, data.track_id, rec);
+    }
+    return { needs, tracks };
+  };
+  const milestones = byOwner('Milestones', Milestone, false).needs;
+  const engageRows = byOwner('Engage', Engage, true);
+  const inquiryRows = byOwner('Inquiries', Inquiry, true);
+  const engage = engageRows.needs;
+  const inquiries = inquiryRows.needs;
+  const funding = byOwner('Funding', Funding, false).needs;
+  const byDateThenOpen = <T extends { date?: string }>(rows: T[]) => rows.sort((a, b) => (a.date ?? '9999').localeCompare(b.date ?? '9999')); // undated (open) questions last
+
   // Tracks
   const tracks: TrackT[] = [];
   for (const { row, data } of index('Tracks', tabs.Tracks, errors)) {
     const stages = (stagesByTrack.get(data.track_id) ?? []).sort((a, b) => a.order - b.order);
-    const rec = { ...toRecord('Tracks', data), stages, sources: collect(stages.map(s => s.source_id)) };
+    const trackEngage = engageRows.tracks.get(data.track_id) ?? [];
+    const trackInquiries = byDateThenOpen(inquiryRows.tracks.get(data.track_id) ?? []);
+    const refs = [...stages.map(s => s.source_id), ...trackEngage.map(e => e.source_id), ...trackInquiries.map(q => q.source_id)];
+    const rec = { ...toRecord('Tracks', data), stages, engage: trackEngage, inquiries: trackInquiries, sources: collect(refs) };
     const t = validate(Track, 'Tracks', row, rec, errors);
     if (t) tracks.push(t);
   }
@@ -108,28 +145,6 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
     if (!trackIds.has(trackId)) errors.push({ tab: 'Stages', message: `stages reference unknown track_id "${trackId}"` });
   }
 
-  // Needs: index first (before the child tabs) so Milestones/Engage/Inquiries rows can be
-  // checked against the set of need_ids that actually survived indexing.
-  const needEntries = index('Needs', tabs.Needs, errors);
-  const needIds = new Set(needEntries.map(e => e.data.need_id));
-
-  // Children of needs
-  const byNeed = <T>(tab: TabName, schema: z.ZodType<T>): Map<string, T[]> => {
-    const m = new Map<string, T[]>();
-    for (const { row, data } of index(tab, tabs[tab], errors)) {
-      if (!data.need_id) { errors.push({ tab, row, message: 'missing need_id' }); continue; }
-      if (!needIds.has(data.need_id)) { errors.push({ tab, row, message: `unknown need_id "${data.need_id}"` }); continue; }
-      checkSource(tab, row, data.source_id);
-      const rec = validate(schema, tab, row, toRecord(tab, data, ['need_id']), errors);
-      if (!rec) continue;
-      (m.get(data.need_id) ?? m.set(data.need_id, []).get(data.need_id)!).push(rec);
-    }
-    return m;
-  };
-  const milestones = byNeed('Milestones', Milestone);
-  const engage = byNeed('Engage', Engage);
-  const inquiries = byNeed('Inquiries', Inquiry);
-  const funding = byNeed('Funding', Funding);
   for (const [needId, rows] of funding) {
     const ids = new Set(rows.map(f => f.id));
     for (const f of rows) {
@@ -164,7 +179,7 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
       ...validNeed,
       milestones: ms,
       engage: engage.get(needId) ?? [],
-      inquiries: (inquiries.get(needId) ?? []).sort((a, b) => (a.date ?? '9999').localeCompare(b.date ?? '9999')), // undated (open) questions last
+      inquiries: byDateThenOpen(inquiries.get(needId) ?? []),
       funding: funding.get(needId) ?? [],
     };
     (needsBySchool.get(data.school_id) ?? needsBySchool.set(data.school_id, []).get(data.school_id)!).push(rec);

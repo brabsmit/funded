@@ -14,8 +14,10 @@ Engage,basis,What kind of claim the venue is,fact | requirement | estimate | int
 Engage,date,"ISO date the venue happens (a meeting, an election)",YYYY-MM-DD
 Engage,deadline,ISO date the sign-up or application closes; venues sort by this when present,YYYY-MM-DD
 Engage,ask,The specific question to put to this venue; shown with a copy button,
+Engage,track_id,"Fill instead of need_id for a venue that belongs to a whole track (shown on the Tracks page as ""How to raise a need on this track""). Exactly one of need_id / track_id.",
 Inquiries,status,open = a question no one has asked yet (leave date blank); the rest need a date,open | answered | partial | unanswered
 Inquiries,why,Why the question matters or why it is still open,
+Inquiries,track_id,Fill instead of need_id for a question about a whole track (shown on the Tracks page). Exactly one of need_id / track_id.,
 Funding,amount,"Whole dollars, digits only (80000000). Leave blank when no source prices it separately.",number
 Funding,parent_id,The funding_id this amount sits inside (same need). Blank for the top-level total.,
 Sources,source_id,Referenced by every *_source_id column. Add the document here first.,

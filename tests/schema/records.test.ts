@@ -70,6 +70,18 @@ describe('Track schema', () => {
     const ok = { ...t, stages: [{ id: 'cip-funding', order: 1, name: 'Funding', decider: 'School Board', basis: 'requirement' }] };
     expect(Track.safeParse(ok).success).toBe(true);
   });
+  it('carries track-level engage venues and inquiries, defaulting to empty', () => {
+    const base = { id: 'mcmm', name: 'MC/MM', description: 'x', routing_rule: 'y', verification: 'draft', sources: [source],
+      stages: [{ id: 'mcmm-budget', order: 1, name: 'Budget', decider: 'School Board', basis: 'fact', source_id: 'cip-2027' }] };
+    const r = Track.safeParse(base);
+    expect(r.success).toBe(true);
+    if (r.success) { expect(r.data.engage).toEqual([]); expect(r.data.inquiries).toEqual([]); }
+    const full = Track.safeParse({ ...base,
+      engage: [{ id: 'fac', venue: 'Facilities Advisory Council', deadline: '2026-10-31', ask: 'How are projects chosen?', basis: 'fact', source_id: 'cip-2027' }],
+      inquiries: [{ id: 'ccpta', date: '2026-08-13', to: 'School Board', question: 'Where does engagement occur?', status: 'unanswered', source_id: 'cip-2027' }] });
+    expect(full.success).toBe(true);
+    expect(Track.safeParse({ ...base, inquiries: [{ id: 'x', to: 'Board', question: 'q', status: 'partial' }] }).success).toBe(false);
+  });
 });
 
 describe('depth fields (why_track, engage dates, open inquiries, funding)', () => {
