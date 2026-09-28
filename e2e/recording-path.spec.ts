@@ -25,7 +25,7 @@ test('recording path: home → Oakridge → four blocks', async ({ page }, info)
 
   // Understand: the short answer leads with one countdown, the scale axis and the money picture render.
   await expect(page.getByTestId('countdown')).toContainText(/\d+ days/);
-  await expect(page.getByRole('img', { name: /From the first question to the planned fix/ })).toBeVisible();
+  await expect(page.getByRole('img', { name: /From the first public step to the planned fix/ })).toBeVisible();
   await expect(page.getByRole('figure', { name: /Where the money sits/ })).toBeVisible();
   await expect(page.getByText('Why this track')).toBeVisible();
 
