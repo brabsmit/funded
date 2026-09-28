@@ -3,6 +3,8 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import DraftBanner from '../components/DraftBanner.astro';
 import SchoolCard from '../components/SchoolCard.astro';
+import { href } from '../lib/url';
+const districts = (await getCollection('districts')).map(d => d.data).sort((a, b) => a.name.localeCompare(b.name));
 const tracks = (await getCollection('tracks')).map(t => t.data);
 const schools = (await getCollection('schools')).map(s => s.data).sort((a, b) => (a.status === b.status ? a.name.localeCompare(b.name) : a.status === 'live' ? -1 : 1)); // live records first
 ---
@@ -11,10 +13,20 @@ const schools = (await getCollection('schools')).map(s => s.data).sort((a, b) =>
   <p class="mt-3 max-w-prose text-lg text-ink-muted">
     Pick a school. See what stage a facility need is at, who decides the next step, and where you can engage.
   </p>
-  <div class="mt-8">
-    <DraftBanner tracks={tracks} />
-  </div>
-  <section class="grid gap-4 sm:grid-cols-2">
-    {schools.map(s => <SchoolCard school={s} />)}
-  </section>
+  {districts.map(d => {
+    const dTracks = tracks.filter(t => t.district_id === d.id);
+    const dSchools = schools.filter(s => s.district_id === d.id);
+    return (
+      <section class="mt-8" aria-labelledby={`district-${d.id}`} data-testid="district">
+        <div class="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+          <h2 id={`district-${d.id}`} class="text-2xl"><a href={href(`/${d.id}/`)} class="hover:underline">{d.name}</a></h2>
+          <a href={href(`/${d.id}/tracks/`)} class="text-sm text-ink-muted underline">How decisions work in {d.short_name ?? d.name}</a>
+        </div>
+        <DraftBanner tracks={dTracks} district={d} />
+        <div class="grid gap-4 sm:grid-cols-2">
+          {dSchools.map(s => <SchoolCard school={s} />)}
+        </div>
+      </section>
+    );
+  })}
 </Base>

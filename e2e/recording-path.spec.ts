@@ -12,10 +12,12 @@ test('recording path: home → Oakridge → four blocks', async ({ page }, info)
   await expect(cards.first()).toContainText('Oakridge');
   await expect(cards.first()).toContainText(/Next: .*Nov 3, 2026/);
   await expect(page.getByText('draft record')).toHaveCount(3);
+  await expect(page.getByTestId('district')).toHaveCount(1);
+  await expect(page.getByRole('heading', { level: 2, name: 'Arlington Public Schools' })).toBeVisible();
   await shot('1-home');
 
   await page.getByRole('link', { name: /Oakridge/ }).click();
-  await expect(page).toHaveURL(/\/schools\/oakridge\/$/);
+  await expect(page).toHaveURL(/\/aps\/schools\/oakridge\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Oakridge');
 
   for (const h of ['The short answer', 'Where it is', 'What happens next', 'Who decides', 'Where to engage', 'What has been asked']) {
@@ -44,7 +46,8 @@ test('recording path: home → Oakridge → four blocks', async ({ page }, info)
 });
 
 test('tracks and roadmap render', async ({ page }, info) => {
-  await page.goto('./tracks/');
+  await page.goto('./aps/tracks/');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('in Arlington Public Schools');
   await expect(page.locator('section#cip, section#mcmm, section#gift')).toHaveCount(3);
   // MC/MM and gift have no example school, so the lane itself shows how to raise a need and what has been asked.
   const mcmm = page.locator('section#mcmm');
@@ -59,9 +62,19 @@ test('tracks and roadmap render', async ({ page }, info) => {
 
 test('padding schools render at their own stages', async ({ page }, info) => {
   for (const [id, stage] of [['jamestown', 'Bond referendum'], ['hoffman-boston', 'Project development and design'], ['ashlawn', 'Construction']]) {
-    await page.goto(`./schools/${id}/`);
+    await page.goto(`./aps/schools/${id}/`);
     await expect(page.getByText('Where it stands').locator('..')).toContainText(stage);
     await expect(page.getByRole('figure', { name: /Where the money sits/ })).toBeVisible();
     if (info.project.name === 'laptop') await page.screenshot({ path: `e2e/screenshots/laptop-4-${id}.png`, fullPage: true });
   }
+});
+
+test('district home and pre-district redirects', async ({ page }) => {
+  await page.goto('./aps/');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Arlington Public Schools');
+  await expect(page.getByTestId('school-card')).toHaveCount(4);
+  await page.goto('./tracks/');
+  await page.waitForURL(/\/aps\/tracks\/$/);
+  await page.goto('./schools/oakridge/');
+  await page.waitForURL(/\/aps\/schools\/oakridge\/$/);
 });

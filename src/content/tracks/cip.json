@@ -1,5 +1,6 @@
 {
   "id": "cip",
+  "district_id": "aps",
   "name": "Capital Improvement Plan",
   "description": "10-year School Board plan funding major facility investments largely through County GO bonds",
   "routing_rule": "Large building-system projects the School Board lists in the adopted CIP (Oakridge is here)",

@@ -1,5 +1,6 @@
 {
   "id": "gift",
+  "district_id": "aps",
   "name": "Private gift / external funding",
   "description": "Donations or privately funded building/grounds improvements reviewed under D-15",
   "routing_rule": "Any private money for a facility improvement; approver depends on project size",

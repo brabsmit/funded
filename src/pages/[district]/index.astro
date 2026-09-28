@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import DraftBanner from '../../components/DraftBanner.astro';
+import SchoolCard from '../../components/SchoolCard.astro';
+import { href } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const districts = await getCollection('districts');
+  return districts.map(d => ({ params: { district: d.data.id }, props: { district: d.data } }));
+}
+const { district } = Astro.props;
+const tracks = (await getCollection('tracks')).map(t => t.data).filter(t => t.district_id === district.id);
+const schools = (await getCollection('schools')).map(s => s.data).filter(s => s.district_id === district.id)
+  .sort((a, b) => (a.status === b.status ? a.name.localeCompare(b.name) : a.status === 'live' ? -1 : 1));
+---
+<Base title={district.name} district={district}>
+  <p class="text-sm text-ink-muted">{district.state ? `${district.state} · ` : ''}{district.url && <a href={district.url} class="underline" target="_blank" rel="noopener">{district.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}</a>}</p>
+  <h1 class="text-4xl">{district.name}</h1>
+  <p class="mt-3 max-w-prose text-lg text-ink-muted">
+    {schools.length} school{schools.length === 1 ? '' : 's'} tracked. Decisions in this district run on {tracks.length} track{tracks.length === 1 ? '' : 's'}:
+    {tracks.map((t, i) => <><a href={href(`/${district.id}/tracks/#${t.id}`)} class="underline">{t.name}</a>{i < tracks.length - 1 ? ', ' : '.'}</>)}
+  </p>
+  {district.notes && <p class="mt-2 max-w-prose text-sm text-ink-muted">{district.notes}</p>}
+  <div class="mt-8"><DraftBanner tracks={tracks} district={district} /></div>
+  <section class="grid gap-4 sm:grid-cols-2">
+    {schools.map(s => <SchoolCard school={s} />)}
+  </section>
+</Base>

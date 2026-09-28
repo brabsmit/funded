@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import DraftBanner from '../../../components/DraftBanner.astro';
+import NeedSection from '../../../components/NeedSection.astro';
+import SourceList from '../../../components/SourceList.astro';
+import { href } from '../../../lib/url';
+import { today } from '../../../lib/dates';
+
+export async function getStaticPaths() {
+  const districts = (await getCollection('districts')).map(d => d.data);
+  const schools = await getCollection('schools');
+  return schools.map(s => {
+    const district = districts.find(d => d.id === s.data.district_id);
+    if (!district) throw new Error(`school ${s.data.id}: unknown district ${s.data.district_id}`);
+    return { params: { district: district.id, id: s.data.id }, props: { school: s.data, district } };
+  });
+}
+const { school, district } = Astro.props;
+const tracks = (await getCollection('tracks')).map(t => t.data).filter(t => t.district_id === district.id);
+const trackById = new Map(tracks.map(t => [t.id, t]));
+const asOf = today();
+---
+<Base title={school.name} district={district}>
+  <p class="text-sm text-ink-muted"><a href={href(`/${district.id}/`)} class="hover:underline">{school.district}</a></p>
+  <h1 class="text-4xl">{school.name}</h1>
+  <div class="mt-6"><DraftBanner tracks={tracks} district={district} /></div>
+  {school.needs.map(need => {
+    const track = trackById.get(need.track_id);
+    if (!track) throw new Error(`school ${school.id}: need ${need.id} references unknown track ${need.track_id}`);
+    return <NeedSection need={need} track={track} sources={school.sources} today={asOf} />;
+  })}
+  <SourceList sources={school.sources} />
+  <p class="mt-4 text-sm text-ink-muted">Countdowns computed as of {asOf}.</p>
+</Base>

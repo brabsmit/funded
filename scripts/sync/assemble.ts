@@ -1,16 +1,17 @@
 import { z } from 'astro/zod';
 import type { Row, Problem } from './parse';
-import { Track, School, Source, Stage, Milestone, Engage, Inquiry, Funding, Need, SchoolStatus, type TrackT, type SchoolT, type SourceT } from '../../src/schema/records';
+import { District, Track, School, Source, Stage, Milestone, Engage, Inquiry, Funding, Need, SchoolStatus, type DistrictT, type TrackT, type SchoolT, type SourceT } from '../../src/schema/records';
 import { unsourcedClaims } from '../../src/schema/claims';
 
 export type { Problem };
-export type TabName = 'Tracks' | 'Stages' | 'Schools' | 'Needs' | 'Milestones' | 'Engage' | 'Inquiries' | 'Funding' | 'Sources';
+export type TabName = 'Districts' | 'Tracks' | 'Stages' | 'Schools' | 'Needs' | 'Milestones' | 'Engage' | 'Inquiries' | 'Funding' | 'Sources';
 export type Tabs = Record<TabName, Row[]>;
 
 export const TAB_COLUMNS: Record<TabName, string[]> = {
-  Tracks: ['track_id', 'name', 'description', 'routing_rule', 'policy_citation', 'verification', 'verified_by', 'verified_on'],
+  Districts: ['district_id', 'name', 'short_name', 'state', 'url', 'notes'],
+  Tracks: ['track_id', 'district_id', 'name', 'description', 'routing_rule', 'policy_citation', 'verification', 'verified_by', 'verified_on'],
   Stages: ['stage_id', 'track_id', 'order', 'name', 'decider', 'venue', 'typical_duration', 'basis', 'source_id'],
-  Schools: ['school_id', 'name', 'district', 'status', 'notes'],
+  Schools: ['school_id', 'name', 'district_id', 'status', 'notes'],
   Needs: ['need_id', 'school_id', 'title', 'category', 'summary', 'track_id', 'current_stage_id', 'stage_basis', 'stage_source_id', 'cost', 'cost_basis', 'cost_source_id', 'window', 'window_basis', 'window_source_id', 'why_track', 'why_track_basis', 'why_track_source_id'],
   Milestones: ['milestone_id', 'need_id', 'date', 'label', 'status', 'decider', 'venue', 'basis', 'source_id'],
   Engage: ['engage_id', 'need_id', 'track_id', 'venue', 'when', 'date', 'deadline', 'how', 'ask', 'url', 'basis', 'source_id'],
@@ -20,7 +21,7 @@ export const TAB_COLUMNS: Record<TabName, string[]> = {
 };
 
 const ID_COLUMN: Record<TabName, string> = {
-  Tracks: 'track_id', Stages: 'stage_id', Schools: 'school_id', Needs: 'need_id',
+  Districts: 'district_id', Tracks: 'track_id', Stages: 'stage_id', Schools: 'school_id', Needs: 'need_id',
   Milestones: 'milestone_id', Engage: 'engage_id', Inquiries: 'inquiry_id', Funding: 'funding_id', Sources: 'source_id',
 };
 
@@ -67,9 +68,17 @@ function validate<T>(schema: z.ZodType<T>, tab: TabName, row: number, rec: unkno
 // validated later.
 const NeedBase = Need.omit({ milestones: true, engage: true, inquiries: true });
 
-export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; errors: Problem[]; warnings: Problem[] } {
+export function assemble(tabs: Tabs): { districts: DistrictT[]; tracks: TrackT[]; schools: SchoolT[]; errors: Problem[]; warnings: Problem[] } {
   const errors: Problem[] = [];
   const warnings: Problem[] = [];
+
+  // Districts
+  const districts: DistrictT[] = [];
+  for (const { row, data } of index('Districts', tabs.Districts, errors)) {
+    const d = validate(District, 'Districts', row, toRecord('Districts', data), errors);
+    if (d) districts.push(d);
+  }
+  const districtById = new Map(districts.map(d => [d.id, d]));
 
   // Sources
   const sources = new Map<string, SourceT>();
@@ -138,8 +147,11 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
     const refs = [...stages.map(s => s.source_id), ...trackEngage.map(e => e.source_id), ...trackInquiries.map(q => q.source_id)];
     const rec = { ...toRecord('Tracks', data), stages, engage: trackEngage, inquiries: trackInquiries, sources: collect(refs) };
     const t = validate(Track, 'Tracks', row, rec, errors);
-    if (t) tracks.push(t);
+    if (!t) continue;
+    if (!districtById.has(t.district_id)) { errors.push({ tab: 'Tracks', row, message: `track "${t.id}": unknown district_id "${t.district_id}"` }); continue; }
+    tracks.push(t);
   }
+  const trackDistrict = new Map(tracks.map(t => [t.id, t.district_id]));
   const trackIds = new Set(tracks.map(t => t.id));
   for (const [trackId] of stagesByTrack) {
     if (!trackIds.has(trackId)) errors.push({ tab: 'Stages', message: `stages reference unknown track_id "${trackId}"` });
@@ -168,6 +180,11 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
     if (!trackIds.has(data.track_id ?? '')) errors.push({ tab: 'Needs', row, message: `need "${needId}": unknown track_id "${data.track_id}"` });
     else if (stageTrack.get(data.current_stage_id ?? '') !== data.track_id) {
       errors.push({ tab: 'Needs', row, message: `need "${needId}": current_stage_id "${data.current_stage_id}" is not a stage of track "${data.track_id}"` });
+    }
+    const schoolDistrict = tabs.Schools.find(r => r.school_id === data.school_id)?.district_id;
+    const needDistrict = trackDistrict.get(data.track_id ?? '');
+    if (schoolDistrict && needDistrict && schoolDistrict !== needDistrict) {
+      errors.push({ tab: 'Needs', row, message: `need "${needId}": track "${data.track_id}" belongs to district "${needDistrict}", but school "${data.school_id}" is in "${schoolDistrict}"` });
     }
     for (const col of ['stage_source_id', 'cost_source_id', 'window_source_id']) checkSource('Needs', row, data[col]);
 
@@ -200,7 +217,9 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
       n.why_track_source_id,
       ...(n.funding as Array<{ source_id?: string }>).map(x => x.source_id),
     ] as Array<string | undefined>);
-    const rec = { ...toRecord('Schools', data), needs, sources: collect(refs) };
+    const district = districtById.get(data.district_id ?? '');
+    if (!district) { errors.push({ tab: 'Schools', row, message: `school "${data.school_id}": unknown district_id "${data.district_id}"` }); continue; }
+    const rec = { ...toRecord('Schools', data), district: district.name, needs, sources: collect(refs) };
     // Validate as draft so referential-integrity errors (unknown source refs, etc.) surface
     // independently of the live-only unsourced-claims rule, which is enforced below by hand
     // so it is reported exactly once per claim instead of also being re-flagged by re-parsing
@@ -237,5 +256,5 @@ export function assemble(tabs: Tabs): { tracks: TrackT[]; schools: SchoolT[]; er
   const seen = new Set<string>();
   const dedupe = (ps: Problem[]) => ps.filter(p => { const k = `${p.tab}|${p.row ?? ''}|${p.message}`; if (seen.has(k)) return false; seen.add(k); return true; });
 
-  return { tracks, schools, errors: dedupe(errors), warnings: dedupe(warnings) };
+  return { districts, tracks, schools, errors: dedupe(errors), warnings: dedupe(warnings) };
 }

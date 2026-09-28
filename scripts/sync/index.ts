@@ -38,7 +38,7 @@ async function main() {
   print('Warnings', result.warnings);
   if (result.errors.length) { print('Errors', result.errors); console.log('\nNothing written.'); process.exit(1); }
 
-  const written = await writeContent(root, result.tracks, result.schools);
+  const written = await writeContent(root, result.districts, result.tracks, result.schools);
   console.log(`\nWrote ${written.length} files:`);
   for (const p of written) console.log(`  ${p.replace(root + '/', '')}`);
   console.log('\nReview with: git diff --stat src/content');

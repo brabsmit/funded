@@ -10,7 +10,7 @@ Live: https://brabsmit.github.io/funded/
 Google Sheet (source of truth, edited by the team)
 → `npm run sync` downloads each tab as CSV into `data/sheet/`
 → validates against `src/schema/records.ts`
-→ writes `src/content/tracks/*.json` and `src/content/schools/*.json`
+→ writes `src/content/districts/*.json`, `src/content/tracks/*.json` and `src/content/schools/*.json`
 → `npm run build` renders the site.
 
 `src/content/**` is generated. Never edit it by hand.
@@ -34,7 +34,7 @@ Google Sheet (source of truth, edited by the team)
 
 1. Upload `data/FundED-data-template.xlsx` to the project's Google Drive folder and open it with Google Sheets. If Sheets shows it in Office mode (an `.xlsx` badge by the title), use File → Save as Google Sheets so teammates get normal collaborative editing; that creates a new file with a new id, so do step 3 again afterwards. The header row is frozen, not protected; to lock it, select row 1 → Data → Protect sheets and ranges.
 2. Share → General access: "Anyone with the link", role Viewer. Give teammates Editor access individually. (No "Publish to web" is needed.)
-3. Copy the long id from the Sheet's URL (`docs.google.com/spreadsheets/d/<id>/edit`) into `sheetId` in `sync.config.json`. Tabs are fetched by name, so the tab names must stay exactly `Tracks`, `Stages`, `Schools`, `Needs`, `Milestones`, `Engage`, `Inquiries`, `Funding`, `Sources`.
+3. Copy the long id from the Sheet's URL (`docs.google.com/spreadsheets/d/<id>/edit`) into `sheetId` in `sync.config.json`. Tabs are fetched by name, so the tab names must stay exactly `Districts`, `Tracks`, `Stages`, `Schools`, `Needs`, `Milestones`, `Engage`, `Inquiries`, `Funding`, `Sources`.
 4. Run `npm run sync`. Fix anything it reports (tab and row number are given). Then `git diff --stat src/content`, and commit.
 5. Point teammates at the Legend tab.
 
@@ -47,6 +47,14 @@ Countdowns ("40 days until…") are computed at build time. To pin them for a sc
 Teammates edit the Sheet. Bryan runs `npm run sync`, reviews the diff, commits, pushes. GitHub Pages redeploys in about a minute. The filmed demo uses whatever is committed, so a Sheet edit never changes the site until someone runs sync.
 
 If a remote sync fails, `data/sheet/` may hold a mix of fresh and old CSVs; run `git checkout data/sheet` or fix the Sheet and re-run.
+
+## URLs
+
+Everything hangs off a district: `/aps/` (district home), `/aps/tracks/` (that district's three tracks), `/aps/schools/oakridge/`. The site root lists every district's schools. The pre-district URLs `/tracks/` and `/schools/<id>/` redirect to the `aps` district so links in the pitch video keep working; those redirects are hardcoded in `astro.config.mjs` and can go once a second district exists.
+
+## Adding a district
+
+One row in the Districts tab (`district_id` becomes the URL segment). Then its tracks (Tracks and Stages rows with that `district_id`) before any of its schools; the sync rejects a school whose needs sit on another district's tracks.
 
 ## Adding a school
 

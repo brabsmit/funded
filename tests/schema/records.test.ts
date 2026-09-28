@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { School, Track } from '../../src/schema/records';
+import { District, School, Track } from '../../src/schema/records';
 import { claimsOf, unsourcedClaims } from '../../src/schema/claims';
 
 const source = { id: 'cip-2027', title: 'APS CIP FY2027-2036', url: 'https://www.apsva.us/cip', retrieved_on: '2026-09-24' };
@@ -19,7 +19,7 @@ const need = {
 };
 
 const school = (overrides: object) => ({
-  id: 'oakridge', name: 'Oakridge Elementary', district: 'Arlington Public Schools',
+  id: 'oakridge', name: 'Oakridge Elementary', district_id: 'aps', district: 'Arlington Public Schools',
   status: 'live', needs: [need], sources: [source], ...overrides,
 });
 
@@ -65,13 +65,13 @@ describe('School schema', () => {
 
 describe('Track schema', () => {
   it('requires at least one stage and a verification value', () => {
-    const t = { id: 'cip', name: 'Capital (CIP)', description: 'x', routing_rule: 'y', verification: 'draft', stages: [], sources: [] };
+    const t = { id: 'cip', district_id: 'aps', name: 'Capital (CIP)', description: 'x', routing_rule: 'y', verification: 'draft', stages: [], sources: [] };
     expect(Track.safeParse(t).success).toBe(false);
     const ok = { ...t, stages: [{ id: 'cip-funding', order: 1, name: 'Funding', decider: 'School Board', basis: 'requirement' }] };
     expect(Track.safeParse(ok).success).toBe(true);
   });
   it('carries track-level engage venues and inquiries, defaulting to empty', () => {
-    const base = { id: 'mcmm', name: 'MC/MM', description: 'x', routing_rule: 'y', verification: 'draft', sources: [source],
+    const base = { id: 'mcmm', district_id: 'aps', name: 'MC/MM', description: 'x', routing_rule: 'y', verification: 'draft', sources: [source],
       stages: [{ id: 'mcmm-budget', order: 1, name: 'Budget', decider: 'School Board', basis: 'fact', source_id: 'cip-2027' }] };
     const r = Track.safeParse(base);
     expect(r.success).toBe(true);
@@ -113,5 +113,20 @@ describe('depth fields (why_track, engage dates, open inquiries, funding)', () =
     expect(JSON.stringify(bad.error?.issues)).toContain('ghost');
     const unsourced = School.safeParse(school({ needs: [{ ...need, funding: [{ ...f80, source_id: undefined }] }] }));
     expect(unsourced.success).toBe(false);
+  });
+});
+
+describe('District schema', () => {
+  it('needs an id and a name; the rest is optional', () => {
+    expect(District.safeParse({ id: 'aps', name: 'Arlington Public Schools' }).success).toBe(true);
+    expect(District.safeParse({ id: 'aps', name: 'Arlington Public Schools', short_name: 'APS', state: 'VA', url: 'https://www.apsva.us/' }).success).toBe(true);
+    expect(District.safeParse({ id: 'APS', name: 'x' }).success).toBe(false);
+    expect(District.safeParse({ id: 'aps' }).success).toBe(false);
+  });
+  it('a track and a school both carry a district_id', () => {
+    expect(Track.safeParse({ id: 'cip', name: 'CIP', description: 'x', routing_rule: 'y', verification: 'draft', sources: [],
+      stages: [{ id: 's', order: 1, name: 'S', decider: 'D', basis: 'fact' }] }).success).toBe(false);
+    const { district_id, ...noDistrict } = school({});
+    expect(School.safeParse(noDistrict).success).toBe(false);
   });
 });

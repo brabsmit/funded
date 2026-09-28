@@ -11,6 +11,12 @@ const id = z.string().regex(/^[a-z0-9][a-z0-9-]*$/, 'ids are lowercase letters, 
 const date = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'dates are YYYY-MM-DD');
 const text = z.string().min(1);
 
+export const District = z.object({
+  id, name: text,
+  short_name: text.optional(), state: text.optional(),
+  url: z.string().url().optional(), notes: text.optional(),
+});
+
 export const Source = z.object({
   id, title: text,
   publisher: text.optional(),
@@ -56,7 +62,7 @@ export const Inquiry = z.object({
 });
 
 export const Track = z.object({
-  id, name: text, description: text, routing_rule: text,
+  id, district_id: id, name: text, description: text, routing_rule: text,
   policy_citation: text.optional(),
   verification: Verification,
   verified_by: text.optional(), verified_on: date.optional(),
@@ -81,7 +87,9 @@ export const Need = z.object({
 });
 
 export const School = z.object({
-  id, name: text, district: text, status: SchoolStatus, notes: text.optional(),
+  id, name: text,
+  district_id: id, district: text, // district is the display name, denormalized from the Districts tab by the sync
+  status: SchoolStatus, notes: text.optional(),
   needs: z.array(Need),
   sources: z.array(Source),
 }).superRefine((school, ctx) => {
@@ -111,6 +119,7 @@ export const School = z.object({
 });
 
 export type BasisT = z.infer<typeof Basis>;
+export type DistrictT = z.infer<typeof District>;
 export type SourceT = z.infer<typeof Source>;
 export type StageT = z.infer<typeof Stage>;
 export type TrackT = z.infer<typeof Track>;

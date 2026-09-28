@@ -30,7 +30,7 @@ const sectionHeading = 'text-2xl mb-4 flex items-baseline gap-3';
   <section class={block} aria-labelledby={`${need.id}-where`}>
     <h3 id={`${need.id}-where`} class={sectionHeading}>Where it is</h3>
     <div class="mb-4 flex items-center gap-3">
-      <a href={href(`/tracks/#${track.id}`)} class="rounded bg-accent-soft px-2 py-0.5 text-sm font-semibold text-accent">{track.name}</a>
+      <a href={href(`/${track.district_id}/tracks/#${track.id}`)} class="rounded bg-accent-soft px-2 py-0.5 text-sm font-semibold text-accent">{track.name}</a>
       <BasisChip basis={need.stage_basis} sourceId={need.stage_source_id} sources={sources} uid={`src-${need.id}-stage`} />
     </div>
     <Pipeline need={need} track={track} />
@@ -49,7 +49,7 @@ const sectionHeading = 'text-2xl mb-4 flex items-baseline gap-3';
   <section class={block} aria-labelledby={`${need.id}-who`}>
     <h3 id={`${need.id}-who`} class={sectionHeading}>Who decides</h3>
     <Deciders need={need} track={track} />
-    <p class="mt-2 text-sm text-ink-muted">From the <a href={href(`/tracks/#${track.id}`)} class="underline">{track.name}</a> track, verification: {verificationLabel[track.verification]}.</p>
+    <p class="mt-2 text-sm text-ink-muted">From the <a href={href(`/${track.district_id}/tracks/#${track.id}`)} class="underline">{track.name}</a> track, verification: {verificationLabel[track.verification]}.</p>
   </section>
 
   <section class={block} aria-labelledby={`${need.id}-engage`}>

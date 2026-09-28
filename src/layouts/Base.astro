@@ -1,8 +1,9 @@
 ---
 import "../styles/global.css";
+import type { DistrictT } from '../schema/records';
 import { href } from '../lib/url';
-interface Props { title: string; description?: string }
-const { title, description = "Where a school facility need stands, who decides next, and where to engage." } = Astro.props;
+interface Props { title: string; description?: string; district?: DistrictT }
+const { title, description = "Where a school facility need stands, who decides next, and where to engage.", district } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
@@ -17,7 +18,8 @@ const { title, description = "Where a school facility need stands, who decides n
       <nav class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <a href={href('/')} class="font-serif text-xl font-semibold">FundED</a>
         <div class="flex gap-5 text-sm text-ink-muted">
-          <a href={href('/tracks/')}>How it works</a>
+          {district && <a href={href(`/${district.id}/`)} class="hidden sm:inline">{district.short_name ?? district.name}</a>}
+          {district && <a href={href(`/${district.id}/tracks/`)}>How it works</a>}
           <a href={href('/roadmap/')}>Roadmap</a>
         </div>
       </nav>

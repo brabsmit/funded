@@ -1,6 +1,7 @@
 {
   "id": "hoffman-boston",
   "name": "Hoffman-Boston Elementary School",
+  "district_id": "aps",
   "district": "Arlington Public Schools",
   "status": "draft",
   "notes": "Already funded; which stage it is in today is our reading of the CIP, not confirmed.",

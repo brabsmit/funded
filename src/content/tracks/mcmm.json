@@ -1,5 +1,6 @@
 {
   "id": "mcmm",
+  "district_id": "aps",
   "name": "Major Construction/Minor Maintenance",
   "description": "Replacement of major building components (HVAC, roofs, floors, cafeterias) too large for the operating maintenance budget and not listed as a CIP project; funded annually in the Capital Projects Fund, $3.0M one-time in FY27",
   "routing_rule": "Smaller facility work not listed as a CIP project; no public dollar cutoff vs the CIP",

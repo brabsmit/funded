@@ -11,7 +11,7 @@ from openpyxl.worksheet.datavalidation import DataValidation
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "data" / "sheet"
 OUT = ROOT / "data" / "FundED-data-template.xlsx"
-TABS = ["Tracks", "Stages", "Schools", "Needs", "Milestones", "Engage", "Inquiries", "Funding", "Sources", "Legend"]
+TABS = ["Districts", "Tracks", "Stages", "Schools", "Needs", "Milestones", "Engage", "Inquiries", "Funding", "Sources", "Legend"]
 ENUMS = {
     "basis": "fact,requirement,estimate,interpretation",
     "stage_basis": "fact,requirement,estimate,interpretation",
@@ -26,6 +26,7 @@ FONT = "Arial"
 # Cross-sheet reference validation: column name -> tab holding the id it points to.
 # "every column ending in source_id" is handled separately below.
 REF_TARGETS = {
+    "district_id": "Districts",
     "track_id": "Tracks",
     "current_stage_id": "Stages",
     "school_id": "Schools",
@@ -34,7 +35,7 @@ REF_TARGETS = {
 }
 # Each tab's own id column is skipped (e.g. track_id on Tracks is not a reference).
 OWN_ID_COLUMN = {
-    "Tracks": "track_id", "Stages": "stage_id", "Schools": "school_id", "Needs": "need_id",
+    "Districts": "district_id", "Tracks": "track_id", "Stages": "stage_id", "Schools": "school_id", "Needs": "need_id",
     "Milestones": "milestone_id", "Engage": "engage_id", "Inquiries": "inquiry_id", "Funding": "funding_id", "Sources": "source_id",
 }
 

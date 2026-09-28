@@ -33,7 +33,7 @@ describe('assemble', () => {
 
   it('current stage must belong to the need\'s track', () => {
     const t = goodTabs();
-    t.Tracks.push({ track_id: 'gift', name: 'Equipment gift', description: 'x', routing_rule: 'y', verification: 'draft' });
+    t.Tracks.push({ track_id: 'gift', district_id: 'aps', name: 'Equipment gift', description: 'x', routing_rule: 'y', verification: 'draft' });
     t.Stages.push({ stage_id: 'gift-offer', track_id: 'gift', order: '1', name: 'Offer', decider: 'Principal', basis: 'requirement', source_id: 'cip-2027' });
     t.Needs[0].current_stage_id = 'gift-offer';
     expect(msgs(assemble(t))).toContain('Needs:2 need "hvac": current_stage_id "gift-offer" is not a stage of track "cip"');
@@ -177,6 +177,31 @@ describe('assemble', () => {
     it('a track-level inquiry source must exist', () => {
       const t = withTrackRows(); t.Engage[1].source_id = 'ghost';
       expect(msgs(assemble(t))).toContain('Engage:3 unknown source_id "ghost"');
+    });
+  });
+
+  describe('districts', () => {
+    it('emits districts, stamps each track and school with its district, and denormalizes the district name onto the school', () => {
+      const r = assemble(goodTabs());
+      expect(r.errors).toEqual([]);
+      expect(r.districts.map(d => d.id)).toEqual(['aps']);
+      expect(r.tracks[0].district_id).toBe('aps');
+      expect(r.schools[0].district_id).toBe('aps');
+      expect(r.schools[0].district).toBe('Arlington Public Schools');
+    });
+    it('a track or school naming an unknown district is reported on its row', () => {
+      const t = goodTabs(); t.Tracks[0].district_id = 'ghost';
+      expect(msgs(assemble(t))).toContain('Tracks:2 track "cip": unknown district_id "ghost"');
+      const u = goodTabs(); u.Schools[0].district_id = 'ghost';
+      expect(msgs(assemble(u))).toContain('Schools:2 school "oakridge": unknown district_id "ghost"');
+    });
+    it('a need may only sit on a track of its own district', () => {
+      const t = goodTabs();
+      t.Districts.push({ district_id: 'fcps', name: 'Fairfax County Public Schools' });
+      t.Tracks.push({ track_id: 'fcps-cip', district_id: 'fcps', name: 'FCPS CIP', description: 'x', routing_rule: 'y', verification: 'draft' });
+      t.Stages.push({ stage_id: 'fcps-plan', track_id: 'fcps-cip', order: '1', name: 'Plan', decider: 'Board', basis: 'requirement', source_id: 'cip-2027' });
+      t.Needs[0].track_id = 'fcps-cip'; t.Needs[0].current_stage_id = 'fcps-plan';
+      expect(msgs(assemble(t))).toContain('Needs:2 need "hvac": track "fcps-cip" belongs to district "fcps", but school "oakridge" is in "aps"');
     });
   });
 });

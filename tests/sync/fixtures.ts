@@ -2,8 +2,11 @@ import type { Tabs } from '../../scripts/sync/assemble';
 
 export function goodTabs(): Tabs {
   return {
+    Districts: [
+      { district_id: 'aps', name: 'Arlington Public Schools', short_name: 'APS', state: 'VA', url: 'https://www.apsva.us/' },
+    ],
     Tracks: [
-      { track_id: 'cip', name: 'Capital (CIP)', description: 'Bond-funded capital projects', routing_rule: 'Major renovations and new construction', policy_citation: 'CIP FY2027-36', verification: 'draft' },
+      { track_id: 'cip', district_id: 'aps', name: 'Capital (CIP)', description: 'Bond-funded capital projects', routing_rule: 'Major renovations and new construction', policy_citation: 'CIP FY2027-36', verification: 'draft' },
     ],
     Stages: [
       { stage_id: 'cip-plan', track_id: 'cip', order: '1', name: 'In the CIP', decider: 'School Board', venue: 'CIP adoption', basis: 'requirement', source_id: 'cip-2027' },
@@ -11,7 +14,7 @@ export function goodTabs(): Tabs {
       { stage_id: 'cip-design', track_id: 'cip', order: '3', name: 'Design', decider: 'Facilities & Operations', basis: 'requirement', source_id: 'cip-2027' },
     ],
     Schools: [
-      { school_id: 'oakridge', name: 'Oakridge Elementary', district: 'Arlington Public Schools', status: 'live' },
+      { school_id: 'oakridge', name: 'Oakridge Elementary', district_id: 'aps', status: 'live' },
     ],
     Needs: [
       { need_id: 'hvac', school_id: 'oakridge', title: 'HVAC replacement', track_id: 'cip', current_stage_id: 'cip-funding', stage_basis: 'fact', stage_source_id: 'cip-2027', cost: '$31M', cost_basis: 'estimate', cost_source_id: 'cip-2027', window: 'Summer 2027-2029', window_basis: 'estimate', window_source_id: 'cip-2027' },

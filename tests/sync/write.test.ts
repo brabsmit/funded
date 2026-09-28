@@ -7,13 +7,13 @@ import { assemble } from '../../scripts/sync/assemble';
 import { goodTabs } from './fixtures';
 
 describe('writeContent', () => {
-  it('writes one JSON per track and school and removes stale files', async () => {
+  it('writes one JSON per district, track and school and removes stale files', async () => {
     const root = await mkdtemp(join(tmpdir(), 'funded-'));
     await mkdir(join(root, 'src/content/schools'), { recursive: true });
     await writeFile(join(root, 'src/content/schools/stale.json'), '{}');
-    const { tracks, schools } = assemble(goodTabs());
-    const written = await writeContent(root, tracks, schools);
-    expect(written.map(p => p.replace(root, ''))).toEqual(['/src/content/tracks/cip.json', '/src/content/schools/oakridge.json']);
+    const { districts, tracks, schools } = assemble(goodTabs());
+    const written = await writeContent(root, districts, tracks, schools);
+    expect(written.map(p => p.replace(root, ''))).toEqual(['/src/content/districts/aps.json', '/src/content/tracks/cip.json', '/src/content/schools/oakridge.json']);
     expect(await readdir(join(root, 'src/content/schools'))).toEqual(['oakridge.json']);
     const school = JSON.parse(await readFile(join(root, 'src/content/schools/oakridge.json'), 'utf8'));
     expect(school.needs[0].milestones[1].status).toBe('next');

@@ -1,6 +1,7 @@
 {
   "id": "oakridge",
   "name": "Oakridge Elementary School",
+  "district_id": "aps",
   "district": "Arlington Public Schools",
   "status": "live",
   "needs": [

@@ -2,7 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import type { TabName } from './assemble';
 
-export const TAB_NAMES: TabName[] = ['Tracks', 'Stages', 'Schools', 'Needs', 'Milestones', 'Engage', 'Inquiries', 'Funding', 'Sources'];
+export const TAB_NAMES: TabName[] = ['Districts', 'Tracks', 'Stages', 'Schools', 'Needs', 'Milestones', 'Engage', 'Inquiries', 'Funding', 'Sources'];
 
 /**
  * Two ways to reach the Sheet:

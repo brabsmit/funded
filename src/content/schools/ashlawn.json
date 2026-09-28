@@ -1,6 +1,7 @@
 {
   "id": "ashlawn",
   "name": "Ashlawn Elementary School",
+  "district_id": "aps",
   "district": "Arlington Public Schools",
   "status": "draft",
   "notes": "CIP says construction completes August 2026; completion not confirmed.",

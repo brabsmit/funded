@@ -1,8 +1,11 @@
 tab,column,meaning,allowed_values
+Districts,district_id,"Short id for the district (lowercase-dashes); becomes the first URL segment, e.g. /aps/",
+Tracks,district_id,The district whose policy this track describes. A school's needs may only sit on tracks of its own district.,
 Tracks,track_id,Short id for the track (lowercase-dashes),
 Tracks,verification,Has an APS contact confirmed this track's stages and deciders?,draft | documented | confirmed
 Stages,order,Position of the stage within its track (1 = first),whole number
 Stages,basis,What kind of claim the stage is,fact | requirement | estimate | interpretation
+Schools,district_id,Must be a district_id from the Districts tab (the display name comes from there).,
 Schools,status,live = every claim must have a source or the site will not build; draft = warnings only,live | draft
 Needs,current_stage_id,Must be a stage_id that belongs to the need's track_id,
 Needs,stage_basis / cost_basis / window_basis,What kind of claim each is,fact | requirement | estimate | interpretation

@@ -1,6 +1,7 @@
 {
   "id": "jamestown",
   "name": "Jamestown Elementary School",
+  "district_id": "aps",
   "district": "Arlington Public Schools",
   "status": "draft",
   "notes": "Named in Question 4 beside Oakridge. Not yet verified with APS.",
