@@ -4,6 +4,7 @@ import Base from '../../layouts/Base.astro';
 import DraftBanner from '../../components/DraftBanner.astro';
 import TrackLane from '../../components/TrackLane.astro';
 import { today } from '../../lib/dates';
+import { href } from '../../lib/url';
 
 export async function getStaticPaths() {
   const districts = await getCollection('districts');
@@ -23,5 +24,5 @@ const tracks = (await getCollection('tracks')).map(t => t.data).filter(t => t.di
   <div class="grid gap-5 lg:grid-cols-3">
     {tracks.map(t => <TrackLane track={t} today={asOf} />)}
   </div>
-  <p class="mt-4 text-sm text-ink-muted">Countdowns computed as of {asOf}.</p>
+  <p class="mt-4 text-sm text-ink-muted">Countdowns computed as of {asOf}. Reviewing these for {district.short_name ?? district.name}? <a href={href(`/${district.id}/confirm/`)} class="underline">Print the confirmation sheet</a>.</p>
 </Base>

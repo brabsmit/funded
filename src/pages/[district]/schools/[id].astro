@@ -5,7 +5,8 @@ import DraftBanner from '../../../components/DraftBanner.astro';
 import NeedSection from '../../../components/NeedSection.astro';
 import SourceList from '../../../components/SourceList.astro';
 import { href } from '../../../lib/url';
-import { today } from '../../../lib/dates';
+import { today, fmtDate } from '../../../lib/dates';
+import { nextMilestone } from '../../../lib/need';
 
 export async function getStaticPaths() {
   const districts = (await getCollection('districts')).map(d => d.data);
@@ -20,8 +21,14 @@ const { school, district } = Astro.props;
 const tracks = (await getCollection('tracks')).map(t => t.data).filter(t => t.district_id === district.id);
 const trackById = new Map(tracks.map(t => [t.id, t]));
 const asOf = today();
+const lead = school.needs[0];
+const leadNext = lead && nextMilestone(lead);
+// No day counts here: link previews are cached for days and would go stale.
+const description = lead
+  ? `${lead.title}.${leadNext ? ` ${leadNext.label} (${fmtDate(leadNext.date)}).` : ''} Who decides next and where to engage.`
+  : undefined;
 ---
-<Base title={school.name} district={district}>
+<Base title={school.name} description={description} district={district}>
   <p class="text-sm text-ink-muted"><a href={href(`/${district.id}/`)} class="hover:underline">{school.district}</a></p>
   <h1 class="text-4xl">{school.name}</h1>
   <div class="mt-6"><DraftBanner tracks={tracks} district={district} /></div>

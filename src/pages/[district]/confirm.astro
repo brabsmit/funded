@@ -1,0 +1,65 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { fmtDate, today } from '../../lib/dates';
+import { verificationLabel } from '../../lib/labels';
+import { href } from '../../lib/url';
+
+export async function getStaticPaths() {
+  const districts = await getCollection('districts');
+  return districts.map(d => ({ params: { district: d.data.id }, props: { district: d.data } }));
+}
+const { district } = Astro.props;
+const order = ['cip', 'mcmm', 'gift'];
+const tracks = (await getCollection('tracks')).map(t => t.data).filter(t => t.district_id === district.id)
+  .sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+const name = district.short_name ?? district.name;
+const blank = 'inline-block min-w-[12rem] border-b border-ink-muted';
+---
+<Base title={`Confirm the tracks: ${name}`} description={`A printable sheet for an ${name} reviewer to confirm or correct who decides each step.`} district={district}>
+  <p class="text-sm text-ink-muted print:hidden">For printing or sharing as a PDF (File → Print). <a href={href(`/${district.id}/tracks/`)} class="underline">Back to how it works</a></p>
+  <h1 class="text-3xl">Who decides a school facility need in {district.name}: please confirm or correct</h1>
+  <p class="mt-3 max-w-prose">
+    FundED shows parents and PTAs which process a facility need moves through and who decides each step.
+    Below is our current reading of {name}'s {tracks.length} processes, taken from public documents. For each step, please
+    tick whether it is right, and write any correction. Nothing is marked "Confirmed with {name}" on the site until a reviewer has signed this.
+  </p>
+
+  {tracks.map(t => (
+    <section class="mt-8" aria-labelledby={`c-${t.id}`}>
+      <h2 id={`c-${t.id}`} class="text-2xl">{t.name}</h2>
+      <p class="mt-1 text-sm text-ink-muted">Current status on the site: {verificationLabel[t.verification]}{t.policy_citation && <> · Policy: {t.policy_citation}</>}</p>
+      <p class="mt-2 max-w-prose"><span class="text-ink-muted">Which needs go here:</span> {t.routing_rule}</p>
+      <table class="mt-3 w-full border-collapse text-sm">
+        <thead>
+          <tr class="border-b-2 border-ink text-left">
+            <th class="py-1 pr-2">#</th><th class="py-1 pr-2">Step</th><th class="py-1 pr-2">Who decides</th><th class="py-1 pr-2">Our basis</th><th class="py-1">Right?</th>
+          </tr>
+        </thead>
+        <tbody>
+          {t.stages.map(s => {
+            const src = s.source_id ? t.sources.find(x => x.id === s.source_id) : undefined;
+            return (
+              <tr class="break-inside-avoid border-b border-line align-top">
+                <td class="py-2 pr-2">{s.order}</td>
+                <td class="py-2 pr-2">{s.name}{s.venue && <span class="block text-ink-muted">{s.venue}</span>}</td>
+                <td class="py-2 pr-2 font-semibold">{s.decider}</td>
+                <td class="py-2 pr-2 text-ink-muted">{s.basis}{src ? `: ${src.title}` : ', no source yet'}</td>
+                <td class="py-2 whitespace-nowrap">☐ Yes &nbsp; ☐ No</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <p class="mt-3">Corrections or a missing step:</p>
+      <div class="h-14 border-b border-ink-muted"></div>
+    </section>
+  ))}
+
+  <section class="mt-10 break-inside-avoid-page border-t border-line pt-6">
+    <h2 class="text-2xl">Reviewed by</h2>
+    <p class="mt-3 leading-loose">Name <span class={blank}>&nbsp;</span> &nbsp; Role <span class={blank}>&nbsp;</span></p>
+    <p class="leading-loose">Date <span class={blank}>&nbsp;</span> &nbsp; May we name you on the site as the reviewer? ☐ Yes &nbsp; ☐ No, list the office only</p>
+    <p class="mt-4 text-sm text-ink-muted">Sheet generated {fmtDate(today())} from the FundED record. Sources for every step are listed at brabsmit.github.io/funded/{district.id}/tracks/.</p>
+  </section>
+</Base>

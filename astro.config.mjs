@@ -8,6 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 const BASE = '/funded';
 
 function legacyRedirects() {
+  /** @param {string} dir */
   const readJson = dir => readdirSync(dir).filter(f => f.endsWith('.json')).map(f => JSON.parse(readFileSync(`${dir}/${f}`, 'utf8')));
   const districts = readJson('./src/content/districts');
   const schools = readJson('./src/content/schools');

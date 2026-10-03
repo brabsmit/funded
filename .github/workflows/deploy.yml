@@ -22,7 +22,20 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      - run: npm run check
       - run: npm run build
+  # Not a gate for the deploy: one stale date must not freeze every countdown.
+  # A red run (GitHub emails on scheduled failures) means a "next" date has passed; update the Sheet.
+  freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run check:freshness
   build:
     needs: test
     runs-on: ubuntu-latest

@@ -28,6 +28,7 @@ Google Sheet (source of truth, edited by the team)
 | `npm test` | unit tests |
 | `npm run test:watch` | unit tests, watch mode |
 | `npm run e2e` | Playwright screenshots of the recording path |
+| `npm run check:freshness` | fail if any record still calls a date more than 7 days past "next" |
 | `python3 scripts/build-sheet-template.py` | rebuild `data/FundED-data-template.xlsx` (needs `openpyxl`) |
 
 ## Connecting the Sheet (one-time, Bryan)
@@ -40,7 +41,9 @@ Google Sheet (source of truth, edited by the team)
 
 Anyone with the link can read the Sheet. The Inquiries tab summarizes the April 2026 email exchange; it is already quoted in the public pitch video. If that changes, switch to a service account (about one hour) before adding anything more sensitive.
 
-Countdowns ("40 days until…") are computed at build time. To pin them for a screenshot or the film, build with `FUNDED_AS_OF=2026-09-24 npm run build`.
+Countdowns ("40 days until…") are computed at build time, and CI rebuilds the site every day at 05:00 UTC so they stay current. To pin them for a screenshot or the film, build with `FUNDED_AS_OF=2026-09-24 npm run build`.
+
+The same daily run checks freshness (`npm run check:freshness`). It does not block the deploy, but a red run means a record still calls a past date "next" (GitHub emails the workflow owner): mark that milestone done or move its date, with a source, in the Sheet. School cards already say "Was due …, not confirmed since" once the date passes.
 
 ## Updating data later
 
@@ -51,6 +54,14 @@ If a remote sync fails, `data/sheet/` may hold a mix of fresh and old CSVs; run 
 ## URLs
 
 Everything hangs off a district: `/aps/` (district home), `/aps/tracks/` (that district's three tracks), `/aps/schools/oakridge/`. The site root lists every district's schools. The pre-district URLs `/tracks/` and `/schools/<id>/` redirect to the `aps` district so links in the pitch video keep working; those redirects are hardcoded in `astro.config.mjs` and can go once a second district exists.
+
+## For an APS reviewer
+
+`/aps/confirm/` is a printable sheet (two Letter pages) listing every step of every track with who decides and our basis, with Yes/No boxes and a sign-off. Print it or save it as a PDF for whoever confirms the tracks. A track moves to `confirmed` in the Sheet only after that sign-off.
+
+## Link previews
+
+Every page carries Open Graph tags; school pages describe their next step without day counts (previews are cached for days). The preview image is `public/og.png`, rendered from `scripts/og-image.html` at 1200×630.
 
 ## Adding a district
 

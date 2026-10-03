@@ -4,17 +4,32 @@ import type { DistrictT } from '../schema/records';
 import { href } from '../lib/url';
 interface Props { title: string; description?: string; district?: DistrictT }
 const { title, description = "Where a school facility need stands, who decides next, and where to engage.", district } = Astro.props;
+const pageTitle = `${title} · FundED`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(href('/og.png'), Astro.site).href;
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} · FundED</title>
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FundED" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="FundED: where a school facility need stands, who decides next, and where to engage." />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body class="min-h-screen">
-    <header class="border-b border-line">
+    <header class="border-b border-line print:hidden">
       <nav class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <a href={href('/')} class="font-serif text-xl font-semibold">FundED</a>
         <div class="flex gap-5 text-sm text-ink-muted">
@@ -27,7 +42,7 @@ const { title, description = "Where a school facility need stands, who decides n
     <main class="mx-auto max-w-5xl px-4 py-8">
       <slot />
     </main>
-    <footer class="mx-auto max-w-5xl px-4 py-10 text-sm text-ink-muted">
+    <footer class="mx-auto max-w-5xl px-4 py-10 text-sm text-ink-muted print:hidden">
       FundED · Arlington Public Schools pilot · An EMBA Ethics Project, Georgetown McDonough, Fall 2026.
     </footer>
   </body>
