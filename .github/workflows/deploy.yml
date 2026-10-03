@@ -3,6 +3,10 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+  # Countdowns are computed at build time; rebuild daily so they stay current.
+  # 05:00 UTC is 1 a.m. Eastern, after the UTC date has rolled over.
+  schedule:
+    - cron: '0 5 * * *'
 permissions:
   contents: read
   pages: write
