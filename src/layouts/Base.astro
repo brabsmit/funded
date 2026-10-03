@@ -27,6 +27,10 @@ const ogImage = new URL(href('/og.png'), Astro.site).href;
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="FundED: where a school facility need stands, who decides next, and where to engage." />
     <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>
+      // Opt in to the one-shot reveal animations before first paint, so nothing flashes.
+      if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('motion');
+    </script>
   </head>
   <body class="min-h-screen">
     <header class="border-b border-line print:hidden">
@@ -45,5 +49,22 @@ const ogImage = new URL(href('/og.png'), Astro.site).href;
     <footer class="mx-auto max-w-5xl px-4 py-10 text-sm text-ink-muted print:hidden">
       FundED · Arlington Public Schools pilot · An EMBA Ethics Project, Georgetown McDonough, Fall 2026.
     </footer>
+    <script is:inline>
+      // Play each [data-reveal] group once when it scrolls into view; count [data-countup] numbers up to their printed value.
+      (() => {
+        if (!document.documentElement.classList.contains('motion')) return;
+        const countUp = el => {
+          const to = +el.dataset.countup, t0 = performance.now(), ms = 900;
+          const step = t => { const k = Math.min(1, (t - t0) / ms); el.textContent = String(Math.round(to * (1 - Math.pow(1 - k, 3)))); if (k < 1) requestAnimationFrame(step); };
+          el.textContent = '0'; requestAnimationFrame(step);
+        };
+        const io = new IntersectionObserver(entries => entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target); e.target.classList.add('in');
+          e.target.querySelectorAll('[data-countup]').forEach(countUp);
+        }), { threshold: 0.2 });
+        document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+      })();
+    </script>
   </body>
 </html>

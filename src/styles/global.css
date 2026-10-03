@@ -5,9 +5,9 @@
   --font-serif: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
 
   --color-ink: #1a1d21;
-  --color-ink-muted: #5b6470;
+  --color-ink-muted: #4b5360; /* darker than the video's #5b6470 so it holds up on a projector */
   --color-paper: #fbfaf7;
-  --color-line: #d9d6cf;
+  --color-line: #cfcbc2;
   --color-accent: #1f5f8b;
   --color-accent-soft: #e3eef7;
   --color-accent-mid: #7ea6c6;
@@ -51,4 +51,24 @@ h1, h2, h3 { font-family: var(--font-serif); letter-spacing: -0.01em; }
 
 @media print {
   html { font-size: 11px; background: white; }
+}
+
+/* Presentation motion. Every animation plays once and ends on the static layout,
+   so the resting page is what the pitch video shows. `motion` is set on <html> by
+   Base.astro only when the viewer allows motion; print and no-JS get the static page. */
+@media screen and (prefers-reduced-motion: no-preference) {
+  .motion [data-reveal] .r-grow-x { transform: scaleX(0); transform-origin: left center; }
+  .motion [data-reveal] .r-grow-y { transform: scaleY(0); transform-origin: top center; }
+  .motion [data-reveal] .r-pop { transform: scale(0); }
+  .motion [data-reveal] .r-fade { opacity: 0; transform: translateY(10px); }
+
+  .motion [data-reveal].in .r-grow-x,
+  .motion [data-reveal].in .r-grow-y { transform: none; transition: transform 1000ms cubic-bezier(.2, .7, .2, 1) calc(var(--i, 0) * 110ms); }
+  .motion [data-reveal].in .r-pop { transform: none; transition: transform 450ms cubic-bezier(.3, 1.6, .5, 1) calc(250ms + var(--i, 0) * 140ms); }
+  .motion [data-reveal].in .r-fade { opacity: 1; transform: none; transition: opacity 600ms ease-out calc(var(--i, 0) * 140ms), transform 600ms ease-out calc(var(--i, 0) * 140ms); }
+  .motion [data-reveal].in .r-glow { animation: r-glow 1.6s ease-out calc(900ms + var(--i, 0) * 140ms) 2; }
+}
+@keyframes r-glow {
+  0% { box-shadow: 0 0 0 0 rgb(31 95 139 / 0.45); }
+  100% { box-shadow: 0 0 0 14px rgb(31 95 139 / 0); }
 }

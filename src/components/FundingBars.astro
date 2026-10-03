@@ -15,10 +15,10 @@ roots.forEach(r => walk(r, 100));
 const fill = ['bg-accent-faint', 'bg-accent', 'hatch'];
 ---
 {flat.length > 0 && (
-  <figure class="figure mt-6 rounded-lg border border-line bg-white p-5" aria-label="Where the money sits">
+  <figure data-reveal class="figure mt-6 rounded-lg border border-line bg-white p-5" aria-label="Where the money sits">
     <figcaption class="text-lg">Where the money sits</figcaption>
     <ol class="mt-4 space-y-4">
-      {flat.map(f => (
+      {flat.map((f, i) => (
         <li style={`padding-left: ${f.depth * 1.25}rem`}>
           <div class="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm">
             <span class="text-xl font-semibold">{f.amount !== undefined ? fmtMoney(f.amount) : 'Not priced'}</span>
@@ -27,7 +27,7 @@ const fill = ['bg-accent-faint', 'bg-accent', 'hatch'];
             <BasisChip basis={f.basis} sourceId={f.source_id} sources={sources} uid={`src-${need.id}-funding-${f.id}`} />
           </div>
           <div class="mt-1.5 h-5 w-full">
-            <div class:list={['h-5 rounded-r', fill[Math.min(f.depth, fill.length - 1)]]} style={`width: ${Math.max(f.width, 2)}%`}></div>
+            <div class:list={['r-grow-x h-5 rounded-r', fill[Math.min(f.depth, fill.length - 1)]]} style={`width: ${Math.max(f.width, 2)}%; --i: ${i}`}></div>
           </div>
           {f.note && <p class="mt-1 text-sm text-ink-muted">{f.note}</p>}
         </li>
