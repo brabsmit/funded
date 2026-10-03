@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseTab, parseHeader, requireColumns } from '../../scripts/sync/parse';
+import { parseTab, parseHeader, requireColumns, duplicateColumns } from '../../scripts/sync/parse';
 
 describe('parseTab', () => {
   it('quoted field with comma and newline round-trips', () => {
@@ -24,6 +24,16 @@ describe('parseTab', () => {
     const withBom = '﻿' + csv;
     expect(parseTab(withBom)).toEqual(parseTab(csv));
     expect(parseHeader(withBom)).toEqual(parseHeader(csv));
+  });
+});
+
+describe('blank and duplicate header columns', () => {
+  it('blank header columns (the Sheet exports all 26) are dropped, even when a stray cell has a value', () => {
+    expect(parseTab('a,b,,\n1,2,x,\n')).toEqual([{ a: '1', b: '2' }]);
+  });
+  it('duplicateColumns reports a repeated named column, ignoring blanks', () => {
+    expect(duplicateColumns('Engage', ['id', 'date', '', '', 'date'])).toEqual([{ tab: 'Engage', message: 'column "date" appears 2 times; only one is read' }]);
+    expect(duplicateColumns('Engage', ['id', '', ''])).toEqual([]);
   });
 });
 

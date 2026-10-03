@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { parseTab, parseHeader, requireColumns, type Problem } from './parse';
+import { parseTab, parseHeader, requireColumns, duplicateColumns, type Problem } from './parse';
 import { assemble, TAB_COLUMNS, type Tabs, type TabName } from './assemble';
 import { readLocalTabs, fetchRemoteTabs, TAB_NAMES, type SyncConfig } from './fetch';
 import { writeContent } from './write';
@@ -29,7 +29,8 @@ async function main() {
   const errors: Problem[] = [];
   const tabs = {} as Tabs;
   for (const tab of TAB_NAMES) {
-    errors.push(...requireColumns(tab, [], parseHeader(raw[tab]), TAB_COLUMNS[tab]));
+    const header = parseHeader(raw[tab]);
+    errors.push(...requireColumns(tab, [], header, TAB_COLUMNS[tab]), ...duplicateColumns(tab, header));
     tabs[tab] = parseTab(raw[tab]);
   }
   if (errors.length) { print('Errors', errors); process.exit(1); }
