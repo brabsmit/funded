@@ -2,9 +2,11 @@
 import type { SchoolT } from '../schema/records';
 import { href } from '../lib/url';
 import { nextMilestone } from '../lib/need';
-import { fmtDate } from '../lib/dates';
+import { today } from '../lib/dates';
+import { nextLine } from '../lib/freshness';
 interface Props { school: SchoolT }
 const { school } = Astro.props;
+const asOf = today();
 const shortName = (title: string) => title.replace(new RegExp(`^${school.name.replace(/ School$/, '')}\\s*`), '').replace(/^\w/, c => c.toUpperCase());
 ---
 <a href={href(`/${school.district_id}/schools/${school.id}/`)} class="block rounded-lg border border-line bg-white p-5 transition hover:border-accent" data-testid="school-card">
@@ -16,7 +18,7 @@ const shortName = (title: string) => title.replace(new RegExp(`^${school.name.re
       return (
         <li>
           <span class="font-semibold">{shortName(n.title)}</span>
-          {m && <span class="block text-ink-muted">Next: {m.decider ? `${m.decider}, ` : ''}{fmtDate(m.date)}</span>}
+          {m && <span class="block text-ink-muted">{nextLine(m, asOf)}</span>}
         </li>
       );
     })}

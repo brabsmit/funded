@@ -12,11 +12,12 @@
     "test:watch": "vitest",
     "sync": "tsx scripts/sync/index.ts --remote",
     "sync:local": "tsx scripts/sync/index.ts",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "check:freshness": "tsx scripts/check-freshness.ts"
   },
   "dependencies": {
-    "astro": "^7.3.5",
     "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.5",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
