@@ -1,0 +1,267 @@
+---
+// Unlisted team readahead for the NBV Final Case Analysis (FCA) meeting. Not linked from the nav; noindex.
+// Figures carry the research report's reliability flags: [LOW] = aggregator/vendor marketing, [VENDOR] = sells into K-12,
+// [UNVERIFIED] = no primary confirmation. Do not promote a flagged figure into a load-bearing claim.
+import Base from '../layouts/Base.astro';
+
+const decisions = [
+  { q: 'Verdict structure', ask: 'Do we score all four payer options against each other (DE Step 1) and land on a team-level verdict, instead of advocating one model?' },
+  { q: 'Kill thresholds', ask: 'Do we agree the numbers below now, before any interview, and promise not to move them after?' },
+  { q: 'Research owners', ask: 'Who takes each of the six research roles for Oct 19–28? The energy track needs two people.' },
+];
+
+const tensions = [
+  { h: 'Our two constraints pull against each other', p: 'Only one white space has money attached: building-level incentive matching. It contradicts the Ethics line “a transparency problem, not a money problem.” Decision-gate mapping fits the Ethics story but has no payer. We have to say which constraint we give up, or explain in one sentence why the FCA lens differs.' },
+  { h: 'If the Ethics project succeeds, the transparency business dies', p: 'CCPTA and the Civic Federation are pushing APS to publish project status. If they win, APS ships its own tracker. The gate map is data we have to keep current, not a moat, and it is still marked DRAFT pending APS confirmation.' },
+  { h: 'The spec asks about the team, not the market', p: 'Component 5 asks “whether the founding team is equipped to sustain its competitive advantage.” “Not venture-scale” answers a different question. The stance has to run through component 2 (team mindset) and our actual skills.' },
+];
+
+const threats = [
+  ['T1', 'Explorer is commoditized', 'towntoonify (launched Oct 10–12, $10/mo, one person + Claude) already invites school districts; ClearGov launched a transparency platform in May 2026.'],
+  ['T2', 'Arlington is a weak test of “capacity”', 'APS is wealthy and already wins competitive state grants. No study measures K-12 HVAC/energy grant capture by district capacity.'],
+  ['T3', 'Federal non-bond pool is shrinking', 'ESSER closed; 179D, 45W, 30C ended; Renew America’s Schools frozen. Utility rebates, state programs and surviving elective pay remain.'],
+  ['T4', 'PTAs pay ~$100–$300/yr for software', 'Free substitutes exist. ~40 APS PTAs × $300 ≈ $12K/yr (PTA count is an assumption). [VENDOR]'],
+  ['T5', 'The natural buyer is the party CCPTA is criticizing', 'A tool PTAs see as theirs may look like an advocacy weapon to APS.'],
+  ['T6', 'ESCOs already capture incentives', 'At least two-thirds of Renew America’s Schools Round 1 grantees had performance-contracting partners. APS’s own Board directive names energy performance contracts.'],
+  ['T7', 'Small software TAM, tuck-in endgame', 'Illustrative district TAM ~$70–200M/yr (assumption-driven). Comparable exits were tuck-ins (Allovue→PowerSchool, Forecast5→Frontline).'],
+];
+
+const angles = [
+  { id: 'A', name: 'District-paid decision-gate layer', buyer: 'APS Comms / Chief of Staff, under the single-quote tier', vp: 'Publish where every project stands and who decides, without staffing a dashboard.', kills: 'APS will pay to publish gates it doesn’t explain today.', rival: 'ClearGov Projects pages', ethics: 'Partial' },
+  { id: 'B', name: 'County- or foundation-funded civic tracker', buyer: 'Arlington County, a local foundation, or 21CSF', vp: 'One neutral source of truth on school capital status.', kills: 'Any funder renews after a pilot.', rival: 'Arlington County CIP map', ethics: 'Full' },
+  { id: 'C', name: 'Incentive stacking before a performance contract', buyer: 'Asst. Supt. Facilities & Ops / CFO; fee = share of incentives captured', vp: 'Know what incentive value is yours before the ESCO books it.', kills: 'Districts leave material incentive value unclaimed. (Unsized.)', rival: 'ESCOs (Ameresco etc.); UndauntedK12 (free)', ethics: 'Contradicts framing' },
+  { id: 'D', name: 'Design with APS, sell to low-capacity VA divisions', buyer: 'Division superintendent / finance', vp: 'Grants-office capacity you can’t afford to hire.', kills: 'Their pain is information, not money, and they’ll pay $5–10K.', rival: 'VDOE SCAP/Literary Fund, Grants Office, UndauntedK12', ethics: 'Matches the intro email' },
+  { id: 'E', name: 'Honest “not venture-scale” verdict', buyer: 'Grants / volunteers; nonprofit or acquisition endgame', vp: 'Real problem; the wedge belongs inside someone else’s product or in civil society.', kills: 'Reads as “didn’t engage with a business model.”', rival: 'towntoonify, ClearGov (as partner or acquirer)', ethics: 'Full' },
+];
+
+const ranking = [
+  { r: 1, a: 'E, run as a Step 1 tournament', why: 'Scores A–D on the Workbook’s seven questions, applies every confirmed framework against evidence, survives APS silence, consistent with Ethics. Verdict: “no as a transparency venture; C only if it clears the threshold.”' },
+  { r: 2, a: 'C', why: 'Clearest answer to “who writes the check” (Step 15 shared-savings model fits exactly), but needs district energy data and contradicts the Ethics framing.' },
+  { r: 3, a: 'D', why: 'Best capacity story. Fails “is the target customer well-funded?” and our DC-footprint research requirement.' },
+  { r: 4, a: 'A', why: 'ClearGov already sells this to districts; T5 is close to fatal.' },
+  { r: 5, a: 'B', why: 'Most ethical, weakest business: grants aren’t on Step 15’s list of business models.' },
+];
+
+const pushback = [
+  'It looks like motivated reasoning: the “no” is what the Ethics class needs. Defense: thresholds agreed before Oct 19, and the data decides.',
+  'We can’t call C dead without sizing it. A “no” resting on [LOW] TAM inputs is as weak as a “yes.”',
+  '“Who writes the check for your nonprofit?” Nobody has asked a foundation or the County yet.',
+  'Component 5 says “recommendations for successfully competing.” We still need a competing play: license the gate data, partner with UndauntedK12, publish an open data standard.',
+  'Kanze & Iyengar (HBR 2017): “disrupter” startups raised 1.7× more than “builder” startups; builders kept staff 8 months longer. Framing ourselves as civic builders is a choice with a cost. Own it.',
+];
+
+const thresholds = [
+  { a: 'C', test: 'Incentives APS (or a comparable district) leaves unclaimed', kill: 'Under ~$25K/yr, or ESCOs already pass that value to districts before contracting', basis: 'DE Step 16: price ≈ 20% of value created; one paying unit ≈ $5–10K/yr → needs $25–50K of value' },
+  { a: 'A', test: 'Would APS pay to publish stage and decision gates?', kill: '“We’d do it in-house or with an existing vendor,” or no budget line under $10K', basis: 'APS single-quote tier (conflicting $10K vs $200K figures, unresolved)' },
+  { a: 'B', test: 'Funder appetite: County, CCPTA grant fund, foundations, 21CSF', kill: 'No funder at or above our annual maintenance cost (estimate hours × rate before interviews)', basis: 'Maintenance estimate still to do' },
+  { a: 'D', test: 'Binding constraint for small/rural VA divisions', kill: 'Fewer than 2 of 5 name information or matching (not money or match share), or none can spend $5K without a board vote', basis: 'DE Step 1 “well-funded?” and “compelling reason to buy?”' },
+  { a: 'Parents', test: 'PTA willingness to pay; trust in a neutral tool', kill: 'Median ≤ $300/yr and no grant fund that covers maintenance', basis: 'T4 anchor' },
+];
+
+const questions = [
+  { n: 'Q1', q: 'What did APS capture in rebates / elective pay FY24–26, and what was left on the table?', who: 'APS energy manager; APS Finance; FOIA fallback', decides: 'C' },
+  { n: 'Q13', q: 'ESCO and Dominion implementer minimum project size; would they pay for leads or see us as a threat?', who: '2 ESCO reps; 1 Dominion program implementer', decides: 'C' },
+  { n: 'Q4', q: 'Would APS pay to publish project stage and decision gates?', who: 'APS Communications; Chief of Staff’s office', decides: 'A' },
+  { n: 'Q11', q: 'Does the County CIP map cover APS projects; would the County host or fund it?', who: 'County Budget/CIP map team', decides: 'B' },
+  { n: 'Q8+9', q: 'PTA willingness to pay; CCPTA grant fund size; neutral vs APS/PTA-branded trust', who: '~8 CCPTA delegates / PTA facilities chairs + CCPTA survey', decides: 'B, parents' },
+  { n: 'Q12', q: 'Same tracker gap elsewhere; would small/rural VA divisions pay?', who: '3 comparable divisions + 2–3 small/rural finance officers', decides: 'D' },
+  { n: 'Q14', q: 'Is towntoonify building school districts; partner, license or compete?', who: 'towntoonify founder', decides: 'Component 5' },
+];
+
+const roles = [
+  ['1. APS lead', 'Q1, Q4 + records fallback', 'One interview request, no follow-ups. Silence is evidence.'],
+  ['2–3. Energy (two people)', 'Q13, UndauntedK12', 'Critical path: the only track that can flip the verdict. Start this week.'],
+  ['4. Comparables', 'Q12', '5–6 interviews'],
+  ['5. Parents', 'Q8/Q9', '~8 interviews + CCPTA survey (trimmed: mostly confirms T4)'],
+  ['6. Civic, competitors & synthesis', 'Q11, Q14, 1 ClearGov customer; threshold scoreboard; Step 1 matrix', 'Updates the scoreboard daily'],
+];
+
+const calendar = [
+  ['Wed Oct 14', 'FOIA request sent to APS (rebates, elective pay, grant applications/awards, non-bond financing analysis, any ESCO contract). Est. cost $90–$360 at $30/hr; reply to any cost estimate the same day, because the clock pauses until we do.'],
+  ['Oct 15–18', 'Residency. Finalize instruments and thresholds; check protocol with Kanze; start energy outreach.'],
+  ['~Oct 21', 'FOIA initial response due (5 working days). If APS takes the 7-day extension: ~Oct 30.'],
+  ['Oct 19–23', 'Interviews.'],
+  ['Fri Oct 24', 'Checkpoint. If Q1 or Q13 shows ≥ $25K/yr unclaimed, C moves to #1 and the paper reframes.'],
+  ['Oct 26–28', 'Close gaps.'],
+  ['Oct 29–Nov 1', 'Write. Due Mon Nov 2, 12:00 noon (the day before the Nov 3 bond vote: treat it as pending, with a both-outcomes appendix).'],
+];
+
+const components = [
+  { c: '1. Founding team story', s: 'Mostly ready', items: ['Hearts + Minds formula: frustrated by [x] (“the 10-year plan,” no explanation) → because we all had [y] (parents trying to learn where a repair stands) → so we introduced [z] (FundED, FCA framing) → we’re not alone (49.5M students, NCES; ~36,000 schools needing HVAC work, GAO-20-494; $113.1B district capital outlay, Census FY2024).', 'Eisenmann (HBR 2013): “pursuit of opportunity beyond resources controlled.”', 'Kanze & Iyengar (HBR 2017): builder vs. disrupter language.'] },
+  { c: '2. Team mindset', s: 'Needs team input', items: ['Seven mindset measures from today’s baselines: each named, defined, scored.', 'Observable disposition: we stamped our own map DRAFT. Kanze, Conley & Higgins (HBR 2020): assessment vs. locomotion orientation.', 'Skills gap: energy finance and ESCO negotiation. Feeds component 5.'] },
+  { c: '3. Addressable market', s: 'Mostly ready', items: ['DE Step 1 seven-question matrix scoring A–D: the paper’s main analysis.', 'Step 2 beachhead: design in APS (documented demand: CCPTA, $598M across 41 buildings); don’t claim to prove the capacity thesis there.', 'Steps 3 and 5: PTA facilities chair persona; district energy manager for C (not yet researched).', 'Step 4 TAM as a range with flags, not load-bearing. Growth: Census +7.1% total district spending (FY2024).', 'Competitive matrix: “budget line → project stage” × “shows numbers → explains who decides and which funding fits.” Top-right cell is empty.'] },
+  { c: '4. Value prop, model, growth', s: 'Mostly ready', items: ['Step 15: compare subscription (A, D), shared savings (C), grants (B, not a Step 15 model). Freemium is acquisition, not a model (Step 15; Dropbox case).', 'Step 16: 20% of value created.', 'Steps 12–13: decision-making unit and acquisition process; 6–18 month cycle [VENDOR]; July 1 fiscal year.', 'Aldrich & Ruef: a non-unicorn trajectory is legitimate. Exits in this category are tuck-ins.'] },
+  { c: '5. Stance and recommendations', s: 'Waits on research', items: ['Team-level stance: we can’t hold an advantage in transparency (T1); the only defensible position is C, and we lack the energy-finance capability to win it against ESCOs today. Thresholds decide.', 'Competing plays: license or open-source the gate data; partner with UndauntedK12; pursue C only past the threshold; hand the civic tool to the County, 21CSF or CCPTA.', 'Stitch Fix sustainable-advantage debate: data moat vs. Amazon entering ↔ our moat vs. ClearGov/towntoonify entering.'] },
+];
+
+const kanzeAsks = [
+  'Is a team-level “not equipped” an acceptable definitive stance for component 5?',
+  'Feedback on our interview protocol and what to offer respondents.',
+  'How does AI use count for written work in this course?',
+];
+---
+<Base title="FCA team readahead" description="Internal readahead for the New Business Ventures FCA team meeting." noindex>
+  <aside class="mb-8 rounded-lg border-2 border-draft bg-draft-soft p-4 text-sm" role="note">
+    <span class="stamp">Internal</span>
+    <p class="mt-3 max-w-prose">
+      Team readahead for our New Business Ventures Final Case Analysis meeting, <strong>Wed Oct 14, 2026 (evening)</strong>.
+      Not part of the FundED tool. Unlisted, but anyone with the link can read it: don’t forward it outside the team.
+    </p>
+  </aside>
+
+  <h1 class="text-4xl">Choosing the FCA angle for FundED</h1>
+  <p class="mt-3 max-w-prose text-lg text-ink-muted">
+    Which payer–product pairing, if any, gives FundED an advantage this team can actually hold, and can we prove or disprove it by Oct 28 without APS’s cooperation?
+  </p>
+
+  <section class="mt-10">
+    <h2 class="text-2xl">Three decisions for tonight</h2>
+    <ol class="mt-4 grid gap-3 md:grid-cols-3">
+      {decisions.map((d, i) => (
+        <li class="rounded-lg border-2 border-accent bg-white p-4">
+          <p class="text-[0.7rem] uppercase tracking-wide text-ink-muted">Decision {i + 1}</p>
+          <h3 class="mt-1 text-xl">{d.q}</h3>
+          <p class="mt-2 text-sm">{d.ask}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="text-2xl">What’s weakest in our current thinking</h2>
+    <div class="mt-4 grid gap-4">
+      {tensions.map(t => (
+        <div class="max-w-prose">
+          <h3 class="text-lg">{t.h}</h3>
+          <p class="mt-1 text-ink-muted">{t.p}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="text-2xl">The seven threats from the research</h2>
+    <div class="mt-4 overflow-x-auto">
+      <table class="w-full min-w-[36rem] text-left text-sm">
+        <thead class="border-b-2 border-line text-ink-muted"><tr><th class="py-2 pr-3">#</th><th class="py-2 pr-3">Threat</th><th class="py-2">Evidence</th></tr></thead>
+        <tbody>
+          {threats.map(([n, h, e]) => (
+            <tr class="border-b border-line align-top"><td class="py-2 pr-3 font-semibold">{n}</td><td class="py-2 pr-3 font-semibold">{h}</td><td class="py-2">{e}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-3 max-w-prose text-sm text-ink-muted">
+      What holds up: CCPTA and the Civic Federation formally demanded transparency on $598M of needs across 41 buildings; the APS Board capped new bonds at $100M and ordered an analysis of non-bond financing; APS has no project tracker; nobody maps decision gates or aggregates incentives for individual school buildings.
+    </p>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="text-2xl">Five angles</h2>
+    <div class="mt-4 grid gap-4 md:grid-cols-2">
+      {angles.map(a => (
+        <article class="rounded-lg border border-line bg-white p-4">
+          <p class="text-[0.7rem] uppercase tracking-wide text-ink-muted">Angle {a.id} · Ethics: {a.ethics}</p>
+          <h3 class="mt-1 text-xl">{a.name}</h3>
+          <p class="mt-2 italic">“{a.vp}”</p>
+          <dl class="mt-3 grid grid-cols-[6.5rem_1fr] gap-x-3 gap-y-1 text-sm">
+            <dt class="text-ink-muted">Who pays</dt><dd>{a.buyer}</dd>
+            <dt class="text-ink-muted">Closest rival</dt><dd>{a.rival}</dd>
+            <dt class="text-ink-muted">Dies if not</dt><dd>{a.kills}</dd>
+          </dl>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="text-2xl">Proposed ranking, on the FCA rubric</h2>
+    <p class="mt-2 max-w-prose text-ink-muted">Ranked by how many course frameworks each angle lets us define, apply and cite precisely, and how defensible the component 5 stance is. Not by what’s most exciting.</p>
+    <ol class="mt-4 grid gap-3">
+      {ranking.map(x => (
+        <li class:list={['flex gap-4 rounded-lg p-4', x.r === 1 ? 'border-2 border-accent bg-accent-soft' : 'border border-line bg-white']}>
+          <span class="font-serif text-3xl text-accent">{x.r}</span>
+          <div><h3 class="text-lg">{x.a}</h3><p class="mt-1 text-sm">{x.why}</p></div>
+        </li>
+      ))}
+    </ol>
+    <h3 class="mt-8 text-lg">How Kanze will push back on #1</h3>
+    <ul class="mt-2 max-w-prose list-disc space-y-2 pl-5 text-sm">
+      {pushback.map(p => <li>{p}</li>)}
+    </ul>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="text-2xl">Kill thresholds to agree tonight</h2>
+    <div class="mt-4 overflow-x-auto">
+      <table class="w-full min-w-[40rem] text-left text-sm">
+        <thead class="border-b-2 border-line text-ink-muted"><tr><th class="py-2 pr-3">Angle</th><th class="py-2 pr-3">What we test</th><th class="py-2 pr-3">Kills it</th><th class="py-2">Basis</th></tr></thead>
+        <tbody>
+          {thresholds.map(t => (
+            <tr class="border-b border-line align-top"><td class="py-2 pr-3 font-semibold">{t.a}</td><td class="py-2 pr-3">{t.test}</td><td class="py-2 pr-3">{t.kill}</td><td class="py-2 text-ink-muted">{t.basis}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="text-2xl">Primary research, Oct 19–28</h2>
+    <div class="mt-4 overflow-x-auto">
+      <table class="w-full min-w-[40rem] text-left text-sm">
+        <thead class="border-b-2 border-line text-ink-muted"><tr><th class="py-2 pr-3">#</th><th class="py-2 pr-3">Question</th><th class="py-2 pr-3">Who we ask</th><th class="py-2">Decides</th></tr></thead>
+        <tbody>
+          {questions.map(q => (
+            <tr class="border-b border-line align-top"><td class="py-2 pr-3 font-semibold">{q.n}</td><td class="py-2 pr-3">{q.q}</td><td class="py-2 pr-3">{q.who}</td><td class="py-2">{q.decides}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="mt-8 text-lg">Six roles (owners to assign tonight)</h3>
+    <div class="mt-2 overflow-x-auto">
+      <table class="w-full min-w-[36rem] text-left text-sm">
+        <tbody>
+          {roles.map(([r, q, n]) => (
+            <tr class="border-b border-line align-top"><td class="py-2 pr-3 font-semibold">{r}</td><td class="py-2 pr-3">{q}</td><td class="py-2 text-ink-muted">{n}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="mt-8 text-lg">Calendar</h3>
+    <ol class="mt-2 grid gap-2 text-sm">
+      {calendar.map(([d, t]) => (
+        <li class="grid grid-cols-[7rem_1fr] gap-3 border-l-4 border-accent-mid pl-3"><span class="font-semibold">{d}</span><span>{t}</span></li>
+      ))}
+    </ol>
+    <p class="mt-4 max-w-prose text-sm text-ink-muted">
+      Before anyone contacts APS staff, coordinate with the Ethics outreach pair so APS doesn’t get two asks from the same parents.
+      If APS stays silent, that is evidence for T5 and against A; none of the C, B or D thresholds needs APS.
+    </p>
+  </section>
+
+  <section class="mt-12">
+    <h2 class="text-2xl">Paper skeleton by component</h2>
+    <p class="mt-2 max-w-prose text-ink-muted">5 pages, 11-pt, single-spaced, plus exec summary, APA references, tables and appendices. Graded on how precisely we define, apply and cite course material. Cite the 2017 DE <em>Workbook</em>, not the 2024 textbook.</p>
+    <div class="mt-4 grid gap-4">
+      {components.map(c => (
+        <article class="rounded-lg border border-line bg-white p-4">
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <h3 class="text-xl">{c.c}</h3>
+            <span class:list={['chip', c.s === 'Waits on research' && 'chip-unsourced']}>{c.s}</span>
+          </div>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm">{c.items.map(i => <li>{i}</li>)}</ul>
+        </article>
+      ))}
+    </div>
+    <p class="mt-4 max-w-prose text-sm text-ink-muted">
+      Confirmed in the filed Workbook chapters: Steps 1–5, 8, 9, 12, 13, 15–19. Not confirmed: Steps 11 and 20–21. Canvas cites “Steps 1 &amp; 1A”; the 2017 Workbook has no 1A (beachhead is Step 2).
+    </p>
+  </section>
+
+  <section class="mt-12 mb-4">
+    <h2 class="text-2xl">Ask Kanze this week</h2>
+    <ul class="mt-3 max-w-prose list-disc space-y-1 pl-5">{kanzeAsks.map(k => <li>{k}</li>)}</ul>
+  </section>
+</Base>

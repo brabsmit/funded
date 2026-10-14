@@ -2,8 +2,9 @@
 import "../styles/global.css";
 import type { DistrictT } from '../schema/records';
 import { href } from '../lib/url';
-interface Props { title: string; description?: string; district?: DistrictT }
-const { title, description = "Where a school facility need stands, who decides next, and where to engage.", district } = Astro.props;
+/** `noindex` keeps unlisted internal pages (e.g. team readaheads) out of search results. */
+interface Props { title: string; description?: string; district?: DistrictT; noindex?: boolean }
+const { title, description = "Where a school facility need stands, who decides next, and where to engage.", district, noindex = false } = Astro.props;
 const pageTitle = `${title} · FundED`;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL(href('/og.png'), Astro.site).href;
@@ -16,6 +17,7 @@ const ogImage = new URL(href('/og.png'), Astro.site).href;
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" href={href('/favicon.svg')} type="image/svg+xml" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="FundED" />
