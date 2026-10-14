@@ -2,7 +2,9 @@
 // Unlisted team PRD for FundED under the FCA's chosen angle (E). Not linked from the nav; noindex.
 // Figures carry the research report's reliability flags: [LOW] = aggregator/vendor marketing, [VENDOR] = sells into K-12,
 // [UNVERIFIED] = no primary confirmation. Do not promote a flagged figure into a load-bearing claim.
-import Base from '../layouts/Base.astro';
+import Base from '../../layouts/Base.astro';
+import { href } from '../../lib/url';
+import { workstreams } from './_workstreams';
 
 const meta = [
   ['Status', 'Decided: Angle E (team, Oct 14, 2026). Validation Oct 19–28.'],
@@ -80,15 +82,6 @@ const questions = [
   { n: 'Q14', q: 'Is towntoonify building school districts; partner, license or compete?', who: 'towntoonify founder', decides: 'R1, R5' },
   { n: 'Q4', q: 'Would APS pay to publish project stage and decision gates?', who: 'APS Communications; Chief of Staff’s office', decides: 'A (confirm rejection)' },
   { n: 'Q12', q: 'Same tracker gap elsewhere; would small/rural VA divisions pay?', who: '3 comparable + 2–3 small/rural divisions', decides: 'D (confirm rejection)' },
-];
-
-const workstreams = [
-  { n: 'WS1', name: 'APS & public records', staff: 'Lead + support', scope: 'One APS interview request (no follow-ups); FOIA follow-up and cost-estimate replies the same day; coordinate with the Ethics outreach pair before any APS contact.', qs: 'Q1, Q4', delivers: [['APS contact log and FOIA status', 'Oct 21'], ['Q1 numbers from APS records, if any', 'Oct 24'], ['Q4 answer, or a note that APS stayed silent', 'Oct 28']], feeds: 'R4 gate; rejects A; T5 evidence' },
-  { n: 'WS2', name: 'Energy & incentives', staff: 'Two people, both full-time', scope: 'Critical path. ESCO reps, a Dominion program implementer, UndauntedK12. Size what a district leaves unclaimed, independent of APS.', qs: 'Q1 (non-APS route), Q13', delivers: [['Outreach sent', 'Oct 16'], ['C sizing memo + R4 go/no-go', 'Oct 24'], ['Energy-manager persona notes', 'Oct 28']], feeds: 'R4; component 4 (Steps 15–16); component 5' },
-  { n: 'WS3', name: 'Parents & civic stewards', staff: 'Lead + support', scope: 'CCPTA delegates and PTA facilities chairs; CCPTA survey; County CIP map team; foundations and 21CSF as stewards. Estimate the annual maintenance cost before interviews.', qs: 'Q8, Q9, Q11', delivers: [['Maintenance cost estimate (hours × rate)', 'Oct 18'], ['Survey live via CCPTA', 'Oct 19'], ['Steward named, or “none found”', 'Oct 28']], feeds: 'R3; component 3 persona (Steps 3, 5)' },
-  { n: 'WS4', name: 'Market & comparables', staff: 'Lead + support', scope: 'Comparable and small/rural VA divisions; competitive matrix; TAM as a flagged range; Step 1 matrix inputs for A–D.', qs: 'Q12', delivers: [['Competitive matrix draft', 'Oct 21'], ['D test result', 'Oct 26'], ['Step 1 inputs for all four options', 'Oct 27']], feeds: 'Rejects D; component 3 (Steps 1, 2, 4)' },
-  { n: 'WS5', name: 'Gate map & competing plays', staff: 'Lead + support', scope: 'Get the gate map signed off (/aps/confirm/) via the Ethics pair; publish it as open data; towntoonify conversation; one partner conversation.', qs: 'Q14', delivers: [['towntoonify conversation held', 'Oct 23'], ['Open-data format documented', 'Oct 27'], ['Partner conversation logged', 'Oct 28']], feeds: 'R1, R5; component 5 competing plays' },
-  { n: 'WS6', name: 'Synthesis & paper', staff: 'Lead + support (overlaps others)', scope: 'Lock thresholds; run the daily threshold scoreboard; compile mindset baselines; check every DE step against the filed Workbook; assemble the paper, exec summary, APA references and appendices; submit.', qs: 'n/a', delivers: [['Thresholds locked in writing', 'Oct 18'], ['Mindset baselines collected', 'Oct 18'], ['Step 1 matrix + verdict', 'Oct 28'], ['Paper submitted on Canvas', 'Nov 2, noon']], feeds: 'Components 1, 2, 5; exec summary' },
 ];
 
 const componentOwners = [
@@ -271,7 +264,7 @@ const components = [
 
   <section class="mt-12">
     <h2 class="text-2xl">10. Workstreams</h2>
-    <p class="mt-2 max-w-prose text-ink-muted">Six workstreams for ~6 people. Each has a lead who drives it and a support who checks it. Assign names tonight.</p>
+    <p class="mt-2 max-w-prose text-ink-muted">Six workstreams for ~6 people. Each has a lead who drives it and a support who checks it. Assign names tonight. Each card links to a detailed sub-PRD.</p>
     <div class="mt-4 grid gap-4 md:grid-cols-2">
       {workstreams.map(w => (
         <article class:list={['rounded-lg bg-white p-4', w.n === 'WS2' ? 'border-2 border-accent' : 'border border-line']}>
@@ -287,10 +280,11 @@ const components = [
             <dt class="text-ink-muted">Feeds</dt><dd>{w.feeds}</dd>
           </dl>
           <ul class="mt-3 grid gap-1 border-t border-line pt-3 text-sm">
-            {w.delivers.map(([d, due]) => (
+            {w.deliverables.map(({ d, due }) => (
               <li class="flex justify-between gap-3"><span>☐ {d}</span><span class="shrink-0 font-semibold">{due}</span></li>
             ))}
           </ul>
+          <p class="mt-3 text-sm"><a href={href(`/fca-readahead/${w.slug}/`)} class="font-semibold text-accent underline">Open the {w.n} sub-PRD →</a></p>
         </article>
       ))}
     </div>
