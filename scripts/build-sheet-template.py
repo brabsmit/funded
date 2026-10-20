@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
-"""Build data/FundED-data-template.xlsx from data/sheet/*.csv with header styling,
-frozen header row, and dropdown validation on enum columns. Upload the xlsx to
-Google Drive and open with Google Sheets; validation carries over."""
+"""Build an Excel workbook from data/sheet/*.csv with header styling, a frozen
+header row, and dropdown validation on enum and reference columns.
+
+    python3 scripts/build-sheet-template.py                 # data/FundED-data-template.xlsx
+    python3 scripts/build-sheet-template.py data/FundED-data.xlsx
+
+The second form (re)creates the working data file that scripts/xlsx-to-csv.py reads."""
 import csv
+import sys
 from pathlib import Path
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill
@@ -10,7 +15,7 @@ from openpyxl.worksheet.datavalidation import DataValidation
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "data" / "sheet"
-OUT = ROOT / "data" / "FundED-data-template.xlsx"
+OUT = (ROOT / sys.argv[1]) if len(sys.argv) > 1 else (ROOT / "data" / "FundED-data-template.xlsx")
 TABS = ["Districts", "Tracks", "Stages", "Schools", "Needs", "Milestones", "Engage", "Inquiries", "Funding", "Sources", "Legend"]
 ENUMS = {
     "basis": "fact,requirement,estimate,interpretation",

@@ -7,13 +7,17 @@ Live: https://brabsmit.github.io/funded/
 
 ## How data flows
 
-Google Sheet (source of truth, edited by the team)
-→ `npm run sync` downloads each tab as CSV into `data/sheet/`
+`data/FundED-data.xlsx` (source of truth, one tab per record type, in this repo)
+→ `npm run sync:xlsx` dumps each tab to `data/sheet/<Tab>.csv`
 → validates against `src/schema/records.ts`
 → writes `src/content/districts/*.json`, `src/content/tracks/*.json` and `src/content/schools/*.json`
 → `npm run build` renders the site.
 
-`src/content/**` is generated. Never edit it by hand.
+`data/sheet/**` and `src/content/**` are generated. Never edit them by hand; edit the workbook.
+
+The workbook replaced the Google Sheet on Oct 20, 2026 so that edits can be scripted. The
+Sheet route (`npm run sync`) still works if a Sheet with the same tabs is pointed to in
+`sync.config.json`, but the Sheet named there is retired and no longer current.
 
 ## Commands
 
@@ -23,15 +27,27 @@ Google Sheet (source of truth, edited by the team)
 | `npm run build` | production build to `dist/` |
 | `npm run check` | Astro type/diagnostics check |
 | `npm run preview` | serve the production build locally |
-| `npm run sync` | fetch the published Sheet, validate, write content |
-| `npm run sync:local` | same, from the CSVs already in `data/sheet/` |
+| `npm run sync:xlsx` | dump `data/FundED-data.xlsx` to `data/sheet/`, validate, write content (needs `openpyxl`) |
+| `npm run sync:local` | validate and write content from the CSVs already in `data/sheet/` |
+| `npm run sync` | legacy: fetch a Google Sheet named in `sync.config.json` instead of the workbook |
 | `npm test` | unit tests |
 | `npm run test:watch` | unit tests, watch mode |
 | `npm run e2e` | Playwright screenshots of the recording path |
 | `npm run check:freshness` | fail if any record still calls a date more than 7 days past "next" |
-| `python3 scripts/build-sheet-template.py` | rebuild `data/FundED-data-template.xlsx` (needs `openpyxl`) |
+| `python3 scripts/build-sheet-template.py [out.xlsx]` | rebuild a styled workbook from `data/sheet/*.csv` (needs `openpyxl`); default output is the blank-ish template |
 
-## Connecting the Sheet (one-time, Bryan)
+## Editing the workbook
+
+Open `data/FundED-data.xlsx` in Excel or Numbers, or edit it with `openpyxl`. Tab names must stay
+exactly `Districts`, `Tracks`, `Stages`, `Schools`, `Needs`, `Milestones`, `Engage`, `Inquiries`,
+`Funding`, `Sources` (plus `Legend`, which is documentation). Enum and reference columns carry
+dropdown validation. Dates are `YYYY-MM-DD` text. After editing: `npm run sync:xlsx`, fix anything
+it reports (tab and row number are given), `git diff --stat data/sheet src/content`, commit, push.
+
+If the CSVs are ever edited directly, `python3 scripts/build-sheet-template.py data/FundED-data.xlsx`
+rebuilds the workbook from them; the two round-trip without changes.
+
+## Connecting a Google Sheet instead (legacy)
 
 1. Upload `data/FundED-data-template.xlsx` to the project's Google Drive folder and open it with Google Sheets. If Sheets shows it in Office mode (an `.xlsx` badge by the title), use File → Save as Google Sheets so teammates get normal collaborative editing; that creates a new file with a new id, so do step 3 again afterwards. The header row is frozen, not protected; to lock it, select row 1 → Data → Protect sheets and ranges.
 2. Share → General access: "Anyone with the link", role Viewer. Give teammates Editor access individually. (No "Publish to web" is needed.)
@@ -47,9 +63,9 @@ The same daily run checks freshness (`npm run check:freshness`). It does not blo
 
 ## Updating data later
 
-Teammates edit the Sheet. Bryan runs `npm run sync`, reviews the diff, commits, pushes. GitHub Pages redeploys in about a minute. The filmed demo uses whatever is committed, so a Sheet edit never changes the site until someone runs sync.
+Edit `data/FundED-data.xlsx` (teammates send rows or a copy of the workbook), run `npm run sync:xlsx`, review the diff, commit, push. GitHub Pages redeploys in about a minute. The filmed demo uses whatever is committed, so a workbook edit never changes the site until someone runs the sync and pushes.
 
-If a remote sync fails, `data/sheet/` may hold a mix of fresh and old CSVs; run `git checkout data/sheet` or fix the Sheet and re-run.
+If a sync fails, `data/sheet/` may hold a mix of fresh and old CSVs; run `git checkout data/sheet`, fix the workbook, and re-run.
 
 ## URLs
 

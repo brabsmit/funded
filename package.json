@@ -12,6 +12,7 @@
     "test:watch": "vitest",
     "sync": "tsx scripts/sync/index.ts --remote",
     "sync:local": "tsx scripts/sync/index.ts",
+    "sync:xlsx": "python3 scripts/xlsx-to-csv.py && tsx scripts/sync/index.ts",
     "e2e": "playwright test",
     "check:freshness": "tsx scripts/check-freshness.ts"
   },
