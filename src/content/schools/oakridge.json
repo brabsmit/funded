@@ -9,7 +9,7 @@
       "id": "oakridge-hvac",
       "title": "Oakridge Elementary HVAC replacement",
       "category": "hvac",
-      "summary": "Replace aging HVAC equipment. The project is named in the proposed $80M school bond (Nov 3, 2026) as part of a broader Oakridge Refresh (HVAC, roofing, flooring, painting).",
+      "summary": "Replace aging HVAC equipment. The project is named in the proposed $80M school bond (Nov 3, 2026) as part of a broader Oakridge Refresh (HVAC, roofing, flooring, painting). An energy services company's April 2026 preliminary scope describes it as a geothermal HVAC renovation with a full electrical replacement, LED lighting and an interior refresh.",
       "track_id": "cip",
       "current_stage_id": "cip-referendum",
       "stage_basis": "fact",
@@ -20,7 +20,7 @@
       "window": "Summer 2027 to 2029",
       "window_basis": "estimate",
       "window_source_id": "cip-fy27-36",
-      "why_track": "A whole-system HVAC replacement is a capital project: the School Board lists it in the 10-year CIP and funds it through County bonds, so it waits for the bond cycle. We found no dollar cutoff in any APS document that would move it to the faster maintenance (MC/MM) budget.",
+      "why_track": "A whole-system HVAC replacement is a capital project: the School Board lists it in the 10-year CIP and funds it through County bonds, so it waits for the bond cycle. We found no dollar cutoff in any APS document that would move it to the faster maintenance (MC/MM) budget. APS is also weighing an energy savings performance contract (ESPC), a non-bond route the School Board asked staff to analyze in January 2026. The only records of that analysis are two 2026 decks from one energy services company, with no solicitation or contract (see the FOIA response below).",
       "why_track_basis": "interpretation",
       "why_track_source_id": "cip-fy27-36",
       "milestones": [
@@ -53,6 +53,16 @@
           "venue": "General election",
           "basis": "fact",
           "source_id": "county-bond-2026"
+        },
+        {
+          "id": "oakridge-espc-contract-target",
+          "date": "2026-12-11",
+          "label": "Target date for a signed energy savings performance contract in CMTA's proposed timeline. APS has produced no letter of intent, solicitation or contract.",
+          "status": "later",
+          "decider": "School Board",
+          "venue": "School Board meeting (contract award)",
+          "basis": "estimate",
+          "source_id": "cmta-scope-2026"
         },
         {
           "id": "oakridge-construction-start",
@@ -153,6 +163,16 @@
           "source_id": "email-2026-04"
         },
         {
+          "id": "foia-26-16-oakridge",
+          "date": "2026-10-14",
+          "to": "APS FOIA Officer (Office of Division Counsel)",
+          "question": "Since July 2023, what utility rebates has APS received, what IRA elective-pay filings has it made, what state or federal facility grants has it applied for, and what did the School Board's January 2026 non-bond financing analysis produce?",
+          "response_date": "2026-10-20",
+          "response_summary": "No utility rebates and no elective-pay filings. One grant: $5.3M ARPA CSLFRF for Barcroft HVAC (applied 2021, obligated 2024). The non-bond financing analysis consists of two decks from CMTA, an energy services company: a Feb 2026 ESPC pitch and an Apr 2026 preliminary scope pricing Oakridge at $27.5M and Jamestown at $31.0M. No solicitation, letter of intent or contract was produced. Answered in six days at no charge.",
+          "status": "answered",
+          "source_id": "foia-26-16"
+        },
+        {
           "id": "q-if-bond-fails",
           "to": "APS Facilities and Operations",
           "question": "If Question 4 fails on Nov 3, what happens to the Oakridge Refresh, and does the HVAC replacement move to the maintenance budget?",
@@ -167,6 +187,14 @@
           "why": "The April 2026 email asked this for one spring. The reply named who would monitor, not what would be done.",
           "status": "open",
           "source_id": "email-2026-04"
+        },
+        {
+          "id": "q-espc-loi",
+          "to": "APS Facilities and Operations",
+          "question": "Has APS signed a letter of intent with CMTA, and would an energy savings performance contract move the Oakridge HVAC work outside the Nov 3 bond?",
+          "why": "CMTA's proposed timeline put a letter of intent on June 1, 2026 and a signed contract on Dec 11, 2026. The FOIA response produced neither, and APS did not say whether one exists.",
+          "status": "open",
+          "source_id": "cmta-scope-2026"
         }
       ],
       "funding": [
@@ -208,6 +236,24 @@
           "parent_id": "q4-bond",
           "basis": "fact",
           "source_id": "county-bond-2026"
+        },
+        {
+          "id": "oakridge-cmta-estimate",
+          "label": "CMTA preliminary construction estimate: geothermal HVAC, electrical, lighting, interior refresh (April 2026)",
+          "amount": 27500000,
+          "parent_id": "oakridge-refresh",
+          "note": "An energy services company's estimate for the same building, not an APS budget figure. A $1.4M rooftop solar add-alternate is excluded.",
+          "basis": "estimate",
+          "source_id": "cmta-scope-2026"
+        },
+        {
+          "id": "oakridge-itc",
+          "label": "Federal investment tax credit, CMTA estimate",
+          "amount": 6110000,
+          "parent_id": "oakridge-cmta-estimate",
+          "note": "Would be claimed through IRS elective pay about a year after completion; geothermal must be installed by 2032. APS has never filed for elective pay (FOIA 26-16).",
+          "basis": "estimate",
+          "source_id": "cmta-scope-2026"
         }
       ]
     }
@@ -228,6 +274,13 @@
       "url": "https://www.apsva.us/wp-content/uploads/sites/57/2026/08/APS-FY2027-36-CIP-REPORT-FINAL.pdf",
       "retrieved_on": "2026-09-24",
       "notes": "Adopted June 18 2026; report dated August 2026; Appendix C funding timeline is an image (not read)"
+    },
+    {
+      "id": "cmta-scope-2026",
+      "title": "Initial Project Scope and Budget: Oakridge Elementary and Jamestown Elementary",
+      "publisher": "CMTA (a Legence company), prepared for Arlington Public Schools",
+      "retrieved_on": "2026-10-20",
+      "notes": "Dated April 17, 2026; 60 pages; released under APS FOIA 26-16. Geothermal HVAC (74 wells at Oakridge, 70 at Jamestown), full electrical replacement, LED lighting, interior refresh; Jamestown adds a roof and fire protection. Construction estimates $27.5M (Oakridge) and $31.0M (Jamestown) before federal tax credits of $6.11M and $5.69M. Proposed timeline: letter of intent Jun 1, out to bid Sep 21, APS bid review Nov 2, signed contract Dec 11, 2026; construction 2027-2028."
     },
     {
       "id": "aps-sb-meetings-2026-27",
@@ -266,6 +319,13 @@
       "publisher": "Provided by team member (personal correspondence)",
       "retrieved_on": "2026-09-24",
       "notes": "Original held by the team; quoted in the pitch video."
+    },
+    {
+      "id": "foia-26-16",
+      "title": "Response to FOIA #2026-16: facility energy incentives and non-bond financing records, FY2024-FY2026",
+      "publisher": "Arlington Public Schools, Office of Division Counsel",
+      "retrieved_on": "2026-10-20",
+      "notes": "Emailed to a team member Oct 20, 2026 with seven records; request sent Oct 14. No utility rebates and no IRA elective-pay filings since July 2023. One grant: $5.3M ARPA CSLFRF for Barcroft HVAC (applied Oct 2021, certified obligated Sep 2024). The School Board's January 2026 non-bond financing analysis produced two CMTA decks and no solicitation, letter of intent or contract. Files held by the team."
     }
   ]
 }

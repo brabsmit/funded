@@ -10,7 +10,7 @@
       "id": "jamestown-refresh",
       "title": "Jamestown Elementary HVAC and roof replacement",
       "category": "hvac",
-      "summary": "Replace the HVAC systems and the roof. Named in the proposed $80M school bond (Nov 3, 2026) as the Jamestown Refresh (HVAC, roofing, flooring, painting).",
+      "summary": "Replace the HVAC systems and the roof. Named in the proposed $80M school bond (Nov 3, 2026) as the Jamestown Refresh (HVAC, roofing, flooring, painting). An energy services company's April 2026 preliminary scope describes it as a geothermal HVAC renovation with a new roof, fire protection, electrical replacement, LED lighting and an interior refresh.",
       "track_id": "cip",
       "current_stage_id": "cip-referendum",
       "stage_basis": "fact",
@@ -21,7 +21,7 @@
       "window": "Summer 2027 to 2029",
       "window_basis": "estimate",
       "window_source_id": "cip-fy27-36",
-      "why_track": "A combined HVAC and roof replacement is a capital project the School Board lists in the 10-year CIP and funds through County bonds, so it waits for the bond cycle.",
+      "why_track": "A combined HVAC and roof replacement is a capital project the School Board lists in the 10-year CIP and funds through County bonds, so it waits for the bond cycle. APS is also weighing an energy savings performance contract (ESPC), a non-bond route the School Board asked staff to analyze in January 2026. The only records of that analysis are two 2026 decks from one energy services company, with no solicitation or contract (see the FOIA response below).",
       "why_track_basis": "interpretation",
       "why_track_source_id": "cip-fy27-36",
       "milestones": [
@@ -54,6 +54,16 @@
           "venue": "General election",
           "basis": "fact",
           "source_id": "county-bond-2026"
+        },
+        {
+          "id": "jamestown-espc-contract-target",
+          "date": "2026-12-11",
+          "label": "Target date for a signed energy savings performance contract in CMTA's proposed timeline. APS has produced no letter of intent, solicitation or contract.",
+          "status": "later",
+          "decider": "School Board",
+          "venue": "School Board meeting (contract award)",
+          "basis": "estimate",
+          "source_id": "cmta-scope-2026"
         },
         {
           "id": "jamestown-construction-start",
@@ -118,6 +128,16 @@
           "why": "Public comment by a Jamestown parent at the CIP adoption meeting. The Board thanked speakers and adopted the CIP that night with Jamestown's HVAC and roof inside the Nov 3 bond question; no direct answer to the speaker is in the transcript.",
           "status": "unanswered",
           "source_id": "aps-sb-transcript-2026-06-18"
+        },
+        {
+          "id": "foia-26-16-jamestown",
+          "date": "2026-10-14",
+          "to": "APS FOIA Officer (Office of Division Counsel)",
+          "question": "Since July 2023, what utility rebates has APS received, what IRA elective-pay filings has it made, what state or federal facility grants has it applied for, and what did the School Board's January 2026 non-bond financing analysis produce?",
+          "response_date": "2026-10-20",
+          "response_summary": "The only records of the non-bond financing analysis are two CMTA decks. The Apr 2026 preliminary scope prices Jamestown's geothermal HVAC, roof, electrical, lighting and refresh at $31.0M before a $5.69M federal tax credit, above the $29M bond line, with a proposed contract signing on Dec 11, 2026. No solicitation, letter of intent or contract was produced.",
+          "status": "answered",
+          "source_id": "foia-26-16"
         }
       ],
       "funding": [
@@ -151,6 +171,24 @@
           "parent_id": "j-q4-bond",
           "basis": "fact",
           "source_id": "county-bond-2026"
+        },
+        {
+          "id": "j-cmta-estimate",
+          "label": "CMTA preliminary construction estimate: geothermal HVAC, roof, fire protection, electrical, lighting, interior refresh (April 2026)",
+          "amount": 31000000,
+          "parent_id": "j-refresh",
+          "note": "An energy services company's estimate for the same building, not an APS budget figure. It exceeds the $29M bond line. A $1.55M rooftop solar add-alternate is excluded.",
+          "basis": "estimate",
+          "source_id": "cmta-scope-2026"
+        },
+        {
+          "id": "j-itc",
+          "label": "Federal investment tax credit, CMTA estimate",
+          "amount": 5690000,
+          "parent_id": "j-cmta-estimate",
+          "note": "Would be claimed through IRS elective pay about a year after completion; geothermal must be installed by 2032. APS has never filed for elective pay (FOIA 26-16).",
+          "basis": "estimate",
+          "source_id": "cmta-scope-2026"
         }
       ]
     }
@@ -171,6 +209,13 @@
       "url": "https://www.apsva.us/wp-content/uploads/sites/57/2026/08/APS-FY2027-36-CIP-REPORT-FINAL.pdf",
       "retrieved_on": "2026-09-24",
       "notes": "Adopted June 18 2026; report dated August 2026; Appendix C funding timeline is an image (not read)"
+    },
+    {
+      "id": "cmta-scope-2026",
+      "title": "Initial Project Scope and Budget: Oakridge Elementary and Jamestown Elementary",
+      "publisher": "CMTA (a Legence company), prepared for Arlington Public Schools",
+      "retrieved_on": "2026-10-20",
+      "notes": "Dated April 17, 2026; 60 pages; released under APS FOIA 26-16. Geothermal HVAC (74 wells at Oakridge, 70 at Jamestown), full electrical replacement, LED lighting, interior refresh; Jamestown adds a roof and fire protection. Construction estimates $27.5M (Oakridge) and $31.0M (Jamestown) before federal tax credits of $6.11M and $5.69M. Proposed timeline: letter of intent Jun 1, out to bid Sep 21, APS bid review Nov 2, signed contract Dec 11, 2026; construction 2027-2028."
     },
     {
       "id": "aps-sb-meetings-2026-27",
@@ -194,6 +239,13 @@
       "url": "https://www.apsva.us/wp-content/uploads/sites/57/2026/06/SB-Meeting-Transcripts-for-06182026.pdf",
       "retrieved_on": "2026-09-28",
       "notes": "Auto-captioned transcript. CIP adoption night; Jamestown parent public comment on HVAC (speaker Whitney Fahmy)."
+    },
+    {
+      "id": "foia-26-16",
+      "title": "Response to FOIA #2026-16: facility energy incentives and non-bond financing records, FY2024-FY2026",
+      "publisher": "Arlington Public Schools, Office of Division Counsel",
+      "retrieved_on": "2026-10-20",
+      "notes": "Emailed to a team member Oct 20, 2026 with seven records; request sent Oct 14. No utility rebates and no IRA elective-pay filings since July 2023. One grant: $5.3M ARPA CSLFRF for Barcroft HVAC (applied Oct 2021, certified obligated Sep 2024). The School Board's January 2026 non-bond financing analysis produced two CMTA decks and no solicitation, letter of intent or contract. Files held by the team."
     }
   ]
 }
